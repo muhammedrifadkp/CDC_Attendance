@@ -60,7 +60,7 @@ const createRateLimiter = (options = {}) => {
 // Strict rate limiter for authentication endpoints
 const authRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 5, // 5 attempts per window
+  max: 10, // Increased to 10 attempts per window
   message: 'Too many login attempts from this IP, please try again after 15 minutes.',
   skipSuccessfulRequests: true, // Don't count successful logins
   skipFailedRequests: false, // Count failed attempts
@@ -81,7 +81,7 @@ const passwordResetRateLimiter = createRateLimiter({
 // API rate limiter for general endpoints
 const apiRateLimiter = createRateLimiter({
   windowMs: 15 * 60 * 1000, // 15 minutes
-  max: process.env.NODE_ENV === 'production' ? 100 : 2000, // Much higher for development
+  max: process.env.NODE_ENV === 'production' ? 500 : 2000, // Increased for dashboard usage
   message: 'Too many API requests from this IP, please try again later.',
   skipSuccessfulRequests: false,
   skipFailedRequests: false
@@ -170,7 +170,7 @@ const createUserRateLimiter = (options = {}) => {
 // Burst protection - allows short bursts but limits sustained traffic
 const burstProtectionRateLimiter = createRateLimiter({
   windowMs: 1 * 60 * 1000, // 1 minute window
-  max: process.env.NODE_ENV === 'development' ? 200 : 20, // Much higher limit in development
+  max: process.env.NODE_ENV === 'development' ? 200 : 100, // Increased for dashboard usage
   message: 'Request rate too high, please slow down.',
   logLimitReached: process.env.NODE_ENV === 'production' // Only log in production
 });
