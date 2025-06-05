@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link, useLocation } from 'react-router-dom'
 import { batchesAPI, attendanceAPI } from '../../../services/api'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { format, isToday, parseISO } from 'date-fns'
 import { formatDateLong } from '../../../utils/dateUtils'
 import {

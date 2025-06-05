@@ -18,7 +18,7 @@ import {
   XCircleIcon,
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { coursesAPI, departmentsAPI } from '../../../services/api';
 import BackButton from '../../../components/BackButton';
 

@@ -18,7 +18,7 @@ import {
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, ArcElement, BarElement } from 'chart.js'
 import { Line, Bar, Doughnut } from 'react-chartjs-2'
 import { batchesAPI, attendanceAPI, studentsAPI, teachersAPI } from '../../../services/api'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { formatDateSimple, formatDateLong } from '../../../utils/dateUtils'
 import BackButton from '../../../components/BackButton'
 import { format, subDays } from 'date-fns'

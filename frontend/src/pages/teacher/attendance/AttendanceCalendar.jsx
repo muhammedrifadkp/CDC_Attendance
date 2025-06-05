@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { batchesAPI, attendanceAPI } from '../../../services/api'
 import api from '../../../services/api'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { useAuth } from '../../../context/AuthContext'
 import {
   format,

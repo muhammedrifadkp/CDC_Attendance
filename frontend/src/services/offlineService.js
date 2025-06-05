@@ -1,6 +1,6 @@
 // Offline service for managing offline state and data synchronization
 import { indexedDBService } from './indexedDB.js'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 
 class OfflineService {
   constructor() {

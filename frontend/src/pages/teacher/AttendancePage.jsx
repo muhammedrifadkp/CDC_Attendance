@@ -13,7 +13,7 @@ import {
 } from '@heroicons/react/24/outline'
 import { batchesAPI, attendanceAPI } from '../../services/api'
 import { useAuth } from '../../context/AuthContext'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { formatDateSimple } from '../../utils/dateUtils'
 import { validateApiResponse } from '../../utils/apiValidator'
 import BackButton from '../../components/BackButton'

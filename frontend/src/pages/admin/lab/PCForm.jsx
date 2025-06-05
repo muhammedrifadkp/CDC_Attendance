@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
 import BackButton from '../../../components/BackButton'
 import { pcAPI } from '../../../services/labAPI'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 
 import {
   ComputerDesktopIcon,

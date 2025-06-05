@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { batchesAPI, attendanceAPI } from '../../../services/api'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { format, subDays } from 'date-fns'
 import {
   ChartBarIcon,
