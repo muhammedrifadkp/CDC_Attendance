@@ -35,7 +35,7 @@ const {
   previewEmployeeId,
 } = require('../controllers/userController');
 const { protect, admin } = require('../middleware/authMiddleware');
-const { validateUserRegistration } = require('../middleware/validationMiddleware');
+const { validateUserRegistration, validateTeacherRegistration, validateAdminRegistration } = require('../middleware/validationMiddleware');
 
 // Public routes with enhanced rate limiting
 router.post('/login', authRateLimiter, loginUser);
@@ -56,12 +56,12 @@ router.put('/verify-otp-change-password', protect, verifyOTPAndChangePassword);
 
 // Admin routes
 router.route('/')
-  .post(protect, admin, validateUserRegistration, createTeacher)
+  .post(protect, admin, validateTeacherRegistration, createTeacher)
   .get(protect, admin, getTeachers);
 
 // Admin management routes
 router.route('/admins')
-  .post(protect, admin, validateUserRegistration, createAdmin)
+  .post(protect, admin, validateAdminRegistration, createAdmin)
   .get(protect, admin, getAdmins);
 
 router.route('/admins/:id')

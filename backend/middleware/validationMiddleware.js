@@ -252,6 +252,102 @@ const validateUserRegistration = (req, res, next) => {
 };
 
 /**
+ * Teacher registration validation (no password required - auto-generated)
+ */
+const validateTeacherRegistration = (req, res, next) => {
+  const { name, email, phone, department, role } = req.body;
+  const errors = [];
+
+  // Validate name
+  const nameValidation = validateName(name, 'Name');
+  if (!nameValidation.isValid) {
+    errors.push(nameValidation.message);
+  }
+
+  // Validate email
+  const emailValidation = validateEmail(email);
+  if (!emailValidation.isValid) {
+    errors.push(emailValidation.message);
+  }
+
+  // Validate phone (optional)
+  if (phone) {
+    const phoneValidation = validatePhone(phone);
+    if (!phoneValidation.isValid) {
+      errors.push(phoneValidation.message);
+    }
+  }
+
+  // Validate department (required for teachers)
+  if (!department) {
+    errors.push('Department is required for teachers');
+  } else {
+    const deptValidation = validateObjectId(department, 'Department');
+    if (!deptValidation.isValid) {
+      errors.push(deptValidation.message);
+    }
+  }
+
+  // Validate role
+  const validRoles = ['teacher'];
+  if (role && !validRoles.includes(role)) {
+    errors.push('Invalid role specified for teacher registration');
+  }
+
+  if (errors.length > 0) {
+    return res.status(400).json({
+      message: 'Validation failed',
+      errors
+    });
+  }
+
+  next();
+};
+
+/**
+ * Admin registration validation (no password required - auto-generated)
+ */
+const validateAdminRegistration = (req, res, next) => {
+  const { name, email, phone, role } = req.body;
+  const errors = [];
+
+  // Validate name
+  const nameValidation = validateName(name, 'Name');
+  if (!nameValidation.isValid) {
+    errors.push(nameValidation.message);
+  }
+
+  // Validate email
+  const emailValidation = validateEmail(email);
+  if (!emailValidation.isValid) {
+    errors.push(emailValidation.message);
+  }
+
+  // Validate phone (optional)
+  if (phone) {
+    const phoneValidation = validatePhone(phone);
+    if (!phoneValidation.isValid) {
+      errors.push(phoneValidation.message);
+    }
+  }
+
+  // Validate role (should be admin or not specified)
+  const validRoles = ['admin'];
+  if (role && !validRoles.includes(role)) {
+    errors.push('Invalid role specified for admin registration');
+  }
+
+  if (errors.length > 0) {
+    return res.status(400).json({
+      message: 'Validation failed',
+      errors
+    });
+  }
+
+  next();
+};
+
+/**
  * Student registration validation
  */
 const validateStudentRegistration = (req, res, next) => {
@@ -367,6 +463,8 @@ module.exports = {
   validateObjectId,
   validateDate,
   validateUserRegistration,
+  validateTeacherRegistration,
+  validateAdminRegistration,
   validateStudentRegistration,
   validateAttendance
 };
