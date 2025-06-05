@@ -31,7 +31,7 @@ import {
 import { pcAPI, bookingAPI } from '../../services/labAPI'
 import { teachersAPI, studentsAPI, batchesAPI } from '../../services/api'
 import api from '../../services/api'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { showConfirm } from '../../utils/popup'
 import BackButton from '../../components/BackButton'
 
@@ -611,8 +611,7 @@ const LabOverviewFixed = () => {
       const successMessage = `✅ PC ${selectedPC.pcNumber} booked successfully!\n👤 Student: ${student.name}\n👨‍🏫 Teacher: ${teacher?.name || 'Unknown'}\n📚 Batch: ${batch?.name || 'Unknown'}`
 
       toast.success(successMessage, {
-        position: "top-right",
-        autoClose: 4000,
+        duration: 4000,
       })
 
       // Refresh data to show updated booking status

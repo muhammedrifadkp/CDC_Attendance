@@ -27,7 +27,7 @@ import {
 import { pcAPI, bookingAPI } from '../../services/labAPI'
 import { teachersAPI, studentsAPI, batchesAPI } from '../../services/api'
 import api from '../../services/api'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { showConfirm } from '../../utils/popup'
 import BackButton from '../../components/BackButton'
 import labUpdateService from '../../services/labUpdateService'

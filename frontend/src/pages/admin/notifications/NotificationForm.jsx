@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { toast } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { notificationsAPI, departmentsAPI, teachersAPI } from '../../../services/api'
 import BackButton from '../../../components/BackButton'
