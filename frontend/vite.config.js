@@ -12,7 +12,8 @@ export default defineConfig(({ command, mode }) => {
   const isAnalyze = process.env.ANALYZE === 'true'
 
   // Determine backend URL for proxy
-  const backendUrl = env.VITE_LOCAL_API_URL?.replace('/api', '') ||
+  const backendUrl = env.VITE_API_URL?.replace('/api', '') ||
+                     env.VITE_LOCAL_API_URL?.replace('/api', '') ||
                      env.VITE_DEV_API_URL?.replace('/api', '') ||
                      'http://localhost:5000';
 
