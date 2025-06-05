@@ -7,7 +7,7 @@
     "dev": "vite",
     "dev:host": "vite --host",
     "dev:debug": "vite --debug",
-    "build": "vite build",
+    "build": "vite build --config vite.config.simple.js",
     "build:analyze": "echo 'Bundle analyzer not available. Install rollup-plugin-visualizer first.' && vite build",
     "build:staging": "vite build --mode staging",
     "build:production": "vite build --mode production",
@@ -38,8 +38,7 @@
     "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.5.2",
-    "react-router-dom": "^6.20.1",
-    "react-toastify": "^11.0.5"
+    "react-router-dom": "^6.20.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",

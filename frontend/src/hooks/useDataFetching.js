@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { toast } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 
 /**
  * Enhanced data fetching hook with caching, error handling, and retry logic

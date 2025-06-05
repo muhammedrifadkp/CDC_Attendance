@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { toast } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { useAuth } from '../../context/AuthContext'
 import { labStatsAPI, bookingAPI, pcAPI } from '../../services/api'
 

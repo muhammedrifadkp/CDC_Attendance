@@ -1,8 +1,8 @@
-import { createContext, useState, useContext, useEffect } from 'react'
+import React, { createContext, useState, useContext, useEffect } from 'react'
 import { authAPI, getToken, setToken, removeToken } from '../services/api'
 import toast from 'react-hot-toast'
 
-const AuthContext = createContext()
+const AuthContext = React.createContext()
 
 export const useAuth = () => useContext(AuthContext)
 

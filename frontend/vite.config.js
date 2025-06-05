@@ -211,7 +211,8 @@ export default defineConfig(({ command, mode }) => {
         '@heroicons/react/24/outline',
         '@heroicons/react/24/solid'
       ],
-      exclude: ['@vite/client', '@vite/env']
+      exclude: ['@vite/client', '@vite/env'],
+      force: true
     },
 
     // Preview configuration (for production preview)
