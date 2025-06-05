@@ -550,8 +550,7 @@ const LabOverview = () => {
       const successMessage = response.message || `PC ${selectedPC.pcNumber} booked successfully for ${student.name}`
 
       toast.success(`✅ ${successMessage}`, {
-        position: "top-right",
-        autoClose: 3000,
+        duration: 3000,
       })
 
       // Trigger real-time update if available

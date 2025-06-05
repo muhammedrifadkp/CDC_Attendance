@@ -469,9 +469,8 @@ const LabOverviewFixed = () => {
           message = `❌ PC ${pc.pcNumber} is not available for booking (Status: ${pc.status})`
           icon = '❌'
       }
-      toast.warning(message, {
-        position: "top-center",
-        autoClose: 4000,
+      toast.error(message, {
+        duration: 4000,
       })
       return
     }
@@ -639,8 +638,7 @@ const LabOverviewFixed = () => {
       }
 
       toast.error(`❌ ${errorMessage}`, {
-        position: "top-center",
-        autoClose: 4000,
+        duration: 4000,
       })
     } finally {
       setBookingLoading(false)
