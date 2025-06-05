@@ -3,7 +3,7 @@
  * Ensures consistent handling of API responses across the application
  */
 
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 
 /**
  * Validates and normalizes API response data

@@ -14,7 +14,7 @@ import {
   Cog6ToothIcon
 } from '@heroicons/react/24/outline'
 import { labAPI } from '../../../services/labAPI'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 
 const LabControl = () => {
   const [labStatus, setLabStatus] = useState({
