@@ -128,194 +128,189 @@ const NotificationsList = () => {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Teacher Notifications</h1>
-          <p className="text-gray-600">
-            Send announcements, leave notices, and important updates to teachers
-          </p>
+    <div className="space-y-4 md:space-y-6">
+  {/* Header - Stacked on mobile, side-by-side on desktop */}
+  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+    <div>
+      <h1 className="text-xl md:text-2xl font-bold text-gray-900">Teacher Notifications</h1>
+      <p className="text-sm md:text-base text-gray-600">
+        Send announcements, leave notices, and important updates to teachers
+      </p>
+    </div>
+    <Link
+      to="/admin/notifications/new"
+      className="flex items-center justify-center px-4 py-2 bg-gradient-to-r from-cadd-red to-cadd-pink text-white rounded-lg hover:from-cadd-pink hover:to-cadd-red transition-all duration-300 shadow-lg text-sm md:text-base"
+    >
+      <PlusIcon className="h-4 w-4 md:h-5 md:w-5 mr-2" />
+      Send Notification
+    </Link>
+  </div>
+
+  {/* Stats Cards - Single column on mobile, 3 columns on desktop */}
+  {stats && (
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+      {[
+        {
+          icon: SpeakerWaveIcon,
+          color: 'blue',
+          label: 'Total Notifications',
+          value: stats.total || 0
+        },
+        {
+          icon: EnvelopeIcon,
+          color: 'green',
+          label: 'Emails Sent',
+          value: stats.emailsSent || 0
+        },
+        {
+          icon: UserGroupIcon,
+          color: 'purple',
+          label: 'Recent Activity',
+          value: stats.recentNotifications?.length || 0
+        }
+      ].map((stat, index) => (
+        <div key={index} className="bg-white rounded-xl shadow-lg p-4 md:p-6">
+          <div className="flex items-center">
+            <div className={`p-2 md:p-3 bg-${stat.color}-100 rounded-full`}>
+              <stat.icon className={`h-5 w-5 md:h-6 md:w-6 text-${stat.color}-600`} />
+            </div>
+            <div className="ml-3 md:ml-4">
+              <p className="text-xs md:text-sm font-medium text-gray-500">{stat.label}</p>
+              <p className="text-xl md:text-2xl font-bold text-gray-900">{stat.value}</p>
+            </div>
+          </div>
         </div>
-        <Link
-          to="/admin/notifications/new"
-          className="flex items-center px-4 py-2 bg-gradient-to-r from-cadd-red to-cadd-pink text-white rounded-lg hover:from-cadd-pink hover:to-cadd-red transition-all duration-300 shadow-lg"
+      ))}
+    </div>
+  )}
+
+  {/* Filters - Stacked on mobile, side-by-side on desktop */}
+  <div className="bg-white rounded-xl shadow-lg p-4 md:p-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+      <div>
+        <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">
+          Filter by Type
+        </label>
+        <select
+          value={filters.type}
+          onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
+          className="w-full px-3 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
         >
-          <PlusIcon className="h-5 w-5 mr-2" />
-          Send Notification
-        </Link>
+          <option value="">All Types</option>
+          <option value="info">Information</option>
+          <option value="announcement">Announcement</option>
+          <option value="warning">Warning</option>
+          <option value="urgent">Urgent</option>
+          <option value="leave">Leave Notice</option>
+        </select>
       </div>
 
-      {/* Stats Cards */}
-      {stats && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="flex items-center">
-              <div className="p-3 bg-blue-100 rounded-full">
-                <SpeakerWaveIcon className="h-6 w-6 text-blue-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Total Notifications</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.total || 0}</p>
-              </div>
-            </div>
-          </div>
+      <div>
+        <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">
+          Filter by Priority
+        </label>
+        <select
+          value={filters.priority}
+          onChange={(e) => setFilters(prev => ({ ...prev, priority: e.target.value }))}
+          className="w-full px-3 py-2 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
+        >
+          <option value="">All Priorities</option>
+          <option value="low">Low Priority</option>
+          <option value="medium">Medium Priority</option>
+          <option value="high">High Priority</option>
+          <option value="urgent">Urgent Priority</option>
+        </select>
+      </div>
+    </div>
+  </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="flex items-center">
-              <div className="p-3 bg-green-100 rounded-full">
-                <EnvelopeIcon className="h-6 w-6 text-green-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Emails Sent</p>
-                <p className="text-2xl font-bold text-gray-900">{stats.emailsSent || 0}</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-xl shadow-lg p-6">
-            <div className="flex items-center">
-              <div className="p-3 bg-purple-100 rounded-full">
-                <UserGroupIcon className="h-6 w-6 text-purple-600" />
-              </div>
-              <div className="ml-4">
-                <p className="text-sm font-medium text-gray-500">Recent Activity</p>
-                <p className="text-2xl font-bold text-gray-900">
-                  {stats.recentNotifications?.length || 0}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Filters */}
-      <div className="bg-white rounded-xl shadow-lg p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Filter by Type
-            </label>
-            <select
-              value={filters.type}
-              onChange={(e) => setFilters(prev => ({ ...prev, type: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
-            >
-              <option value="">All Types</option>
-              <option value="info">Information</option>
-              <option value="announcement">Announcement</option>
-              <option value="warning">Warning</option>
-              <option value="urgent">Urgent</option>
-              <option value="leave">Leave Notice</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Filter by Priority
-            </label>
-            <select
-              value={filters.priority}
-              onChange={(e) => setFilters(prev => ({ ...prev, priority: e.target.value }))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
-            >
-              <option value="">All Priorities</option>
-              <option value="low">Low Priority</option>
-              <option value="medium">Medium Priority</option>
-              <option value="high">High Priority</option>
-              <option value="urgent">Urgent Priority</option>
-            </select>
-          </div>
+  {/* Notifications List - Adjusted spacing for mobile */}
+  <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+    {notifications.length === 0 ? (
+      <div className="text-center py-8 md:py-12">
+        <SpeakerWaveIcon className="mx-auto h-10 w-10 md:h-12 md:w-12 text-gray-400" />
+        <h3 className="mt-2 text-sm font-medium text-gray-900">No notifications</h3>
+        <p className="mt-1 text-xs md:text-sm text-gray-500">
+          Get started by sending your first notification to teachers.
+        </p>
+        <div className="mt-4 md:mt-6">
+          <Link
+            to="/admin/notifications/new"
+            className="inline-flex items-center px-4 py-2 text-sm md:text-base bg-cadd-red text-white rounded-lg hover:bg-cadd-red/90"
+          >
+            <PlusIcon className="h-3 w-3 md:h-4 md:w-4 mr-2" />
+            Send Notification
+          </Link>
         </div>
       </div>
-
-      {/* Notifications List */}
-      <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-        {notifications.length === 0 ? (
-          <div className="text-center py-12">
-            <SpeakerWaveIcon className="mx-auto h-12 w-12 text-gray-400" />
-            <h3 className="mt-2 text-sm font-medium text-gray-900">No notifications</h3>
-            <p className="mt-1 text-sm text-gray-500">
-              Get started by sending your first notification to teachers.
-            </p>
-            <div className="mt-6">
-              <Link
-                to="/admin/notifications/new"
-                className="inline-flex items-center px-4 py-2 bg-cadd-red text-white rounded-lg hover:bg-cadd-red/90"
-              >
-                <PlusIcon className="h-4 w-4 mr-2" />
-                Send Notification
-              </Link>
-            </div>
-          </div>
-        ) : (
-          <div className="divide-y divide-gray-200">
-            {notifications.map((notification) => {
-              const TypeIcon = getTypeIcon(notification.type)
-              const AudienceIcon = getAudienceIcon(notification.targetAudience)
-              
-              return (
-                <div key={notification._id} className="p-6 hover:bg-gray-50 transition-colors">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-3 mb-2">
-                        <div className={`p-2 rounded-full ${getTypeColor(notification.type)}`}>
-                          <TypeIcon className="h-4 w-4" />
-                        </div>
-                        <h3 className="text-lg font-semibold text-gray-900">
-                          {notification.title}
-                        </h3>
-                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityColor(notification.priority)}`}>
-                          {notification.priority.toUpperCase()}
-                        </span>
-                      </div>
-                      
-                      <p className="text-gray-600 mb-3 line-clamp-2">
-                        {notification.message}
-                      </p>
-                      
-                      <div className="flex items-center space-x-6 text-sm text-gray-500">
-                        <div className="flex items-center">
-                          <AudienceIcon className="h-4 w-4 mr-1" />
-                          <span>
-                            {notification.targetAudience === 'all_teachers' && 'All Teachers'}
-                            {notification.targetAudience === 'department' && `${notification.targetDepartment?.name || 'Department'}`}
-                            {notification.targetAudience === 'specific_teachers' && `${notification.targetTeachers?.length || 0} Teachers`}
-                          </span>
-                        </div>
-                        
-                        <div className="flex items-center">
-                          <EnvelopeIcon className="h-4 w-4 mr-1" />
-                          <span>{notification.emailSent ? 'Email Sent' : 'No Email'}</span>
-                        </div>
-                        
-                        <div>
-                          <span>By {notification.createdBy?.name}</span>
-                        </div>
-                        
-                        <div>
-                          <span>{formatDate(notification.createdAt)}</span>
-                        </div>
-                      </div>
+    ) : (
+      <div className="divide-y divide-gray-200">
+        {notifications.map((notification) => {
+          const TypeIcon = getTypeIcon(notification.type)
+          const AudienceIcon = getAudienceIcon(notification.targetAudience)
+          
+          return (
+            <div key={notification._id} className="p-4 md:p-6 hover:bg-gray-50 transition-colors">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                <div className="flex-1">
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <div className={`p-1.5 md:p-2 rounded-full ${getTypeColor(notification.type)}`}>
+                      <TypeIcon className="h-3 w-3 md:h-4 md:w-4" />
+                    </div>
+                    <h3 className="text-base md:text-lg font-semibold text-gray-900 flex-1 min-w-[50%]">
+                      {notification.title}
+                    </h3>
+                    <span className={`px-2 py-1 text-xs font-medium rounded-full ${getPriorityColor(notification.priority)}`}>
+                      {notification.priority.toUpperCase()}
+                    </span>
+                  </div>
+                  
+                  <p className="text-sm md:text-base text-gray-600 mb-3 line-clamp-2">
+                    {notification.message}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-3 text-xs md:text-sm text-gray-500">
+                    <div className="flex items-center">
+                      <AudienceIcon className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+                      <span>
+                        {notification.targetAudience === 'all_teachers' && 'All Teachers'}
+                        {notification.targetAudience === 'department' && `${notification.targetDepartment?.name || 'Department'}`}
+                        {notification.targetAudience === 'specific_teachers' && `${notification.targetTeachers?.length || 0} Teachers`}
+                      </span>
                     </div>
                     
-                    <div className="flex items-center space-x-2 ml-4">
-                      <button
-                        onClick={() => handleDelete(notification._id)}
-                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Delete notification"
-                      >
-                        <TrashIcon className="h-4 w-4" />
-                      </button>
+                    <div className="flex items-center">
+                      <EnvelopeIcon className="h-3 w-3 md:h-4 md:w-4 mr-1" />
+                      <span>{notification.emailSent ? 'Email Sent' : 'No Email'}</span>
+                    </div>
+                    
+                    <div>
+                      <span>By {notification.createdBy?.name}</span>
+                    </div>
+                    
+                    <div>
+                      <span>{formatDate(notification.createdAt)}</span>
                     </div>
                   </div>
                 </div>
-              )
-            })}
-          </div>
-        )}
+                
+                <div className="flex justify-end sm:justify-normal sm:items-center gap-2 sm:ml-4">
+                  <button
+                    onClick={() => handleDelete(notification._id)}
+                    className="p-1.5 md:p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                    title="Delete notification"
+                  >
+                    <TrashIcon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          )
+        })}
       </div>
-    </div>
+    )}
+  </div>
+</div>
   )
 }
 

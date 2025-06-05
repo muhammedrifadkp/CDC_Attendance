@@ -101,20 +101,17 @@ const AdminLayout = () => {
     <div className="min-h-screen gradient-bg">
       {/* Mobile sidebar */}
       <div
-        className={`fixed inset-0 z-40 flex md:hidden ${sidebarOpen ? 'visible' : 'invisible'
-          }`}
-        aria-hidden="true"
+        className={`fixed inset-0 z-40 flex md:hidden ${sidebarOpen ? '' : 'hidden'}`}
       >
         {/* Sidebar backdrop */}
         <div
-          className={`mobile-nav-backdrop transition-opacity ${sidebarOpen ? 'opacity-100 ease-out duration-300' : 'opacity-0 ease-in duration-200'
-            }`}
+          className="fixed inset-0 bg-gray-600 bg-opacity-75 transition-opacity"
           onClick={() => setSidebarOpen(false)}
         ></div>
 
         {/* Sidebar */}
         <div
-          className={`mobile-sidebar ${sidebarOpen ? 'open' : ''} relative flex-1 flex flex-col max-w-xs w-full bg-gray-900 shadow-2xl`}
+          className={`relative flex-1 flex flex-col max-w-xs w-full bg-gray-900 transform transition ease-in-out duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
           style={{
             background: 'linear-gradient(180deg, #1f2937 0%, #111827 50%, #0f172a 100%)'
           }}
@@ -130,6 +127,7 @@ const AdminLayout = () => {
             </button>
           </div>
 
+          {/* Rest of your mobile sidebar content remains the same */}
           <div className="flex-1 h-0 pt-6 pb-4 overflow-y-auto">
             {/* Admin Header with CDC Branding */}
             <div className="px-4 mb-8">
@@ -147,7 +145,6 @@ const AdminLayout = () => {
                   <div className="hidden w-12 h-12 bg-gradient-to-br from-cadd-red to-cadd-pink rounded-xl flex items-center justify-center shadow-lg">
                     <span className="text-white font-bold text-lg">CDC</span>
                   </div>
-
                 </div>
               </div>
               <div className="text-center">

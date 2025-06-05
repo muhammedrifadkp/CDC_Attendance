@@ -218,127 +218,139 @@ const AttendancePage = () => {
 
       {/* Batch Selection and Date */}
       <div className="attendance-batch-selector bg-white rounded-2xl shadow-lg p-4 sm:p-6">
-  <div className="form-grid grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-3">
-    <div className="form-group">
-      <label className="form-label block text-sm font-medium text-gray-700 mb-2">
-        Select Batch
-      </label>
-      <select
-        value={selectedBatch?._id || ''}
-        onChange={(e) => {
-          const batch = batches.find(b => b._id === e.target.value)
-          setSelectedBatch(batch)
-        }}
-        className="form-select block w-full h-12 border border-gray-300 bg-white rounded-xl shadow-sm focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition duration-300 ease-in-out px-4 py-3"
-      >
-        {batches.map(batch => (
-          <option key={batch._id} value={batch._id}>
-            {batch.name} - {batch.section} {batch.timing && `(${batch.timing})`}
-          </option>
-        ))}
-      </select>
-    </div>
-    <div className="form-group">
-      <label className="form-label block text-sm font-medium text-gray-700 mb-2">
-        Date
-      </label>
-      <input
-        type="date"
-        value={selectedDate}
-        onChange={(e) => setSelectedDate(e.target.value)}
-        className="form-input block w-full h-12 border border-gray-300 bg-white rounded-xl shadow-sm focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition duration-300 ease-in-out px-4 py-3"
-      />
-    </div>
-    <div className="form-group">
-      <label className="form-label block text-sm font-medium text-gray-700 mb-2">
-        Search Students
-      </label>
-      <div className="search-container relative">
-        <MagnifyingGlassIcon className="h-5 w-5 absolute left-3 top-3 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Search by name or roll number..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="search-input pl-10 block w-full h-12 border border-gray-300 bg-white rounded-xl shadow-sm focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition duration-300 ease-in-out px-4 py-3"
-        />
+        <div className="form-grid grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-3">
+          <div className="form-group">
+            <label className="form-label block text-sm font-medium text-gray-700 mb-2">
+              Select Batch
+            </label>
+            <select
+              value={selectedBatch?._id || ''}
+              onChange={(e) => {
+                const batch = batches.find(b => b._id === e.target.value)
+                setSelectedBatch(batch)
+              }}
+              className="form-select block w-full h-12 border border-gray-300 bg-white rounded-xl shadow-sm focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition duration-300 ease-in-out px-4 py-3"
+            >
+              {batches.map(batch => (
+                <option key={batch._id} value={batch._id}>
+                  {batch.name} - {batch.section} {batch.timing && `(${batch.timing})`}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label className="form-label block text-sm font-medium text-gray-700 mb-2">
+              Date
+            </label>
+            <input
+              type="date"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+              className="form-input block w-full h-12 border border-gray-300 bg-white rounded-xl shadow-sm focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition duration-300 ease-in-out px-4 py-3"
+            />
+          </div>
+          <div className="form-group">
+            <label className="form-label block text-sm font-medium text-gray-700 mb-2">
+              Search Students
+            </label>
+            <div className="relative">
+              <MagnifyingGlassIcon className="h-5 w-5 absolute top-3.5 left-3 text-gray-400 pointer-events-none" />
+              <input
+                type="text"
+                placeholder="Search by name or roll number..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full h-11 pl-11 pr-4 text-sm border border-gray-300 rounded-xl shadow-sm focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition duration-300"
+              />
+            </div>
+          </div>
+
+        </div>
       </div>
-    </div>
-  </div>
-</div>
 
       {/* Stats Cards */}
       {selectedBatch && (
-        <div className="attendance-summary-stats stats-grid grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="stats-card attendance-summary-stat bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+        <div className="attendance-summary-stats stats-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {/* Total Students */}
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-5">
             <div className="flex items-center">
-              <div className="dashboard-card-icon p-3 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-md">
                 <UserGroupIcon className="h-6 w-6 text-white" />
               </div>
-              <div className="ml-4">
-                <p className="stats-card-title text-sm font-medium text-gray-600">Total Students</p>
-                <p className="stats-card-value text-2xl font-bold text-gray-900">{stats.total}</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Total Students</p>
+                <p className="text-xl sm:text-2xl font-bold text-gray-900">{stats.total}</p>
               </div>
             </div>
           </div>
-          <div className="stats-card attendance-summary-stat bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+
+          {/* Present */}
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-5">
             <div className="flex items-center">
-              <div className="dashboard-card-icon p-3 rounded-xl bg-gradient-to-br from-green-500 to-green-600 shadow-lg">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-green-500 to-green-600 shadow-md">
                 <CheckCircleIcon className="h-6 w-6 text-white" />
               </div>
-              <div className="ml-4">
-                <p className="stats-card-title text-sm font-medium text-gray-600">Present</p>
-                <p className="stats-card-value text-2xl font-bold text-green-600">{stats.present}</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Present</p>
+                <p className="text-xl sm:text-2xl font-bold text-green-600">{stats.present}</p>
               </div>
             </div>
           </div>
-          <div className="stats-card attendance-summary-stat bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+
+          {/* Absent */}
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-5">
             <div className="flex items-center">
-              <div className="dashboard-card-icon p-3 rounded-xl bg-gradient-to-br from-red-500 to-red-600 shadow-lg">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-red-500 to-red-600 shadow-md">
                 <XCircleIcon className="h-6 w-6 text-white" />
               </div>
-              <div className="ml-4">
-                <p className="stats-card-title text-sm font-medium text-gray-600">Absent</p>
-                <p className="stats-card-value text-2xl font-bold text-red-600">{stats.absent}</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Absent</p>
+                <p className="text-xl sm:text-2xl font-bold text-red-600">{stats.absent}</p>
               </div>
             </div>
           </div>
-          <div className="stats-card attendance-summary-stat bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+
+          {/* Attendance % */}
+          <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-5">
             <div className="flex items-center">
-              <div className="dashboard-card-icon p-3 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 shadow-lg">
+              <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 shadow-md">
                 <ChartBarIcon className="h-6 w-6 text-white" />
               </div>
-              <div className="ml-4">
-                <p className="stats-card-title text-sm font-medium text-gray-600">Attendance %</p>
-                <p className="stats-card-value text-2xl font-bold text-purple-600">{stats.percentage}%</p>
+              <div className="ml-3 sm:ml-4">
+                <p className="text-xs sm:text-sm font-medium text-gray-600">Attendance %</p>
+                <p className="text-xl sm:text-2xl font-bold text-purple-600">{stats.percentage}%</p>
               </div>
             </div>
           </div>
         </div>
       )}
 
+
       {/* Student List */}
       {selectedBatch && (
         <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-200">
-            <div className="flex justify-between items-center">
+          <div className="px-4 sm:px-6 py-4 border-b border-gray-200">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
+              {/* Title and Date */}
               <div>
-                <h2 className="text-xl font-bold text-gray-900">
+                <h2 className="text-lg sm:text-xl font-bold text-gray-900">
                   {selectedBatch.name} - {selectedBatch.section}
                 </h2>
-                <p className="text-sm text-gray-500 mt-1">
+                <p className="text-sm text-gray-500 mt-1 flex flex-wrap items-center">
                   Mark attendance for {formatDateSimple(selectedDate)}
                   {selectedBatch.timing && (
-                    <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
+                    <span className="ml-2 mt-1 sm:mt-0 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
                       {selectedBatch.timing}
                     </span>
                   )}
                 </p>
               </div>
+
+              {/* Save Button */}
               <button
                 onClick={handleSubmit}
                 disabled={submitting || filteredStudents.length === 0}
-                className="attendance-submit-button btn-mobile inline-flex items-center px-4 sm:px-6 py-3 border border-transparent text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 touch-target"
+                className="w-full sm:w-auto inline-flex items-center justify-center px-4 sm:px-6 py-3 border border-transparent text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300"
               >
                 {submitting ? (
                   <>
@@ -356,6 +368,7 @@ const AttendancePage = () => {
               </button>
             </div>
           </div>
+
 
           <div className="p-6">
             {filteredStudents.length === 0 ? (

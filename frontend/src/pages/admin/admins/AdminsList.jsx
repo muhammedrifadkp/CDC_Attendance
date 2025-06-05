@@ -122,92 +122,92 @@ const AdminsList = () => {
         </div>
       </div>
 
-      {/* Search and Filter Controls */}
-      <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Search */}
-          <div className="md:col-span-2">
-            <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-2">
-              Search Admins
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
-              </div>
-              <input
-                type="text"
-                id="search"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors"
-                placeholder="Search by name or email..."
-              />
-            </div>
-          </div>
-
-          {/* Status Filter */}
-          <div>
-            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
-              Filter by Status
-            </label>
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FunnelIcon className="h-5 w-5 text-gray-400" />
-              </div>
-              <select
-                id="status"
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors"
-              >
-                <option value="all">All Admins</option>
-                <option value="active">Active Only</option>
-                <option value="inactive">Inactive Only</option>
-              </select>
-            </div>
-          </div>
+      {/* Search and Filter Controls - Responsive */}
+<div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4">
+    {/* Search - Full width on mobile, 2 cols on desktop */}
+    <div className="md:col-span-2">
+      <label htmlFor="search" className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+        Search Admins
+      </label>
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <MagnifyingGlassIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
         </div>
-
-        {/* Results Summary */}
-        <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
-          <span>
-            Showing {filteredAdmins.length} of {admins.length} admin{admins.length !== 1 ? 's' : ''}
-          </span>
-          {(searchTerm || statusFilter !== 'all') && (
-            <button
-              onClick={() => {
-                setSearchTerm('')
-                setStatusFilter('all')
-              }}
-              className="text-cadd-red hover:text-cadd-pink font-medium"
-            >
-              Clear filters
-            </button>
-          )}
-          
-        </div>
-        {/* Stats Summary */}
-      {admins.length > 0 && (
-        <div className="bg-white rounded-2xl shadow-lg p-6 border border-gray-100">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-cadd-red">{admins.length}</div>
-              <div className="text-sm text-gray-600">Total Admins</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">
-                {admins.filter(admin => admin.active).length}
-              </div>
-              <div className="text-sm text-gray-600">Active Admins</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">100%</div>
-              <div className="text-sm text-gray-600">System Access</div>
-            </div>
-          </div>
-        </div>
-      )}
+        <input
+          type="text"
+          id="search"
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="block w-full pl-8 sm:pl-10 pr-3 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors text-sm sm:text-base"
+          placeholder="Search by name or email..."
+        />
       </div>
+    </div>
+
+    {/* Status Filter - Full width on mobile, 1 col on desktop */}
+    <div>
+      <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+        Filter by Status
+      </label>
+      <div className="relative">
+        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <FunnelIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+        </div>
+        <select
+          id="status"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="block w-full pl-8 sm:pl-10 pr-3 py-2 sm:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors text-sm sm:text-base appearance-none"
+        >
+          <option value="all">All Admins</option>
+          <option value="active">Active Only</option>
+          <option value="inactive">Inactive Only</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  {/* Results Summary - Stacked on mobile, row on desktop */}
+  <div className="mt-3 sm:mt-4 flex flex-col sm:flex-row sm:items-center justify-between text-xs sm:text-sm text-gray-600 space-y-1 sm:space-y-0">
+    <span>
+      Showing {filteredAdmins.length} of {admins.length} admin{admins.length !== 1 ? 's' : ''}
+    </span>
+    {(searchTerm || statusFilter !== 'all') && (
+      <button
+        onClick={() => {
+          setSearchTerm('')
+          setStatusFilter('all')
+        }}
+        className="text-cadd-red hover:text-cadd-pink font-medium text-left sm:text-right"
+      >
+        Clear filters
+      </button>
+    )}
+  </div>
+
+  {/* Stats Summary - Stacked on mobile, grid on desktop */}
+  {admins.length > 0 && (
+    <div className="mt-4 sm:mt-6 bg-white rounded-2xl shadow-lg p-4 sm:p-6 border border-gray-100">
+      <div className="grid grid-cols-3 gap-3 sm:gap-6">
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-cadd-red">{admins.length}</div>
+          <div className="text-xs sm:text-sm text-gray-600">Total Admins</div>
+        </div>
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-green-600">
+            {admins.filter(admin => admin.active).length}
+          </div>
+          <div className="text-xs sm:text-sm text-gray-600">Active Admins</div>
+        </div>
+        <div className="text-center">
+          <div className="text-xl sm:text-2xl font-bold text-blue-600">100%</div>
+          <div className="text-xs sm:text-sm text-gray-600">System Access</div>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
 
       {/* Error Message */}
       {error && (
@@ -223,7 +223,7 @@ const AdminsList = () => {
         </div>
       )}
 
-      
+
 
       {/* Admins List */}
       {filteredAdmins.length === 0 ? (
@@ -245,24 +245,24 @@ const AdminsList = () => {
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filteredAdmins.map((admin) => (
             <div key={admin._id} className="bg-white overflow-hidden shadow-xl rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 group border border-gray-100">
-              {/* Admin Card */}
-              <div className="px-6 py-6 bg-gradient-to-br from-gray-50 to-white hover:from-gray-100 hover:to-gray-50 transition-all duration-300">
+              {/* Admin Card - Responsive */}
+              <div className="px-4 sm:px-6 py-4 sm:py-6 bg-gradient-to-br from-gray-50 to-white hover:from-gray-100 hover:to-gray-50 transition-all duration-300">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <div className="w-12 h-12 bg-gradient-to-br from-cadd-red to-cadd-pink rounded-full flex items-center justify-center shadow-lg">
-                      <ShieldCheckIcon className="h-6 w-6 text-white" />
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-cadd-red to-cadd-pink rounded-full flex items-center justify-center shadow-lg">
+                      <ShieldCheckIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                     </div>
                   </div>
-                  <div className="ml-4 flex-1">
-                    <div className="flex items-center justify-between">
+                  <div className="ml-3 sm:ml-4 flex-1">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between">
                       <div>
-                        <h3 className="text-lg font-semibold text-gray-900 group-hover:text-cadd-red transition-colors duration-300">
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-900 group-hover:text-cadd-red transition-colors duration-300">
                           {admin.name}
                         </h3>
-                        <p className="text-sm text-gray-600">{admin.email}</p>
+                        <p className="text-xs sm:text-sm text-gray-600 truncate">{admin.email}</p>
                       </div>
-                      <div className="flex items-center">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
+                      <div className="mt-1 sm:mt-0">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
                           <ShieldCheckIcon className="w-3 h-3 mr-1" />
                           Admin
                         </span>
@@ -272,53 +272,53 @@ const AdminsList = () => {
                 </div>
               </div>
 
-              {/* Admin Details */}
-              <div className="px-6 py-4 bg-white border-t border-gray-100">
-                <div className="space-y-3">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <UserIcon className="h-4 w-4 mr-2 text-gray-400" />
+              {/* Admin Details - Responsive */}
+              <div className="px-4 sm:px-6 py-3 sm:py-4 bg-white border-t border-gray-100">
+                <div className="space-y-2 sm:space-y-3">
+                  <div className="flex items-center text-xs sm:text-sm text-gray-600">
+                    <UserIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-2 text-gray-400" />
                     <span>Administrator Role</span>
                   </div>
-                  <div className="flex items-center text-sm text-gray-600">
-                    <CalendarIcon className="h-4 w-4 mr-2 text-gray-400" />
+                  <div className="flex items-center text-xs sm:text-sm text-gray-600">
+                    <CalendarIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-2 text-gray-400" />
                     <span>Created: {formatDateLong(admin.createdAt)}</span>
                   </div>
                   <div className="flex items-center">
                     <div className={`w-2 h-2 rounded-full mr-2 ${admin.active ? 'bg-green-400' : 'bg-red-400'}`}></div>
-                    <span className={`text-sm font-medium ${admin.active ? 'text-green-600' : 'text-red-600'}`}>
+                    <span className={`text-xs sm:text-sm font-medium ${admin.active ? 'text-green-600' : 'text-red-600'}`}>
                       {admin.active ? 'Active' : 'Inactive'}
                     </span>
                   </div>
                 </div>
               </div>
 
-              {/* Admin Actions */}
-              <div className="px-6 py-4 bg-gray-50 border-t border-gray-100">
-                <div className="flex justify-between items-center">
+              {/* Admin Actions - Responsive */}
+              <div className="px-4 sm:px-6 py-3 sm:py-4 bg-gray-50 border-t border-gray-100">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center space-y-2 sm:space-y-0">
                   <span className="text-xs text-gray-500">
                     Full system access
                   </span>
-                  <div className="flex space-x-2">
+                  <div className="flex space-x-2 justify-end sm:justify-start">
                     <Link
                       to={`/admin/admins/${admin._id}`}
-                      className="inline-flex items-center p-2 border border-transparent rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-100 hover:text-cadd-red focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cadd-red transition-colors"
+                      className="inline-flex items-center p-1.5 sm:p-2 border border-transparent rounded-lg text-xs sm:text-sm font-medium text-gray-600 bg-white hover:bg-gray-100 hover:text-cadd-red focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cadd-red transition-colors"
                       title="View Details"
                     >
-                      <EyeIcon className="h-4 w-4" />
+                      <EyeIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </Link>
                     <Link
                       to={`/admin/admins/${admin._id}/edit`}
-                      className="inline-flex items-center p-2 border border-transparent rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-100 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                      className="inline-flex items-center p-1.5 sm:p-2 border border-transparent rounded-lg text-xs sm:text-sm font-medium text-gray-600 bg-white hover:bg-gray-100 hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                       title="Edit Admin"
                     >
-                      <PencilIcon className="h-4 w-4" />
+                      <PencilIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </Link>
                     <button
                       onClick={() => setDeleteModal({ show: true, admin })}
-                      className="inline-flex items-center p-2 border border-transparent rounded-lg text-sm font-medium text-gray-600 bg-white hover:bg-gray-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+                      className="inline-flex items-center p-1.5 sm:p-2 border border-transparent rounded-lg text-xs sm:text-sm font-medium text-gray-600 bg-white hover:bg-gray-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
                       title="Delete Admin"
                     >
-                      <TrashIcon className="h-4 w-4" />
+                      <TrashIcon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
                     </button>
                   </div>
                 </div>

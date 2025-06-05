@@ -361,61 +361,68 @@ const AdminDashboard = () => {
         </div>
       ) : (
         <>
-          {/* Main Stats Cards */}
-          <div className="stats-grid dashboard-grid grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-5">
-            {cards.map((card, index) => (
-              <Link
-                key={card.name}
-                to={card.link}
-                className="dashboard-card group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden animate-slide-up touch-target"
-                style={{ animationDelay: `${index * 100}ms` }}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-5 group-hover:opacity-10 transition-opacity`}></div>
-                <div className="dashboard-card-content relative p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`dashboard-card-icon p-3 rounded-xl bg-gradient-to-br ${card.gradient} shadow-lg`}>
-                      <card.icon className="h-6 w-6 text-white" />
-                    </div>
-                    <ChartBarIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
-                  </div>
-                  <div className="dashboard-card-stats">
-                    <p className="text-sm font-medium text-gray-600 mb-1">{card.name}</p>
-                    <p className="text-3xl font-bold text-gray-900 mb-2">{card.count}</p>
-                    <p className="text-xs text-gray-500">{card.description}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
+          {/* Main Stats Cards - 2 columns on mobile */}
+<div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-3 xl:grid-cols-5">
+  {cards.map((card, index) => (
+    <Link
+      key={card.name}
+      to={card.link}
+      className="group relative bg-white rounded-lg shadow-sm hover:shadow transition-all duration-200 overflow-hidden border border-gray-100"
+    >
+      {/* Gradient background overlay */}
+      <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-5 group-hover:opacity-10 transition-opacity`}></div>
+      
+      {/* Card content */}
+      <div className="relative p-3">
+        <div className="flex items-start justify-between">
+          {/* Icon with gradient background */}
+          <div className={`p-2 rounded-lg bg-gradient-to-br ${card.gradient} shadow-xs`}>
+            <card.icon className="h-5 w-5 text-white" />
           </div>
+          
+          {/* Secondary icon */}
+          <ChartBarIcon className="h-4 w-4 mt-0.5 text-gray-400 group-hover:text-gray-600 transition-colors" />
+        </div>
+        
+        {/* Card text content */}
+        <div className="mt-2">
+          <h3 className="text-xs font-semibold text-gray-700 truncate">{card.name}</h3>
+          <p className="text-lg font-bold text-gray-900 mt-1">{card.count}</p>
+          <p className="text-[10px] text-gray-500 mt-0.5 truncate">{card.description}</p>
+        </div>
+      </div>
+    </Link>
+  ))}
+</div>
 
-          {/* Analytics Cards */}
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4">
-            {analyticsCards.map((card, index) => (
-              <Link
-                key={card.name}
-                to={card.link}
-                className="dashboard-card group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden animate-slide-up touch-target"
-                style={{ animationDelay: `${(index + 5) * 100}ms` }}
-              >
-                <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-5 group-hover:opacity-10 transition-opacity`}></div>
-                <div className="dashboard-card-content relative p-6">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className={`dashboard-card-icon p-3 rounded-xl bg-gradient-to-br ${card.gradient} shadow-lg`}>
-                      <card.icon className="h-6 w-6 text-white" />
-                    </div>
-                    <ArrowTrendingUpIcon className="h-5 w-5 text-gray-400 group-hover:text-gray-600 transition-colors" />
-                  </div>
-                  <div className="dashboard-card-stats">
-                    <p className="text-sm font-medium text-gray-600 mb-1">{card.name}</p>
-                    <p className="text-3xl font-bold text-gray-900 mb-2">
-                      {card.count}{card.suffix || ''}
-                    </p>
-                    <p className="text-xs text-gray-500">{card.description}</p>
-                  </div>
-                </div>
-              </Link>
-            ))}
+{/* Analytics Cards - 2 columns on mobile */}
+<div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+  {analyticsCards.map((card, index) => (
+    <Link
+      key={card.name}
+      to={card.link}
+      className="dashboard-card group relative bg-white rounded-xl shadow hover:shadow-md transition-all duration-300 transform hover:scale-[1.02] overflow-hidden animate-slide-up touch-target"
+      style={{ animationDelay: `${(index + 5) * 100}ms` }}
+    >
+      <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-5 group-hover:opacity-10 transition-opacity`}></div>
+      <div className="dashboard-card-content relative p-3 sm:p-4">
+        <div className="flex items-center justify-between mb-2">
+          <div className={`p-2 rounded-lg bg-gradient-to-br ${card.gradient} shadow`}>
+            <card.icon className="h-5 w-5 text-white" />
           </div>
+          <ArrowTrendingUpIcon className="h-4 w-4 text-gray-400 group-hover:text-gray-600 transition-colors" />
+        </div>
+        <div>
+          <p className="text-xs font-medium text-gray-600 mb-1 truncate">{card.name}</p>
+          <p className="text-xl font-bold text-gray-900 mb-1">
+            {card.count}{card.suffix || ''}
+          </p>
+          <p className="text-[10px] text-gray-500 truncate">{card.description}</p>
+        </div>
+      </div>
+    </Link>
+  ))}
+</div>
 
           {/* Department Overview */}
           {analytics.departments && analytics.departments.length > 0 && (

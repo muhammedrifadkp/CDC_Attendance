@@ -275,277 +275,290 @@ const LabAvailability = () => {
 
   return (
     <div className="space-y-8">
-      {/* Enhanced Header */}
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-          <div>
-            <div className="flex items-center space-x-3">
-              <div className="p-3 bg-gradient-to-br from-cadd-red to-cadd-pink rounded-xl shadow-lg">
-                <ComputerDesktopIcon className="h-8 w-8 text-white" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-bold text-gray-900">Lab Availability</h1>
-                <p className="mt-1 text-sm text-gray-600">
-                  {labInfo ? labInfo.instituteName : 'CDC'} - Computer Lab Management System
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-3 sm:space-y-0 sm:space-x-3">
-            <div className="flex items-center space-x-2 bg-gray-50 rounded-xl px-4 py-2">
-              <ClockIcon className="h-5 w-5 text-gray-400" />
-              <span className="text-sm font-medium text-gray-900">Real-time Status</span>
-            </div>
-            <div className="inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-xl text-gray-700 bg-white">
-              <ChartBarIcon className="h-4 w-4 mr-2" />
-              Lab Management
-            </div>
-          </div>
+      {/* Enhanced Header - Mobile Optimized */}
+<div className="bg-white rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg p-4 sm:p-6 mx-2 sm:mx-0">
+  <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
+    <div>
+      <div className="flex items-center space-x-2 sm:space-x-3">
+        <div className="p-2 sm:p-3 bg-gradient-to-br from-cadd-red to-cadd-pink rounded-lg sm:rounded-xl shadow-md sm:shadow-lg">
+          <ComputerDesktopIcon className="h-6 w-6 sm:h-8 sm:w-8 text-white" />
+        </div>
+        <div>
+          <h1 className="text-xl sm:text-3xl font-bold text-gray-900">Lab Availability</h1>
+          <p className="mt-1 text-xs sm:text-sm text-gray-600">
+            {labInfo ? labInfo.instituteName : 'CDC'} - Computer Lab Management
+          </p>
         </div>
       </div>
+    </div>
+    <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-2 sm:space-y-0 sm:space-x-2">
+      <div className="flex items-center space-x-1 sm:space-x-2 bg-gray-50 rounded-lg sm:rounded-xl px-3 py-1 sm:px-4 sm:py-2">
+        <ClockIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+        <span className="text-xs sm:text-sm font-medium text-gray-900">Real-time</span>
+      </div>
+      <div className="inline-flex items-center justify-center px-3 py-1 sm:px-4 sm:py-2 border border-gray-300 shadow-sm text-xs sm:text-sm font-medium rounded-lg sm:rounded-xl text-gray-700 bg-white">
+        <ChartBarIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+        <span>Lab Mgmt</span>
+      </div>
+    </div>
+  </div>
+</div>
 
-      {/* Enhanced Search and Filters */}
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <div className="flex flex-col space-y-4">
-          {/* Search Bar */}
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-              <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search by student name, teacher, purpose, or batch..."
-              className="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-cadd-red focus:border-cadd-red focus:bg-white transition-all duration-300 text-sm"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+{/* Enhanced Search and Filters - Stacked on mobile */}
+<div className="bg-white rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg p-4 sm:p-6 mx-2 sm:mx-0">
+  <div className="flex flex-col space-y-3 sm:space-y-4">
+    {/* Search Bar - Full width */}
+    <div className="relative">
+      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+        <MagnifyingGlassIcon className="h-4 w-4 sm:h-5 sm:w-5 text-gray-400" />
+      </div>
+      <input
+        type="text"
+        placeholder="Search by student, teacher, or batch..."
+        className="block w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2 sm:py-3 border border-gray-300 rounded-lg sm:rounded-xl leading-5 bg-gray-50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-cadd-red focus:border-cadd-red focus:bg-white transition-all duration-300 text-xs sm:text-sm"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+    </div>
 
-          {/* Filter Controls */}
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0">
-            <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
-              <select
-                value={selectedDepartment}
-                onChange={(e) => {
-                  setSelectedDepartment(e.target.value)
-                  setSelectedBatch('all') // Reset batch when department changes
-                }}
-                className="px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition-all duration-200 text-sm bg-white"
-              >
-                <option value="all">All Departments</option>
-                {departments.map(dept => (
-                  <option key={dept._id} value={dept._id}>
-                    {dept.name}
-                  </option>
-                ))}
-              </select>
+    {/* Filter Controls - Stacked on mobile */}
+    <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-3 sm:space-y-0">
+      <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-row sm:space-x-2 sm:space-y-0">
+        <select
+          value={selectedDepartment}
+          onChange={(e) => {
+            setSelectedDepartment(e.target.value)
+            setSelectedBatch('all')
+          }}
+          className="px-3 py-2 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition-all duration-200 text-xs sm:text-sm bg-white"
+        >
+          <option value="all">All Depts</option>
+          {departments.map(dept => (
+            <option key={dept._id} value={dept._id}>
+              {dept.name}
+            </option>
+          ))}
+        </select>
 
-              <select
-                value={selectedBatch}
-                onChange={(e) => setSelectedBatch(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition-all duration-200 text-sm bg-white"
-                disabled={selectedDepartment === 'all'}
-              >
-                <option value="all">
-                  {selectedDepartment === 'all' ? 'Select Department First' : 'All Batches'}
-                </option>
-                {selectedDepartment !== 'all' && batches
-                  .filter(batch => {
-                    const batchDept = batch.course?.department?._id || batch.course?.department
-                    return batchDept === selectedDepartment
-                  })
-                  .map(batch => (
-                    <option key={batch._id} value={batch._id}>
-                      {batch.name} - {batch.academicYear} {batch.section}
-                    </option>
-                  ))
-                }
-              </select>
+        <select
+          value={selectedBatch}
+          onChange={(e) => setSelectedBatch(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition-all duration-200 text-xs sm:text-sm bg-white"
+          disabled={selectedDepartment === 'all'}
+        >
+          <option value="all">
+            {selectedDepartment === 'all' ? 'Select Dept' : 'All Batches'}
+          </option>
+          {selectedDepartment !== 'all' && batches
+            .filter(batch => {
+              const batchDept = batch.course?.department?._id || batch.course?.department
+              return batchDept === selectedDepartment
+            })
+            .map(batch => (
+              <option key={batch._id} value={batch._id}>
+                {batch.name}
+              </option>
+            ))
+          }
+        </select>
 
-              <select
-                value={selectedStatus}
-                onChange={(e) => setSelectedStatus(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-xl focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition-all duration-200 text-sm bg-white"
-              >
-                <option value="all">All Status</option>
-                <option value="available">Available PCs</option>
-                <option value="occupied">Occupied PCs</option>
-                <option value="maintenance">Maintenance PCs</option>
-              </select>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <span className="text-sm text-gray-500">
-                {getFilteredBookings().length} active bookings
-              </span>
-              <button
-                onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
-                className="inline-flex items-center px-3 py-2 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cadd-red transition-all duration-200"
-              >
-                <FunnelIcon className="h-4 w-4 mr-2" />
-                {viewMode === 'grid' ? 'List View' : 'Grid View'}
-              </button>
-            </div>
-          </div>
-        </div>
+        <select
+          value={selectedStatus}
+          onChange={(e) => setSelectedStatus(e.target.value)}
+          className="px-3 py-2 border border-gray-300 rounded-lg sm:rounded-xl focus:ring-2 focus:ring-cadd-red focus:border-cadd-red transition-all duration-200 text-xs sm:text-sm bg-white"
+        >
+          <option value="all">All Status</option>
+          <option value="available">Available</option>
+          <option value="occupied">Occupied</option>
+          <option value="maintenance">Maintenance</option>
+        </select>
       </div>
 
-      {/* Lab Information Cards */}
-      {labInfo && !labInfoLoading && (
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div className="bg-white rounded-2xl shadow-lg p-6">
-            <div className="flex items-center mb-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-lg">
-                <BuildingOfficeIcon className="h-6 w-6 text-white" />
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg font-semibold text-gray-900">Facility Info</h3>
-                <p className="text-sm text-gray-500">{labInfo.instituteType}</p>
-              </div>
-            </div>
-            <div className="space-y-2 text-sm text-gray-600">
-              <div className="flex items-center">
-                <MapPinIcon className="h-4 w-4 mr-2 text-gray-400" />
-                <span>{labInfo.location?.address}</span>
-              </div>
-              <div className="flex items-center">
-                <ClockIcon className="h-4 w-4 mr-2 text-gray-400" />
-                <span>{labInfo.facilities?.operatingHours?.weekdays}</span>
-              </div>
-            </div>
-          </div>
+      <div className="flex items-center justify-between sm:space-x-2">
+        <span className="text-xs sm:text-sm text-gray-500">
+          {getFilteredBookings().length} bookings
+        </span>
+        <button
+          onClick={() => setViewMode(viewMode === 'grid' ? 'list' : 'grid')}
+          className="inline-flex items-center px-2 py-1 sm:px-3 sm:py-2 border border-gray-300 rounded-lg sm:rounded-xl text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cadd-red transition-all duration-200"
+        >
+          <FunnelIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+          {viewMode === 'grid' ? 'List' : 'Grid'}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
-          <div className="bg-white rounded-2xl shadow-lg p-6">
-            <div className="flex items-center mb-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-green-500 to-green-600 shadow-lg">
-                <PhoneIcon className="h-6 w-6 text-white" />
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg font-semibold text-gray-900">Contact Info</h3>
-                <p className="text-sm text-gray-500">Get in touch</p>
-              </div>
-            </div>
-            <div className="space-y-2 text-sm text-gray-600">
-              <div className="flex items-center">
-                <PhoneIcon className="h-4 w-4 mr-2 text-gray-400" />
-                <span>{labInfo.contact?.phone}</span>
-              </div>
-              <div className="flex items-center">
-                <EnvelopeIcon className="h-4 w-4 mr-2 text-gray-400" />
-                <span>{labInfo.contact?.email}</span>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-white rounded-2xl shadow-lg p-6">
-            <div className="flex items-center mb-4">
-              <div className="p-3 rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 shadow-lg">
-                <ComputerDesktopIcon className="h-6 w-6 text-white" />
-              </div>
-              <div className="ml-4">
-                <h3 className="text-lg font-semibold text-gray-900">Lab Stats</h3>
-                <p className="text-sm text-gray-500">Current status</p>
-              </div>
-            </div>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="text-center">
-                <p className="text-2xl font-bold text-blue-600">{labInfo.facilities?.totalPCs}</p>
-                <p className="text-xs text-gray-500">Total PCs</p>
-              </div>
-              <div className="text-center">
-                <p className="text-2xl font-bold text-green-600">{labInfo.facilities?.totalLabs}</p>
-                <p className="text-xs text-gray-500">Labs</p>
-              </div>
-            </div>
-          </div>
+{/* Lab Information Cards - Stacked on mobile */}
+{labInfo && !labInfoLoading && (
+  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mx-2 sm:mx-0">
+    {/* Card 1 - Facility Info */}
+    <div className="bg-white rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg p-4 sm:p-6">
+      <div className="flex items-center mb-3 sm:mb-4">
+        <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 shadow-md sm:shadow-lg">
+          <BuildingOfficeIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
         </div>
-      )}
-
-      {/* Enhanced Status Overview */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100 hover:shadow-xl transition-all duration-300">
-          <div className="p-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
-                  <ComputerDesktopIcon className="h-6 w-6 text-white" />
-                </div>
-              </div>
-              <div className="ml-4 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Total PCs</dt>
-                  <dd className="text-2xl font-bold text-gray-900">{getTotalCount()}</dd>
-                  <dd className="text-xs text-gray-400">in lab</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100 hover:shadow-xl transition-all duration-300">
-          <div className="p-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="p-3 bg-gradient-to-br from-green-500 to-green-600 rounded-xl shadow-lg">
-                  <CheckCircleIcon className="h-6 w-6 text-white" />
-                </div>
-              </div>
-              <div className="ml-4 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Available</dt>
-                  <dd className="text-2xl font-bold text-gray-900">{getAvailableCount(selectedTimeSlot)}</dd>
-                  <dd className="text-xs text-gray-400">for {getTimeSlotLabel(selectedTimeSlot)}</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100 hover:shadow-xl transition-all duration-300">
-          <div className="p-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="p-3 bg-gradient-to-br from-red-500 to-red-600 rounded-xl shadow-lg">
-                  <XCircleIcon className="h-6 w-6 text-white" />
-                </div>
-              </div>
-              <div className="ml-4 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Occupied</dt>
-                  <dd className="text-2xl font-bold text-gray-900">{getFilteredBookings().filter(b => b.timeSlot === selectedTimeSlot && b.isActive).length}</dd>
-                  <dd className="text-xs text-gray-400">current slot</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="bg-white overflow-hidden shadow-lg rounded-2xl border border-gray-100 hover:shadow-xl transition-all duration-300">
-          <div className="p-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <div className="p-3 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl shadow-lg">
-                  <ExclamationTriangleIcon className="h-6 w-6 text-white" />
-                </div>
-              </div>
-              <div className="ml-4 w-0 flex-1">
-                <dl>
-                  <dt className="text-sm font-medium text-gray-500 truncate">Maintenance</dt>
-                  <dd className="text-2xl font-bold text-gray-900">{Object.values(filteredPCs).flat().filter(pc => pc.status === 'maintenance').length}</dd>
-                  <dd className="text-xs text-gray-400">under repair</dd>
-                </dl>
-              </div>
-            </div>
-          </div>
+        <div className="ml-3 sm:ml-4">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900">Facility Info</h3>
+          <p className="text-xs sm:text-sm text-gray-500">{labInfo.instituteType}</p>
         </div>
       </div>
+      <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
+        <div className="flex items-center">
+          <MapPinIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-gray-400" />
+          <span className="truncate">{labInfo.location?.address}</span>
+        </div>
+        <div className="flex items-center">
+          <ClockIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-gray-400" />
+          <span>{labInfo.facilities?.operatingHours?.weekdays}</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Card 2 - Contact Info */}
+    <div className="bg-white rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg p-4 sm:p-6">
+      <div className="flex items-center mb-3 sm:mb-4">
+        <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-gradient-to-br from-green-500 to-green-600 shadow-md sm:shadow-lg">
+          <PhoneIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+        </div>
+        <div className="ml-3 sm:ml-4">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900">Contact Info</h3>
+          <p className="text-xs sm:text-sm text-gray-500">Get in touch</p>
+        </div>
+      </div>
+      <div className="space-y-1 sm:space-y-2 text-xs sm:text-sm text-gray-600">
+        <div className="flex items-center">
+          <PhoneIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-gray-400" />
+          <span>{labInfo.contact?.phone}</span>
+        </div>
+        <div className="flex items-center">
+          <EnvelopeIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2 text-gray-400" />
+          <span className="truncate">{labInfo.contact?.email}</span>
+        </div>
+      </div>
+    </div>
+
+    {/* Card 3 - Lab Stats */}
+    <div className="bg-white rounded-xl sm:rounded-2xl shadow-md sm:shadow-lg p-4 sm:p-6">
+      <div className="flex items-center mb-3 sm:mb-4">
+        <div className="p-2 sm:p-3 rounded-lg sm:rounded-xl bg-gradient-to-br from-purple-500 to-purple-600 shadow-md sm:shadow-lg">
+          <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+        </div>
+        <div className="ml-3 sm:ml-4">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900">Lab Stats</h3>
+          <p className="text-xs sm:text-sm text-gray-500">Current status</p>
+        </div>
+      </div>
+      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+        <div className="text-center">
+          <p className="text-xl sm:text-2xl font-bold text-blue-600">{labInfo.facilities?.totalPCs}</p>
+          <p className="text-xs text-gray-500">Total PCs</p>
+        </div>
+        <div className="text-center">
+          <p className="text-xl sm:text-2xl font-bold text-green-600">{labInfo.facilities?.totalLabs}</p>
+          <p className="text-xs text-gray-500">Labs</p>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+{/* Status Overview Cards - 2 columns on mobile */}
+<div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mx-2 sm:mx-0">
+  {/* Card 4 - Total PCs */}
+  <div className="bg-white overflow-hidden shadow-md sm:shadow-lg rounded-xl sm:rounded-2xl border border-gray-100 hover:shadow-lg sm:hover:shadow-xl transition-all duration-300">
+    <div className="p-4 sm:p-6">
+      <div className="flex items-center">
+        <div className="flex-shrink-0">
+          <div className="p-2 sm:p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg sm:rounded-xl shadow-md sm:shadow-lg">
+            <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+          </div>
+        </div>
+        <div className="ml-3 w-0 flex-1">
+          <dl>
+            <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">Total PCs</dt>
+            <dd className="text-xl sm:text-2xl font-bold text-gray-900">{getTotalCount()}</dd>
+            <dd className="text-[10px] sm:text-xs text-gray-400">in lab</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Card 5 - Available */}
+  <div className="bg-white overflow-hidden shadow-md sm:shadow-lg rounded-xl sm:rounded-2xl border border-gray-100 hover:shadow-lg sm:hover:shadow-xl transition-all duration-300">
+    <div className="p-4 sm:p-6">
+      <div className="flex items-center">
+        <div className="flex-shrink-0">
+          <div className="p-2 sm:p-3 bg-gradient-to-br from-green-500 to-green-600 rounded-lg sm:rounded-xl shadow-md sm:shadow-lg">
+            <CheckCircleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+          </div>
+        </div>
+        <div className="ml-3 w-0 flex-1">
+          <dl>
+            <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">Available</dt>
+            <dd className="text-xl sm:text-2xl font-bold text-gray-900">{getAvailableCount(selectedTimeSlot)}</dd>
+            <dd className="text-[10px] sm:text-xs text-gray-400">for {getTimeSlotLabel(selectedTimeSlot)}</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Card 6 - Occupied */}
+  <div className="bg-white overflow-hidden shadow-md sm:shadow-lg rounded-xl sm:rounded-2xl border border-gray-100 hover:shadow-lg sm:hover:shadow-xl transition-all duration-300">
+    <div className="p-4 sm:p-6">
+      <div className="flex items-center">
+        <div className="flex-shrink-0">
+          <div className="p-2 sm:p-3 bg-gradient-to-br from-red-500 to-red-600 rounded-lg sm:rounded-xl shadow-md sm:shadow-lg">
+            <XCircleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+          </div>
+        </div>
+        <div className="ml-3 w-0 flex-1">
+          <dl>
+            <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">Occupied</dt>
+            <dd className="text-xl sm:text-2xl font-bold text-gray-900">
+              {getFilteredBookings().filter(b => b.timeSlot === selectedTimeSlot && b.isActive).length}
+            </dd>
+            <dd className="text-[10px] sm:text-xs text-gray-400">current slot</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {/* Card 7 - Maintenance */}
+  <div className="bg-white overflow-hidden shadow-md sm:shadow-lg rounded-xl sm:rounded-2xl border border-gray-100 hover:shadow-lg sm:hover:shadow-xl transition-all duration-300">
+    <div className="p-4 sm:p-6">
+      <div className="flex items-center">
+        <div className="flex-shrink-0">
+          <div className="p-2 sm:p-3 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-lg sm:rounded-xl shadow-md sm:shadow-lg">
+            <ExclamationTriangleIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+          </div>
+        </div>
+        <div className="ml-3 w-0 flex-1">
+          <dl>
+            <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">Maintenance</dt>
+            <dd className="text-xl sm:text-2xl font-bold text-gray-900">
+              {Object.values(filteredPCs).flat().filter(pc => pc.status === 'maintenance').length}
+            </dd>
+            <dd className="text-[10px] sm:text-xs text-gray-400">under repair</dd>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
       {/* Enhanced Time Slot Selection */}
       <div className="bg-white rounded-2xl shadow-lg p-6">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between lg:space-x-6 mb-6">
           <div className="flex-shrink-0">
             <h3 className="text-lg font-bold text-gray-900 mb-1">Time Slot Selection</h3>
-            <p className="text-sm text-gray-600">Choose a time slot to view PC availability and current bookings</p>
+            <p className="text-sm text-gray-600">
+              Choose a time slot to view PC availability and current bookings
+            </p>
           </div>
           <div className="mt-4 lg:mt-0 flex items-center space-x-2 bg-gray-50 rounded-xl px-4 py-2">
             <ClockIcon className="h-5 w-5 text-gray-400" />
@@ -553,31 +566,42 @@ const LabAvailability = () => {
           </div>
         </div>
 
-        {/* Enhanced Time Slots - Clickable Buttons */}
-        <div className="grid grid-cols-5 gap-4">
+        {/* Responsive Time Slots - Clickable Buttons */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {timeSlots.map((slot) => {
-            const filteredBookings = getFilteredBookings()
-            const occupiedCount = filteredBookings.filter(b => b.timeSlot === slot.id && b.isActive).length
-            const availableCount = getAvailableCount(slot.id)
-            const totalCount = getTotalCount()
-            const isSelected = selectedTimeSlot === slot.id
+            const filteredBookings = getFilteredBookings();
+            const occupiedCount = filteredBookings.filter(
+              (b) => b.timeSlot === slot.id && b.isActive
+            ).length;
+            const availableCount = getAvailableCount(slot.id);
+            const totalCount = getTotalCount();
+            const isSelected = selectedTimeSlot === slot.id;
 
             return (
               <button
                 key={slot.id}
                 onClick={() => setSelectedTimeSlot(slot.id)}
-                className={`text-center p-4 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${isSelected
+                className={`text-center p-3 sm:p-4 text-sm sm:text-base rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-lg ${isSelected
                   ? 'bg-gradient-to-r from-cadd-red to-cadd-pink text-white shadow-lg ring-2 ring-cadd-red ring-opacity-50'
                   : 'bg-gray-50 hover:bg-gray-100 text-gray-900 border-2 border-transparent hover:border-gray-200'
                   }`}
               >
-                <div className={`font-semibold ${isSelected ? 'text-white' : 'text-gray-900'}`}>
+                <div
+                  className={`font-semibold ${isSelected ? 'text-white' : 'text-gray-900'
+                    }`}
+                >
                   {slot.label}
                 </div>
-                <div className={`text-xs mt-1 ${isSelected ? 'text-white opacity-90' : 'text-gray-500'}`}>
+                <div
+                  className={`text-xs mt-1 ${isSelected ? 'text-white opacity-90' : 'text-gray-500'
+                    }`}
+                >
                   {availableCount}/{totalCount} available
                 </div>
-                <div className={`text-xs mt-1 ${isSelected ? 'text-white opacity-75' : 'text-gray-400'}`}>
+                <div
+                  className={`text-xs mt-1 ${isSelected ? 'text-white opacity-75' : 'text-gray-400'
+                    }`}
+                >
                   {occupiedCount} occupied
                 </div>
                 {isSelected && (
@@ -586,10 +610,11 @@ const LabAvailability = () => {
                   </div>
                 )}
               </button>
-            )
+            );
           })}
         </div>
       </div>
+
 
       {loading ? (
         <div className="flex items-center justify-center min-h-64">

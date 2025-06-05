@@ -185,44 +185,44 @@ const TeacherDashboard = () => {
         </div>
       </div>
 
-      {/* Stats Cards */}
-      {stats.loading ? (
-        <div className="flex items-center justify-center min-h-64">
-          <div className="relative">
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200"></div>
-            <div className="animate-spin rounded-full h-16 w-16 border-4 border-cadd-red border-t-transparent absolute top-0 left-0"></div>
+      {/* Stats Cards - Responsive */}
+{stats.loading ? (
+  <div className="flex items-center justify-center min-h-64">
+    <div className="relative">
+      <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-4 border-gray-200"></div>
+      <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-4 border-cadd-red border-t-transparent absolute top-0 left-0"></div>
+    </div>
+  </div>
+) : (
+  <div className="grid grid-cols-2 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+    {statsCards.map((card, index) => (
+      <Link
+        key={card.name}
+        to={card.link}
+        className="group relative bg-white rounded-xl sm:rounded-2xl shadow-md hover:shadow-lg sm:hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.03] sm:hover:scale-105 overflow-hidden animate-slide-up"
+        style={{ animationDelay: `${index * 100}ms` }}
+      >
+        <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
+        <div className="relative p-4 sm:p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between">
+            <div className="flex-1 mb-3 sm:mb-0">
+              <p className="text-xs sm:text-sm font-medium text-gray-600 mb-1">{card.name}</p>
+              <p className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-1 sm:mb-2">{card.count}</p>
+              <p className="text-[10px] sm:text-xs text-gray-500">{card.description}</p>
+            </div>
+            <div className={`p-2 sm:p-3 rounded-lg sm:rounded-xl bg-gradient-to-br ${card.gradient} shadow-md sm:shadow-lg`}>
+              <card.icon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+            </div>
+          </div>
+          <div className="mt-3 sm:mt-4 flex items-center text-xs sm:text-sm text-gray-500">
+            <ChartBarIcon className="h-3 w-3 sm:h-4 sm:w-4 mr-1" />
+            <span>View details</span>
           </div>
         </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {statsCards.map((card, index) => (
-            <Link
-              key={card.name}
-              to={card.link}
-              className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-105 overflow-hidden animate-slide-up"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
-              <div className="relative p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
-                    <p className="text-sm font-medium text-gray-600 mb-1">{card.name}</p>
-                    <p className="text-3xl font-bold text-gray-900 mb-2">{card.count}</p>
-                    <p className="text-xs text-gray-500">{card.description}</p>
-                  </div>
-                  <div className={`p-3 rounded-xl bg-gradient-to-br ${card.gradient} shadow-lg`}>
-                    <card.icon className="h-6 w-6 text-white" />
-                  </div>
-                </div>
-                <div className="mt-4 flex items-center text-sm text-gray-500">
-                  <ChartBarIcon className="h-4 w-4 mr-1" />
-                  <span>View details</span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+      </Link>
+    ))}
+  </div>
+)}
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">

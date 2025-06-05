@@ -265,295 +265,301 @@ const AdminProfile = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-cadd-red to-cadd-pink rounded-2xl shadow-lg p-8 text-white">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <div className="h-20 w-20 rounded-full bg-white/20 flex items-center justify-center">
-              <span className="text-3xl font-bold text-white">
-                {profile?.name?.charAt(0) || 'A'}
-              </span>
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold">{profile?.name}</h1>
-              <p className="text-white/90 text-lg">{profile?.email}</p>
-              <div className="flex items-center space-x-4 mt-2">
-                <span className="flex items-center text-white/80">
-                  <ShieldCheckIcon className="h-5 w-5 mr-2" />
-                  Administrator
-                </span>
-                <span className="flex items-center text-white/80">
-                  <CogIcon className="h-5 w-5 mr-2" />
-                  Full System Access
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex space-x-3">
-            {!isEditing && (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="flex items-center px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-              >
-                <PencilIcon className="h-5 w-5 mr-2" />
-                Edit Profile
-              </button>
-            )}
-            <button
-              onClick={() => setShowPasswordForm(!showPasswordForm)}
-              className="flex items-center px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-            >
-              <KeyIcon className="h-5 w-5 mr-2" />
-              Change Password
-            </button>
-          </div>
+<div className="bg-gradient-to-r from-cadd-red to-cadd-pink rounded-2xl shadow-lg p-4 sm:p-6 md:p-8 text-white">
+  <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 md:gap-0">
+    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-6 w-full md:w-auto">
+      <div className="h-16 w-16 sm:h-20 sm:w-20 rounded-full bg-white/20 flex items-center justify-center">
+        <span className="text-2xl sm:text-3xl font-bold text-white">
+          {profile?.name?.charAt(0) || 'A'}
+        </span>
+      </div>
+      <div className="flex-1">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold">{profile?.name}</h1>
+        <p className="text-white/90 text-sm sm:text-base md:text-lg">{profile?.email}</p>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-1 sm:space-y-0 mt-2">
+          <span className="flex items-center text-white/80 text-sm sm:text-base">
+            <ShieldCheckIcon className="h-4 sm:h-5 w-4 sm:w-5 mr-2" />
+            Administrator
+          </span>
+          <span className="flex items-center text-white/80 text-sm sm:text-base">
+            <CogIcon className="h-4 sm:h-5 w-4 sm:w-5 mr-2" />
+            Full System Access
+          </span>
         </div>
       </div>
-
-      {/* Password Change Form - Same as Teacher Profile */}
-      {showPasswordForm && (
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-gray-900">
-              {passwordChangeStep === 'request' && 'Change Password'}
-              {passwordChangeStep === 'verify-otp' && 'Verify Email Code'}
-              {passwordChangeStep === 'set-password' && 'Set New Password'}
-            </h3>
-            {(passwordChangeStep === 'verify-otp' || passwordChangeStep === 'set-password') && (
-              <span className="text-sm text-green-600 font-medium">
-                ✅ OTP sent to your email
-              </span>
-            )}
-          </div>
-          
-          {/* Progress Steps */}
-          <div className="flex items-center justify-center mb-6">
-            <div className="flex items-center space-x-4">
-              {/* Step 1 */}
-              <div className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  passwordChangeStep === 'request' ? 'bg-cadd-red text-white' : 'bg-green-500 text-white'
-                }`}>
-                  {passwordChangeStep === 'request' ? '1' : '✓'}
-                </div>
-                <span className="ml-2 text-sm font-medium text-gray-600">Request OTP</span>
-              </div>
-              
-              {/* Arrow */}
-              <div className="w-8 h-0.5 bg-gray-300"></div>
-              
-              {/* Step 2 */}
-              <div className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  passwordChangeStep === 'verify-otp' ? 'bg-cadd-red text-white' : 
-                  passwordChangeStep === 'set-password' ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'
-                }`}>
-                  {passwordChangeStep === 'verify-otp' ? '2' : passwordChangeStep === 'set-password' ? '✓' : '2'}
-                </div>
-                <span className="ml-2 text-sm font-medium text-gray-600">Verify OTP</span>
-              </div>
-              
-              {/* Arrow */}
-              <div className="w-8 h-0.5 bg-gray-300"></div>
-              
-              {/* Step 3 */}
-              <div className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  passwordChangeStep === 'set-password' ? 'bg-cadd-red text-white' : 'bg-gray-300 text-gray-600'
-                }`}>
-                  3
-                </div>
-                <span className="ml-2 text-sm font-medium text-gray-600">New Password</span>
-              </div>
-            </div>
-          </div>
-
-          {passwordChangeStep === 'request' && (
-            // Step 1: Request OTP
-            <div className="text-center py-8">
-              <div className="mb-6">
-                <div className="mx-auto w-16 h-16 bg-cadd-red/10 rounded-full flex items-center justify-center mb-4">
-                  <KeyIcon className="h-8 w-8 text-cadd-red" />
-                </div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Secure Password Change</h4>
-                <p className="text-gray-600">
-                  For your security, we'll send a verification code to your email address before allowing you to change your password.
-                </p>
-              </div>
-              <button
-                onClick={handleRequestOTP}
-                disabled={loading}
-                className="px-6 py-3 bg-cadd-red text-white rounded-lg hover:bg-cadd-red/90 disabled:opacity-50 font-medium"
-              >
-                {loading ? 'Sending OTP...' : 'Send Verification Code'}
-              </button>
-            </div>
-          )}
-
-          {passwordChangeStep === 'verify-otp' && (
-            // Step 2: Verify OTP
-            <div className="text-center py-8">
-              <div className="mb-6">
-                <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                  <EnvelopeIcon className="h-8 w-8 text-blue-600" />
-                </div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Check Your Email</h4>
-                <p className="text-gray-600 mb-6">
-                  We've sent a 6-digit verification code to your email address. Enter it below to continue.
-                </p>
-              </div>
-              
-              <form onSubmit={handlePasswordSubmit} className="space-y-6">
-                <div>
-                  <input
-                    type="text"
-                    name="otp"
-                    value={passwordData.otp}
-                    onChange={handlePasswordChange}
-                    className="w-48 px-4 py-3 text-center text-2xl font-mono tracking-widest border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
-                    placeholder="000000"
-                    maxLength="6"
-                    required
-                  />
-                  {errors.otp && (
-                    <p className="text-red-500 text-sm mt-2">{errors.otp}</p>
-                  )}
-                  <p className="text-sm text-gray-500 mt-2">
-                    Enter the 6-digit code sent to your email
-                  </p>
-                </div>
-                
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="px-6 py-3 bg-cadd-red text-white rounded-lg hover:bg-cadd-red/90 disabled:opacity-50 font-medium"
-                >
-                  {loading ? 'Verifying...' : 'Verify Code'}
-                </button>
-              </form>
-            </div>
-          )}
-
-          {passwordChangeStep === 'set-password' && (
-            // Step 3: Set new password
-            <div className="py-6">
-              <div className="text-center mb-6">
-                <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
-                  <KeyIcon className="h-8 w-8 text-green-600" />
-                </div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">Set New Password</h4>
-                <p className="text-gray-600">
-                  Your email has been verified. Now create a strong new password for your admin account.
-                </p>
-              </div>
-              
-              <form onSubmit={handlePasswordSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      New Password
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showPasswords.newPassword ? "text" : "password"}
-                        name="newPassword"
-                        value={passwordData.newPassword}
-                        onChange={handlePasswordChange}
-                        className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={() => togglePasswordVisibility('newPassword')}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                      >
-                        {showPasswords.newPassword ? (
-                          <EyeSlashIcon className="h-5 w-5" />
-                        ) : (
-                          <EyeIcon className="h-5 w-5" />
-                        )}
-                      </button>
-                    </div>
-                    {errors.newPassword && (
-                      <p className="text-red-500 text-sm mt-1">{errors.newPassword}</p>
-                    )}
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Confirm New Password
-                    </label>
-                    <div className="relative">
-                      <input
-                        type={showPasswords.confirmPassword ? "text" : "password"}
-                        name="confirmPassword"
-                        value={passwordData.confirmPassword}
-                        onChange={handlePasswordChange}
-                        className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
-                        required
-                      />
-                      <button
-                        type="button"
-                        onClick={() => togglePasswordVisibility('confirmPassword')}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                      >
-                        {showPasswords.confirmPassword ? (
-                          <EyeSlashIcon className="h-5 w-5" />
-                        ) : (
-                          <EyeIcon className="h-5 w-5" />
-                        )}
-                      </button>
-                    </div>
-                    {errors.confirmPassword && (
-                      <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="flex space-x-3 justify-center">
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="px-6 py-3 bg-cadd-red text-white rounded-lg hover:bg-cadd-red/90 disabled:opacity-50 font-medium"
-                  >
-                    {loading ? 'Updating...' : 'Update Password'}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setPasswordChangeStep('verify-otp')
-                      setOtpVerified(false)
-                    }}
-                    className="px-4 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400"
-                  >
-                    Back
-                  </button>
-                </div>
-              </form>
-            </div>
-          )}
-          
-          {/* Cancel button for all steps */}
-          {passwordChangeStep !== 'request' && (
-            <div className="mt-4 text-center">
-              <button
-                type="button"
-                onClick={() => {
-                  setShowPasswordForm(false)
-                  setPasswordChangeStep('request')
-                  setOtpSent(false)
-                  setOtpVerified(false)
-                  setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '', otp: '' })
-                  setShowPasswords({ currentPassword: false, newPassword: false, confirmPassword: false })
-                  setErrors({})
-                }}
-                className="text-gray-500 hover:text-gray-700 text-sm"
-              >
-                Cancel Password Change
-              </button>
-            </div>
-          )}
-        </div>
+    </div>
+    <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0 w-full md:w-auto">
+      {!isEditing && (
+        <button
+          onClick={() => setIsEditing(true)}
+          className="flex items-center justify-center px-3 py-2 sm:px-4 sm:py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-sm sm:text-base"
+        >
+          <PencilIcon className="h-4 sm:h-5 w-4 sm:w-5 mr-2" />
+          Edit Profile
+        </button>
       )}
+      <button
+        onClick={() => setShowPasswordForm(!showPasswordForm)}
+        className="flex items-center justify-center px-3 py-2 sm:px-4 sm:py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors text-sm sm:text-base"
+      >
+        <KeyIcon className="h-4 sm:h-5 w-4 sm:w-5 mr-2" />
+        Change Password
+      </button>
+    </div>
+  </div>
+</div>
+
+      {/* Password Change Form - Responsive */}
+{showPasswordForm && (
+  <div className="bg-white rounded-2xl shadow-lg p-4 sm:p-6">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 gap-2">
+      <h3 className="text-lg font-semibold text-gray-900">
+        {passwordChangeStep === 'request' && 'Change Password'}
+        {passwordChangeStep === 'verify-otp' && 'Verify Email Code'}
+        {passwordChangeStep === 'set-password' && 'Set New Password'}
+      </h3>
+      {(passwordChangeStep === 'verify-otp' || passwordChangeStep === 'set-password') && (
+        <span className="text-sm text-green-600 font-medium">
+          ✅ OTP sent to your email
+        </span>
+      )}
+    </div>
+    
+    {/* Progress Steps - Hide labels only on mobile */}
+<div className="flex items-center justify-center mb-6">
+  <div className="flex items-center space-x-1 sm:space-x-4">
+    {/* Step 1 */}
+    <div className="flex items-center">
+      <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
+        passwordChangeStep === 'request' ? 'bg-cadd-red text-white' : 'bg-green-500 text-white'
+      }`}>
+        {passwordChangeStep === 'request' ? '1' : '✓'}
+      </div>
+      <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium text-gray-600 hidden sm:inline">
+        Request OTP
+      </span>
+    </div>
+    
+    {/* Arrow */}
+    <div className="w-3 sm:w-8 h-0.5 bg-gray-300"></div>
+    
+    {/* Step 2 */}
+    <div className="flex items-center">
+      <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
+        passwordChangeStep === 'verify-otp' ? 'bg-cadd-red text-white' : 
+        passwordChangeStep === 'set-password' ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'
+      }`}>
+        {passwordChangeStep === 'verify-otp' ? '2' : passwordChangeStep === 'set-password' ? '✓' : '2'}
+      </div>
+      <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium text-gray-600 hidden sm:inline">
+        Verify OTP
+      </span>
+    </div>
+    
+    {/* Arrow */}
+    <div className="w-3 sm:w-8 h-0.5 bg-gray-300"></div>
+    
+    {/* Step 3 */}
+    <div className="flex items-center">
+      <div className={`w-6 h-6 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
+        passwordChangeStep === 'set-password' ? 'bg-cadd-red text-white' : 'bg-gray-300 text-gray-600'
+      }`}>
+        3
+      </div>
+      <span className="ml-1 sm:ml-2 text-xs sm:text-sm font-medium text-gray-600 hidden sm:inline">
+        New Password
+      </span>
+    </div>
+  </div>
+</div>
+
+    {passwordChangeStep === 'request' && (
+      // Step 1: Request OTP - Responsive
+      <div className="text-center py-4 sm:py-8">
+        <div className="mb-4 sm:mb-6">
+          <div className="mx-auto w-12 h-12 sm:w-16 sm:h-16 bg-cadd-red/10 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+            <KeyIcon className="h-5 w-5 sm:h-8 sm:w-8 text-cadd-red" />
+          </div>
+          <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-2">Secure Password Change</h4>
+          <p className="text-sm sm:text-base text-gray-600">
+            For your security, we'll send a verification code to your email address before allowing you to change your password.
+          </p>
+        </div>
+        <button
+          onClick={handleRequestOTP}
+          disabled={loading}
+          className="px-4 py-2 sm:px-6 sm:py-3 bg-cadd-red text-white rounded-lg hover:bg-cadd-red/90 disabled:opacity-50 font-medium text-sm sm:text-base"
+        >
+          {loading ? 'Sending OTP...' : 'Send Verification Code'}
+        </button>
+      </div>
+    )}
+
+    {passwordChangeStep === 'verify-otp' && (
+      // Step 2: Verify OTP - Responsive
+      <div className="text-center py-4 sm:py-8">
+        <div className="mb-4 sm:mb-6">
+          <div className="mx-auto w-12 h-12 sm:w-16 sm:h-16 bg-blue-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+            <EnvelopeIcon className="h-5 w-5 sm:h-8 sm:w-8 text-blue-600" />
+          </div>
+          <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-2">Check Your Email</h4>
+          <p className="text-sm sm:text-base text-gray-600 mb-4 sm:mb-6">
+            We've sent a 6-digit verification code to your email address. Enter it below to continue.
+          </p>
+        </div>
+        
+        <form onSubmit={handlePasswordSubmit} className="space-y-4 sm:space-y-6">
+          <div>
+            <input
+              type="text"
+              name="otp"
+              value={passwordData.otp}
+              onChange={handlePasswordChange}
+              className="w-40 sm:w-48 px-3 sm:px-4 py-2 sm:py-3 text-center text-xl sm:text-2xl font-mono tracking-widest border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
+              placeholder="000000"
+              maxLength="6"
+              required
+            />
+            {errors.otp && (
+              <p className="text-red-500 text-xs sm:text-sm mt-1 sm:mt-2">{errors.otp}</p>
+            )}
+            <p className="text-xs sm:text-sm text-gray-500 mt-1 sm:mt-2">
+              Enter the 6-digit code sent to your email
+            </p>
+          </div>
+          
+          <button
+            type="submit"
+            disabled={loading}
+            className="px-4 py-2 sm:px-6 sm:py-3 bg-cadd-red text-white rounded-lg hover:bg-cadd-red/90 disabled:opacity-50 font-medium text-sm sm:text-base"
+          >
+            {loading ? 'Verifying...' : 'Verify Code'}
+          </button>
+        </form>
+      </div>
+    )}
+
+    {passwordChangeStep === 'set-password' && (
+      // Step 3: Set new password - Responsive
+      <div className="py-4 sm:py-6">
+        <div className="text-center mb-4 sm:mb-6">
+          <div className="mx-auto w-12 h-12 sm:w-16 sm:h-16 bg-green-100 rounded-full flex items-center justify-center mb-3 sm:mb-4">
+            <KeyIcon className="h-5 w-5 sm:h-8 sm:w-8 text-green-600" />
+          </div>
+          <h4 className="text-base sm:text-lg font-semibold text-gray-900 mb-1 sm:mb-2">Set New Password</h4>
+          <p className="text-sm sm:text-base text-gray-600">
+            Your email has been verified. Now create a strong new password for your admin account.
+          </p>
+        </div>
+        
+        <form onSubmit={handlePasswordSubmit} className="space-y-4 sm:space-y-6">
+          <div className="grid grid-cols-1 gap-4">
+            <div>
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+                New Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPasswords.newPassword ? "text" : "password"}
+                  name="newPassword"
+                  value={passwordData.newPassword}
+                  onChange={handlePasswordChange}
+                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent text-sm sm:text-base"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility('newPassword')}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                >
+                  {showPasswords.newPassword ? (
+                    <EyeSlashIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                  ) : (
+                    <EyeIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                  )}
+                </button>
+              </div>
+              {errors.newPassword && (
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.newPassword}</p>
+              )}
+            </div>
+            
+            <div>
+              <label className="block text-xs sm:text-sm font-medium text-gray-700 mb-1 sm:mb-2">
+                Confirm New Password
+              </label>
+              <div className="relative">
+                <input
+                  type={showPasswords.confirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  value={passwordData.confirmPassword}
+                  onChange={handlePasswordChange}
+                  className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent text-sm sm:text-base"
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => togglePasswordVisibility('confirmPassword')}
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                >
+                  {showPasswords.confirmPassword ? (
+                    <EyeSlashIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                  ) : (
+                    <EyeIcon className="h-4 w-4 sm:h-5 sm:w-5" />
+                  )}
+                </button>
+              </div>
+              {errors.confirmPassword && (
+                <p className="text-red-500 text-xs sm:text-sm mt-1">{errors.confirmPassword}</p>
+              )}
+            </div>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-2 sm:space-y-0 justify-center">
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-4 py-2 sm:px-6 sm:py-3 bg-cadd-red text-white rounded-lg hover:bg-cadd-red/90 disabled:opacity-50 font-medium text-sm sm:text-base"
+            >
+              {loading ? 'Updating...' : 'Update Password'}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setPasswordChangeStep('verify-otp')
+                setOtpVerified(false)
+              }}
+              className="px-4 py-2 sm:px-4 sm:py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 text-sm sm:text-base"
+            >
+              Back
+            </button>
+          </div>
+        </form>
+      </div>
+    )}
+    
+    {/* Cancel button for all steps */}
+    {passwordChangeStep !== 'request' && (
+      <div className="mt-3 sm:mt-4 text-center">
+        <button
+          type="button"
+          onClick={() => {
+            setShowPasswordForm(false)
+            setPasswordChangeStep('request')
+            setOtpSent(false)
+            setOtpVerified(false)
+            setPasswordData({ currentPassword: '', newPassword: '', confirmPassword: '', otp: '' })
+            setShowPasswords({ currentPassword: false, newPassword: false, confirmPassword: false })
+            setErrors({})
+          }}
+          className="text-xs sm:text-sm text-gray-500 hover:text-gray-700"
+        >
+          Cancel Password Change
+        </button>
+      </div>
+    )}
+  </div>
+)}
 
       {/* Profile Information */}
       <div className="bg-white rounded-2xl shadow-lg overflow-hidden">

@@ -399,155 +399,154 @@ const BatchesList = () => {
 
   return (
     <div>
-      <div className="mb-6 flex justify-between items-center">
-        <h1 className="text-2xl font-semibold text-gray-900">Batches</h1>
-        <div className="flex space-x-3">
-          <button
-            onClick={() => setShowDatePicker(true)}
-            disabled={downloadLoading}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
-          >
-            {downloadLoading ? (
-              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
-            ) : (
-              <ArrowDownTrayIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-            )}
-            Download Attendance
-          </button>
-          <Link
-            to={`${baseUrl}/new`}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-          >
-            <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-            New Batch
-          </Link>
-        </div>
+  {/* Header Section - Stacked on mobile */}
+  <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+    <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Batches</h1>
+    <div className="flex flex-col xs:flex-row gap-2 sm:gap-3">
+      <button
+        onClick={() => setShowDatePicker(true)}
+        disabled={downloadLoading}
+        className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50"
+      >
+        {downloadLoading ? (
+          <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
+        ) : (
+          <ArrowDownTrayIcon className="mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5" aria-hidden="true" />
+        )}
+        Download Attendance
+      </button>
+      <Link
+        to={`${baseUrl}/new`}
+        className="inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-transparent text-xs sm:text-sm font-medium rounded-md shadow-sm text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+      >
+        <PlusIcon className="mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5" aria-hidden="true" />
+        New Batch
+      </Link>
+    </div>
+  </div>
+
+  {/* Loading/Empty States */}
+  {loading ? (
+    <div className="flex justify-center py-8">
+      <div className="animate-spin rounded-full h-10 sm:h-12 w-10 sm:w-12 border-t-2 border-b-2 border-primary-600"></div>
+    </div>
+  ) : batches.length === 0 ? (
+    <div className="bg-white shadow rounded-lg p-4 sm:p-6 text-center">
+      <h3 className="text-sm sm:text-base font-medium text-gray-900">No batches found</h3>
+      <p className="mt-1 text-xs sm:text-sm text-gray-500">
+        Get started by creating a new batch.
+      </p>
+      <div className="mt-4 sm:mt-6">
+        <Link
+          to={`${baseUrl}/new`}
+          className="inline-flex items-center px-3 sm:px-4 py-2 border border-transparent shadow-sm text-xs sm:text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+        >
+          <PlusIcon className="mr-1 sm:mr-2 h-4 sm:h-5 w-4 sm:w-5" aria-hidden="true" />
+          New Batch
+        </Link>
       </div>
-
-      {loading ? (
-        <div className="flex justify-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
-        </div>
-      ) : batches.length === 0 ? (
-        <div className="bg-white shadow rounded-lg p-6 text-center">
-          <h3 className="mt-2 text-sm font-medium text-gray-900">No batches found</h3>
-          <p className="mt-1 text-sm text-gray-500">
-            Get started by creating a new batch.
-          </p>
-          <div className="mt-6">
-            <Link
-              to={`${baseUrl}/new`}
-              className="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
-            >
-              <PlusIcon className="-ml-1 mr-2 h-5 w-5" aria-hidden="true" />
-              New Batch
-            </Link>
+    </div>
+  ) : (
+    <div className="space-y-6 sm:space-y-8">
+      {/* Active Batches Section */}
+      {activeBatches.length > 0 && (
+        <div>
+          <div className="flex items-center mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-900">Active Batches</h2>
+            <span className="ml-2 sm:ml-3 px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r from-green-100 to-green-200 text-green-800 rounded-full text-xs sm:text-sm font-semibold">
+              {activeBatches.length}
+            </span>
           </div>
-        </div>
-      ) : (
-        <div className="space-y-8">
-          {/* Active Batches Section */}
-          {activeBatches.length > 0 && (
-            <div>
-              <div className="flex items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-900">Active Batches</h2>
-                <span className="ml-3 px-3 py-1 bg-gradient-to-r from-green-100 to-green-200 text-green-800 rounded-full text-sm font-semibold">
-                  {activeBatches.length}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {activeBatches.map((batch) => renderBatchCard(batch, false))}
-              </div>
-            </div>
-          )}
-
-          {/* Finished Batches Section */}
-          {finishedBatches.length > 0 && (
-            <div>
-              <div className="flex items-center mb-6">
-                <h2 className="text-xl font-bold text-gray-600">Finished Batches</h2>
-                <span className="ml-3 px-3 py-1 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-600 rounded-full text-sm font-semibold">
-                  {finishedBatches.length}
-                </span>
-              </div>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {finishedBatches.map((batch) => renderBatchCard(batch, true))}
-              </div>
-            </div>
-          )}
-        </div>
-      )
-      }
-
-      {/* Date Picker Modal */}
-      {showDatePicker && (
-        <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-          <div className="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
-            <div className="mt-3">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">Select Month & Year</h3>
-
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Month</label>
-                  <select
-                    value={selectedMonth}
-                    onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cadd-red"
-                  >
-                    {Array.from({ length: 12 }, (_, i) => (
-                      <option key={i + 1} value={i + 1}>
-                        {new Date(2024, i, 1).toLocaleString('default', { month: 'long' })}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">Year</label>
-                  <select
-                    value={selectedYear}
-                    onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cadd-red"
-                  >
-                    {Array.from({ length: 5 }, (_, i) => {
-                      const year = new Date().getFullYear() - 2 + i
-                      return (
-                        <option key={year} value={year}>
-                          {year}
-                        </option>
-                      )
-                    })}
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-end space-x-3 mt-6">
-                <button
-                  onClick={() => setShowDatePicker(false)}
-                  className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={exportAttendanceToExcel}
-                  disabled={downloadLoading}
-                  className="px-4 py-2 bg-gradient-to-r from-cadd-red to-cadd-pink text-white rounded-md hover:from-cadd-pink hover:to-cadd-red transition-all duration-300 disabled:opacity-50"
-                >
-                  {downloadLoading ? (
-                    <div className="flex items-center">
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
-                      Downloading...
-                    </div>
-                  ) : (
-                    'Download Excel'
-                  )}
-                </button>
-              </div>
-            </div>
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {activeBatches.map((batch) => renderBatchCard(batch, false))}
           </div>
         </div>
       )}
-    </div >
+
+      {/* Finished Batches Section */}
+      {finishedBatches.length > 0 && (
+        <div>
+          <div className="flex items-center mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-bold text-gray-600">Finished Batches</h2>
+            <span className="ml-2 sm:ml-3 px-2 sm:px-3 py-0.5 sm:py-1 bg-gradient-to-r from-gray-100 to-gray-200 text-gray-600 rounded-full text-xs sm:text-sm font-semibold">
+              {finishedBatches.length}
+            </span>
+          </div>
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {finishedBatches.map((batch) => renderBatchCard(batch, true))}
+          </div>
+        </div>
+      )}
+    </div>
+  )}
+
+  {/* Date Picker Modal - Responsive */}
+  {showDatePicker && (
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50 flex items-start sm:items-center justify-center p-4">
+      <div className="relative w-full max-w-sm sm:w-96 bg-white rounded-lg shadow-xl p-5 sm:p-6">
+        <h3 className="text-lg font-medium text-gray-900 mb-4">Select Month & Year</h3>
+
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Month</label>
+            <select
+              value={selectedMonth}
+              onChange={(e) => setSelectedMonth(parseInt(e.target.value))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cadd-red text-sm sm:text-base"
+            >
+              {Array.from({ length: 12 }, (_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  {new Date(2024, i, 1).toLocaleString('default', { month: 'long' })}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Year</label>
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(parseInt(e.target.value))}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-cadd-red text-sm sm:text-base"
+            >
+              {Array.from({ length: 5 }, (_, i) => {
+                const year = new Date().getFullYear() - 2 + i
+                return (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                )
+              })}
+            </select>
+          </div>
+        </div>
+
+        <div className="flex flex-col sm:flex-row items-center justify-end gap-2 sm:space-x-3 mt-6">
+          <button
+            onClick={() => setShowDatePicker(false)}
+            className="w-full sm:w-auto px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors text-sm sm:text-base"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={exportAttendanceToExcel}
+            disabled={downloadLoading}
+            className="w-full sm:w-auto px-4 py-2 bg-gradient-to-r from-cadd-red to-cadd-pink text-white rounded-md hover:from-cadd-pink hover:to-cadd-red transition-all duration-300 disabled:opacity-50 text-sm sm:text-base"
+          >
+            {downloadLoading ? (
+              <div className="flex items-center justify-center">
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
+                Downloading...
+              </div>
+            ) : (
+              'Download Excel'
+            )}
+          </button>
+        </div>
+      </div>
+    </div>
+  )}
+</div>
   )
 }
 

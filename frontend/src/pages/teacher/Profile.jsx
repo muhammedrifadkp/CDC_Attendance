@@ -195,7 +195,7 @@ const TeacherProfile = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    
+
     if (!validateForm()) {
       return
     }
@@ -287,55 +287,55 @@ const TeacherProfile = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="bg-gradient-to-r from-cadd-red to-cadd-pink rounded-2xl shadow-lg p-6 sm:p-8 text-white">
-  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-    
-    {/* Profile Info Section */}
-    <div className="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 space-y-4 sm:space-y-0">
-      <div className="h-20 w-20 rounded-full bg-white/20 flex items-center justify-center">
-        <span className="text-3xl font-bold text-white">
-          {profile?.name?.charAt(0) || 'T'}
-        </span>
-      </div>
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
 
-      <div className="text-center sm:text-left">
-        <h1 className="text-2xl sm:text-3xl font-bold">{profile?.name}</h1>
-        <p className="text-white/90 text-base sm:text-lg">{profile?.email}</p>
+          {/* Profile Info Section */}
+          <div className="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 space-y-4 sm:space-y-0">
+            <div className="h-20 w-20 rounded-full bg-white/20 flex items-center justify-center">
+              <span className="text-3xl font-bold text-white">
+                {profile?.name?.charAt(0) || 'T'}
+              </span>
+            </div>
 
-        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
-          <span className="flex items-center justify-center sm:justify-start text-white/80">
-            <IdentificationIcon className="h-5 w-5 mr-2" />
-            {profile?.employeeId}
-          </span>
-          <span className="flex items-center justify-center sm:justify-start text-white/80">
-            <BuildingOfficeIcon className="h-5 w-5 mr-2" />
-            {profile?.department?.name}
-          </span>
+            <div className="text-center sm:text-left">
+              <h1 className="text-2xl sm:text-3xl font-bold">{profile?.name}</h1>
+              <p className="text-white/90 text-base sm:text-lg">{profile?.email}</p>
+
+              <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
+                <span className="flex items-center justify-center sm:justify-start text-white/80">
+                  <IdentificationIcon className="h-5 w-5 mr-2" />
+                  {profile?.employeeId}
+                </span>
+                <span className="flex items-center justify-center sm:justify-start text-white/80">
+                  <BuildingOfficeIcon className="h-5 w-5 mr-2" />
+                  {profile?.department?.name}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Button Section */}
+          <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-3 sm:space-y-0 items-center">
+            {!isEditing && (
+              <button
+                onClick={() => setIsEditing(true)}
+                className="flex items-center justify-center px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors w-full sm:w-auto"
+              >
+                <PencilIcon className="h-5 w-5 mr-2" />
+                Edit Profile
+              </button>
+            )}
+            <button
+              onClick={() => setShowPasswordForm(!showPasswordForm)}
+              className="flex items-center justify-center px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors w-full sm:w-auto"
+            >
+              <KeyIcon className="h-5 w-5 mr-2" />
+              Change Password
+            </button>
+          </div>
+
         </div>
       </div>
-    </div>
-
-    {/* Button Section */}
-    <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-3 sm:space-y-0 items-center">
-      {!isEditing && (
-        <button
-          onClick={() => setIsEditing(true)}
-          className="flex items-center justify-center px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors w-full sm:w-auto"
-        >
-          <PencilIcon className="h-5 w-5 mr-2" />
-          Edit Profile
-        </button>
-      )}
-      <button
-        onClick={() => setShowPasswordForm(!showPasswordForm)}
-        className="flex items-center justify-center px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors w-full sm:w-auto"
-      >
-        <KeyIcon className="h-5 w-5 mr-2" />
-        Change Password
-      </button>
-    </div>
-
-  </div>
-</div>
 
 
       {/* Password Change Form */}
@@ -354,47 +354,53 @@ const TeacherProfile = () => {
             )}
           </div>
 
-          {/* Progress Steps */}
-          <div className="flex items-center justify-center mb-6">
-            <div className="flex items-center space-x-4">
-              {/* Step 1 */}
-              <div className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  passwordChangeStep === 'request' ? 'bg-cadd-red text-white' : 'bg-green-500 text-white'
-                }`}>
-                  {passwordChangeStep === 'request' ? '1' : '✓'}
-                </div>
-                <span className="ml-2 text-sm font-medium text-gray-600">Request OTP</span>
-              </div>
+          {/* Progress Steps - Responsive */}
+<div className="flex items-center justify-center mb-6">
+  <div className="flex items-center space-x-2 sm:space-x-4">
+    {/* Step 1 */}
+    <div className="flex items-center">
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+        passwordChangeStep === 'request' ? 'bg-cadd-red text-white' : 'bg-green-500 text-white'
+      }`}>
+        {passwordChangeStep === 'request' ? '1' : '✓'}
+      </div>
+      <span className="ml-2 text-sm font-medium text-gray-600 hidden sm:inline">
+        Request OTP
+      </span>
+    </div>
 
-              {/* Arrow */}
-              <div className="w-8 h-0.5 bg-gray-300"></div>
+    {/* Arrow */}
+    <div className="w-8 h-0.5 bg-gray-300"></div>
 
-              {/* Step 2 */}
-              <div className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  passwordChangeStep === 'verify-otp' ? 'bg-cadd-red text-white' :
-                  passwordChangeStep === 'set-password' ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'
-                }`}>
-                  {passwordChangeStep === 'verify-otp' ? '2' : passwordChangeStep === 'set-password' ? '✓' : '2'}
-                </div>
-                <span className="ml-2 text-sm font-medium text-gray-600">Verify OTP</span>
-              </div>
+    {/* Step 2 */}
+    <div className="flex items-center">
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+        passwordChangeStep === 'verify-otp' ? 'bg-cadd-red text-white' : 
+        passwordChangeStep === 'set-password' ? 'bg-green-500 text-white' : 'bg-gray-300 text-gray-600'
+      }`}>
+        {passwordChangeStep === 'verify-otp' ? '2' : passwordChangeStep === 'set-password' ? '✓' : '2'}
+      </div>
+      <span className="ml-2 text-sm font-medium text-gray-600 hidden sm:inline">
+        Verify OTP
+      </span>
+    </div>
 
-              {/* Arrow */}
-              <div className="w-8 h-0.5 bg-gray-300"></div>
+    {/* Arrow */}
+    <div className="w-8 h-0.5 bg-gray-300"></div>
 
-              {/* Step 3 */}
-              <div className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  passwordChangeStep === 'set-password' ? 'bg-cadd-red text-white' : 'bg-gray-300 text-gray-600'
-                }`}>
-                  3
-                </div>
-                <span className="ml-2 text-sm font-medium text-gray-600">New Password</span>
-              </div>
-            </div>
-          </div>
+    {/* Step 3 */}
+    <div className="flex items-center">
+      <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+        passwordChangeStep === 'set-password' ? 'bg-cadd-red text-white' : 'bg-gray-300 text-gray-600'
+      }`}>
+        3
+      </div>
+      <span className="ml-2 text-sm font-medium text-gray-600 hidden sm:inline">
+        New Password
+      </span>
+    </div>
+  </div>
+</div>
 
           {passwordChangeStep === 'request' && (
             // Step 1: Request OTP
@@ -477,65 +483,65 @@ const TeacherProfile = () => {
 
               <form onSubmit={handlePasswordSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Current password field removed - using OTP verification instead */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  New Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPasswords.newPassword ? "text" : "password"}
-                    name="newPassword"
-                    value={passwordData.newPassword}
-                    onChange={handlePasswordChange}
-                    className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => togglePasswordVisibility('newPassword')}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                  >
-                    {showPasswords.newPassword ? (
-                      <EyeSlashIcon className="h-5 w-5" />
-                    ) : (
-                      <EyeIcon className="h-5 w-5" />
+                  {/* Current password field removed - using OTP verification instead */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      New Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPasswords.newPassword ? "text" : "password"}
+                        name="newPassword"
+                        value={passwordData.newPassword}
+                        onChange={handlePasswordChange}
+                        className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => togglePasswordVisibility('newPassword')}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                      >
+                        {showPasswords.newPassword ? (
+                          <EyeSlashIcon className="h-5 w-5" />
+                        ) : (
+                          <EyeIcon className="h-5 w-5" />
+                        )}
+                      </button>
+                    </div>
+                    {errors.newPassword && (
+                      <p className="text-red-500 text-sm mt-1">{errors.newPassword}</p>
                     )}
-                  </button>
-                </div>
-                {errors.newPassword && (
-                  <p className="text-red-500 text-sm mt-1">{errors.newPassword}</p>
-                )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Confirm New Password
-                </label>
-                <div className="relative">
-                  <input
-                    type={showPasswords.confirmPassword ? "text" : "password"}
-                    name="confirmPassword"
-                    value={passwordData.confirmPassword}
-                    onChange={handlePasswordChange}
-                    className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={() => togglePasswordVisibility('confirmPassword')}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
-                  >
-                    {showPasswords.confirmPassword ? (
-                      <EyeSlashIcon className="h-5 w-5" />
-                    ) : (
-                      <EyeIcon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Confirm New Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPasswords.confirmPassword ? "text" : "password"}
+                        name="confirmPassword"
+                        value={passwordData.confirmPassword}
+                        onChange={handlePasswordChange}
+                        className="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => togglePasswordVisibility('confirmPassword')}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                      >
+                        {showPasswords.confirmPassword ? (
+                          <EyeSlashIcon className="h-5 w-5" />
+                        ) : (
+                          <EyeIcon className="h-5 w-5" />
+                        )}
+                      </button>
+                    </div>
+                    {errors.confirmPassword && (
+                      <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
                     )}
-                  </button>
-                </div>
-                {errors.confirmPassword && (
-                  <p className="text-red-500 text-sm mt-1">{errors.confirmPassword}</p>
-                )}
-              </div>
+                  </div>
                 </div>
 
                 <div className="flex space-x-3 justify-center">
@@ -589,7 +595,7 @@ const TeacherProfile = () => {
         <div className="px-6 py-4 bg-gray-50 border-b">
           <h2 className="text-lg font-semibold text-gray-900">Profile Information</h2>
         </div>
-        
+
         {isEditing ? (
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -608,7 +614,7 @@ const TeacherProfile = () => {
                 />
                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <EnvelopeIcon className="h-4 w-4 inline mr-1" />
@@ -624,7 +630,7 @@ const TeacherProfile = () => {
                 />
                 {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <PhoneIcon className="h-4 w-4 inline mr-1" />
@@ -638,7 +644,7 @@ const TeacherProfile = () => {
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
                 />
               </div>
-              
+
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <BriefcaseIcon className="h-4 w-4 inline mr-1" />
@@ -655,7 +661,7 @@ const TeacherProfile = () => {
                 {errors.experience && <p className="text-red-500 text-sm mt-1">{errors.experience}</p>}
               </div>
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <MapPinIcon className="h-4 w-4 inline mr-1" />
@@ -669,7 +675,7 @@ const TeacherProfile = () => {
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 <AcademicCapIcon className="h-4 w-4 inline mr-1" />
@@ -684,7 +690,7 @@ const TeacherProfile = () => {
                 placeholder="e.g., B.Tech Computer Science, M.Sc IT"
               />
             </div>
-            
+
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Specialization
@@ -698,7 +704,7 @@ const TeacherProfile = () => {
                 placeholder="e.g., Web Development, AutoCAD, 3D Modeling"
               />
             </div>
-            
+
             <div className="flex space-x-3">
               <button
                 type="submit"
@@ -754,7 +760,7 @@ const TeacherProfile = () => {
                   <p className="text-gray-900">{profile?.phone || 'Not specified'}</p>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div>
                   <label className="text-sm font-medium text-gray-500">Date of Joining</label>
