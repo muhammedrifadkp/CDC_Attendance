@@ -97,7 +97,7 @@ export default defineConfig(({ command, mode }) => {
 
       // ESBuild options for better optimization
       esbuild: isProd ? {
-        drop: ['console', 'debugger'],
+        drop: ['debugger'],
         legalComments: 'none'
       } : undefined,
 

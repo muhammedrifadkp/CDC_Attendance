@@ -17,7 +17,7 @@ const getApiUrl = () => {
     return devUrl;
   }
 
-  const prodUrl = import.meta.env.VITE_API_URL || 'https://cadd-attendance.onrender.com/api';
+  const prodUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
   console.log('🚀 Using PROD API URL:', prodUrl);
   return prodUrl;
 };

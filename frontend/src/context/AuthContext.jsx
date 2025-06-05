@@ -1,6 +1,6 @@
 import { createContext, useState, useContext, useEffect } from 'react'
 import { authAPI, getToken, setToken, removeToken } from '../services/api'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 
 const AuthContext = createContext()
 
