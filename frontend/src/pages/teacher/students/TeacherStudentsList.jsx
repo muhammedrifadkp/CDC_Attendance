@@ -18,7 +18,7 @@ import {
   XCircleIcon,
   UserGroupIcon,
 } from '@heroicons/react/24/outline'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { useAuth } from '../../../context/AuthContext'
 import { formatDateSimple } from '../../../utils/dateUtils'
 import BackButton from '../../../components/BackButton'

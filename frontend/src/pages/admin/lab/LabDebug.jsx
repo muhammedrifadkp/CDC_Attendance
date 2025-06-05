@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../../../context/AuthContext'
 import { pcAPI, bookingAPI } from '../../../services/labAPI'
 import { studentsAPI } from '../../../services/api'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 
 const LabDebug = () => {
   const { user } = useAuth()

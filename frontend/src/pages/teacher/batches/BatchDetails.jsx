@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link, useLocation } from 'react-router-dom'
 import { batchesAPI, attendanceAPI } from '../../../services/api'
 import { UserGroupIcon, ClipboardDocumentCheckIcon, ChartBarIcon, ArrowLeftIcon, CalendarDaysIcon, AcademicCapIcon, ClockIcon, CheckCircleIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { useAuth } from '../../../context/AuthContext'
 import { showConfirm } from '../../../utils/popup'
 

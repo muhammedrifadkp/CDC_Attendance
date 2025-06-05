@@ -18,7 +18,7 @@ import {
 import { pcAPI, bookingAPI, labAPI } from '../../services/labAPI'
 import api from '../../services/api'
 import { useAuth } from '../../context/AuthContext'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 
 const LabAvailability = () => {
   const { user } = useAuth()

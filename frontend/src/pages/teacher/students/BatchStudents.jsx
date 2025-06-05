@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { batchesAPI, studentsAPI } from '../../../services/api'
 import { PlusIcon, PencilIcon, TrashIcon, UserIcon } from '@heroicons/react/24/outline'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { showConfirm } from '../../../utils/popup'
 
 const BatchStudents = () => {

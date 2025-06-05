@@ -13,7 +13,7 @@ import {
   FunnelIcon
 } from '@heroicons/react/24/outline'
 import { pcAPI } from '../../../services/labAPI'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 import { showConfirm } from '../../../utils/popup'
 import { formatDateSimple } from '../../../utils/dateUtils'
 
