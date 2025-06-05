@@ -286,49 +286,57 @@ const TeacherProfile = () => {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="bg-gradient-to-r from-cadd-red to-cadd-pink rounded-2xl shadow-lg p-8 text-white">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-6">
-            <div className="h-20 w-20 rounded-full bg-white/20 flex items-center justify-center">
-              <span className="text-3xl font-bold text-white">
-                {profile?.name?.charAt(0) || 'T'}
-              </span>
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold">{profile?.name}</h1>
-              <p className="text-white/90 text-lg">{profile?.email}</p>
-              <div className="flex items-center space-x-4 mt-2">
-                <span className="flex items-center text-white/80">
-                  <IdentificationIcon className="h-5 w-5 mr-2" />
-                  {profile?.employeeId}
-                </span>
-                <span className="flex items-center text-white/80">
-                  <BuildingOfficeIcon className="h-5 w-5 mr-2" />
-                  {profile?.department?.name}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div className="flex space-x-3">
-            {!isEditing && (
-              <button
-                onClick={() => setIsEditing(true)}
-                className="flex items-center px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-              >
-                <PencilIcon className="h-5 w-5 mr-2" />
-                Edit Profile
-              </button>
-            )}
-            <button
-              onClick={() => setShowPasswordForm(!showPasswordForm)}
-              className="flex items-center px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors"
-            >
-              <KeyIcon className="h-5 w-5 mr-2" />
-              Change Password
-            </button>
-          </div>
+      <div className="bg-gradient-to-r from-cadd-red to-cadd-pink rounded-2xl shadow-lg p-6 sm:p-8 text-white">
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
+    
+    {/* Profile Info Section */}
+    <div className="flex flex-col sm:flex-row items-center sm:items-start sm:space-x-6 space-y-4 sm:space-y-0">
+      <div className="h-20 w-20 rounded-full bg-white/20 flex items-center justify-center">
+        <span className="text-3xl font-bold text-white">
+          {profile?.name?.charAt(0) || 'T'}
+        </span>
+      </div>
+
+      <div className="text-center sm:text-left">
+        <h1 className="text-2xl sm:text-3xl font-bold">{profile?.name}</h1>
+        <p className="text-white/90 text-base sm:text-lg">{profile?.email}</p>
+
+        <div className="flex flex-col sm:flex-row sm:items-center sm:space-x-4 space-y-2 sm:space-y-0 mt-2">
+          <span className="flex items-center justify-center sm:justify-start text-white/80">
+            <IdentificationIcon className="h-5 w-5 mr-2" />
+            {profile?.employeeId}
+          </span>
+          <span className="flex items-center justify-center sm:justify-start text-white/80">
+            <BuildingOfficeIcon className="h-5 w-5 mr-2" />
+            {profile?.department?.name}
+          </span>
         </div>
       </div>
+    </div>
+
+    {/* Button Section */}
+    <div className="flex flex-col sm:flex-row sm:space-x-3 space-y-3 sm:space-y-0 items-center">
+      {!isEditing && (
+        <button
+          onClick={() => setIsEditing(true)}
+          className="flex items-center justify-center px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors w-full sm:w-auto"
+        >
+          <PencilIcon className="h-5 w-5 mr-2" />
+          Edit Profile
+        </button>
+      )}
+      <button
+        onClick={() => setShowPasswordForm(!showPasswordForm)}
+        className="flex items-center justify-center px-4 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-colors w-full sm:w-auto"
+      >
+        <KeyIcon className="h-5 w-5 mr-2" />
+        Change Password
+      </button>
+    </div>
+
+  </div>
+</div>
+
 
       {/* Password Change Form */}
       {showPasswordForm && (
