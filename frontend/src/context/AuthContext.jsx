@@ -1,6 +1,5 @@
 import { createContext, useState, useContext, useEffect } from 'react'
 import { authAPI, getToken, setToken, removeToken } from '../services/api'
-import { clearCsrfToken } from '../utils/csrfUtils'
 import { toast } from 'react-toastify'
 
 const AuthContext = createContext()
@@ -241,9 +240,6 @@ export const AuthProvider = ({ children }) => {
       // Remove all auth data securely
       removeToken()
 
-      // Clear CSRF token
-      clearCsrfToken()
-
       console.log('Logout successful')
     } catch (error) {
       console.error('Logout error:', error)
@@ -251,7 +247,6 @@ export const AuthProvider = ({ children }) => {
       // Even if the API call fails, clear the local state
       setUser(null)
       removeToken()
-      clearCsrfToken()
     }
   }
 
