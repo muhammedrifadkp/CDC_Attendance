@@ -181,7 +181,7 @@ const loginUser = asyncHandler(async (req, res) => {
   res.cookie('jwt', accessToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 15 * 60 * 1000, // 15 minutes
     path: '/',
   });
@@ -189,7 +189,7 @@ const loginUser = asyncHandler(async (req, res) => {
   res.cookie('refreshToken', refreshTokenValue, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
     path: '/api/users/refresh-token',
   });
@@ -228,8 +228,8 @@ const refreshToken = async (req, res) => {
     // Set new JWT cookie
     res.cookie('jwt', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
-      sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       maxAge: 15 * 60 * 1000, // 15 minutes
       path: '/',
     });
@@ -249,8 +249,8 @@ const logoutUser = async (req, res) => {
     // Clear the JWT cookie
     res.cookie('jwt', '', {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
-      sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       expires: new Date(0),
       path: '/',
     });
@@ -258,8 +258,8 @@ const logoutUser = async (req, res) => {
     // Clear the refresh token cookie
     res.cookie('refreshToken', '', {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== 'development',
-      sameSite: process.env.NODE_ENV === 'development' ? 'lax' : 'strict',
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
       expires: new Date(0),
       path: '/api/users/refresh-token',
     });
