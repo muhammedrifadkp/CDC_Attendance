@@ -24,8 +24,7 @@
     "clean:all": "rimraf dist node_modules/.vite node_modules",
     "deps:check": "npm outdated",
     "deps:update": "npm update",
-    "size-check": "echo 'Bundle size check not available. Run: npm run install:optional' && npm run build",
-    "install:optional": "node install-optional-deps.js"
+    "size-check": "npm run build"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
