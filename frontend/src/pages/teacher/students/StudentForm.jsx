@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { studentsAPI, batchesAPI, coursesAPI } from '../../../services/api'
 import api from '../../../services/api'
-import { toast } from 'react-toastify'
+import toast from 'react-hot-toast'
 
 const StudentForm = () => {
   const { id: batchId, studentId } = useParams()

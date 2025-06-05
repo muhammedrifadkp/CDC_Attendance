@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
-import { toast } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 import { notificationsAPI } from '../../../services/api'
 import {
   PlusIcon,
