@@ -654,7 +654,7 @@ This project demonstrates expertise in building enterprise-level applications wi
 ### 🤝 **Connect with the Developer**
 - 💼 **LinkedIn**: [Connect on LinkedIn](https://linkedin.com/in/muhammedrifadkp)
 - 🐙 **GitHub**: [View More Projects](https://github.com/muhammedrifadkp)
-- 📧 **Email**: muhammedrifadkp@gmail.com
+- 📧 **Email**: muhammedrifadkp3@gmail.com
 - 🌐 **Portfolio**: [View Portfolio](https://muhammedrifadkp.github.io)
 
 ---
