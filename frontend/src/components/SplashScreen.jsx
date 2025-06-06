@@ -118,7 +118,7 @@ const SplashScreen = ({ onComplete }) => {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 1.5, duration: 0.6 }}
               >
-                Career Development Centre
+                Cadd design Centre
               </motion.p>
             </motion.div>
           )}
