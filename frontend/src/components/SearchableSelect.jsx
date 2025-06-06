@@ -13,7 +13,8 @@ const SearchableSelect = ({
   getOptionLabel = (option) => option.label || option.name || option,
   getOptionValue = (option) => option.value || option._id || option,
   renderOption = null,
-  maxHeight = '200px'
+  maxHeight = '200px',
+  icon = null
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
@@ -108,7 +109,8 @@ const SearchableSelect = ({
         onClick={toggleDropdown}
         disabled={disabled}
         className={`
-          relative w-full bg-white border rounded-lg shadow-sm pl-3 pr-10 py-3 text-left cursor-default focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors
+          relative w-full bg-white border rounded-lg shadow-sm py-3 text-left cursor-default focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors
+          ${className.includes('pl-10') ? 'pl-10 pr-10' : 'pl-3 pr-10'}
           ${error ? 'border-red-300' : 'border-gray-300'}
           ${disabled ? 'bg-gray-50 text-gray-500 cursor-not-allowed' : 'hover:border-gray-400'}
         `}
@@ -117,8 +119,8 @@ const SearchableSelect = ({
           {selectedOption ? getOptionLabel(selectedOption) : placeholder}
         </span>
         <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-          <ChevronDownIcon 
-            className={`h-5 w-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
+          <ChevronDownIcon
+            className={`h-5 w-5 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
           />
         </span>
       </button>

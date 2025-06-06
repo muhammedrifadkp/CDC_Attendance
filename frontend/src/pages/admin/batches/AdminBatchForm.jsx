@@ -11,6 +11,7 @@ import {
   DocumentTextIcon
 } from '@heroicons/react/24/outline'
 import BackButton from '../../../components/BackButton'
+import CourseDropdown from '../../../components/CourseDropdown'
 
 const AdminBatchForm = () => {
   const { id } = useParams()
@@ -288,28 +289,16 @@ const AdminBatchForm = () => {
                 Course *
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none z-10">
                   <AcademicCapIcon className="h-5 w-5 text-gray-400" />
                 </div>
-                <select
-                  id="course"
+                <CourseDropdown
+                  courses={filteredCourses}
                   value={formData.course}
-                  onChange={(e) => handleInputChange('course', e.target.value)}
-                  className={`form-select block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors ${
-                    errors.course ? 'border-red-300' : 'border-gray-300'
-                  }`}
-                  style={{
-                    maxHeight: '200px',
-                    overflowY: 'auto'
-                  }}
-                >
-                  <option value="">Select a course</option>
-                  {filteredCourses.map(course => (
-                    <option key={course._id} value={course._id}>
-                      {course.name} ({course.department?.name})
-                    </option>
-                  ))}
-                </select>
+                  onChange={(value) => handleInputChange('course', value)}
+                  placeholder="Select a course"
+                  error={!!errors.course}
+                />
               </div>
               {errors.course && (
                 <p className="mt-1 text-sm text-red-600">{errors.course}</p>
