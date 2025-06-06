@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext'
 import toast from 'react-hot-toast'
 import { EyeIcon, EyeSlashIcon, UserIcon, LockClosedIcon, AcademicCapIcon, ShieldCheckIcon } from '@heroicons/react/24/outline'
 import BackButton from '../../components/BackButton'
+import ForgotPasswordModal from '../../components/ForgotPasswordModal'
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -13,6 +14,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [loginType, setLoginType] = useState('teacher') // 'teacher' or 'admin'
+  const [showForgotPassword, setShowForgotPassword] = useState(false)
   const { login } = useAuth()
   const navigate = useNavigate()
 
@@ -159,6 +161,17 @@ const Login = () => {
           </div>
         </div>
 
+        {/* Forgot Password Link */}
+        <div className="text-center pt-2">
+          <button
+            type="button"
+            onClick={() => setShowForgotPassword(true)}
+            className="text-sm text-gray-600 hover:text-gray-800 underline transition-colors"
+          >
+            Forgot your password?
+          </button>
+        </div>
+
         {/* Submit Button */}
         <div className="form-actions pt-4">
           <button
@@ -207,6 +220,12 @@ const Login = () => {
           )}
         </button>
       </div>
+
+      {/* Forgot Password Modal */}
+      <ForgotPasswordModal
+        isOpen={showForgotPassword}
+        onClose={() => setShowForgotPassword(false)}
+      />
     </div>
   )
 }

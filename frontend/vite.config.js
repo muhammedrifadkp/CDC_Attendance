@@ -17,10 +17,7 @@ export default defineConfig(({ command, mode }) => {
                      env.VITE_DEV_API_URL?.replace('/api', '') ||
                      'http://localhost:5000';
 
-  // Only log in development mode
-  if (mode === 'development') {
-    console.log(`🔧 Vite Config - Mode: ${mode}, Backend URL: ${backendUrl}`);
-  }
+  console.log(`🔧 Vite Config - Mode: ${mode}, Backend URL: ${backendUrl}`);
 
   return {
     plugins: [

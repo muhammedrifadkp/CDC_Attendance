@@ -6,25 +6,13 @@
   "scripts": {
     "dev": "vite",
     "dev:host": "vite --host",
-    "dev:debug": "vite --debug",
-    "build": "vite build --config vite.config.simple.js",
-    "build:analyze": "echo 'Bundle analyzer not available. Install rollup-plugin-visualizer first.' && vite build",
-    "build:staging": "vite build --mode staging",
+    "build": "vite build",
     "build:production": "vite build --mode production",
-    "build:clean": "rimraf dist && vite build",
     "preview": "vite preview",
     "preview:dist": "vite preview --port 4173",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint . --ext js,jsx --fix",
-    "type-check": "tsc --noEmit",
-    "test": "vitest",
-    "test:ui": "vitest --ui",
-    "test:coverage": "vitest --coverage",
-    "clean": "rimraf dist node_modules/.vite",
-    "clean:all": "rimraf dist node_modules/.vite node_modules",
-    "deps:check": "npm outdated",
-    "deps:update": "npm update",
-    "size-check": "npm run build"
+    "clean": "rimraf dist node_modules/.vite"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",

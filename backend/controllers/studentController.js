@@ -12,6 +12,9 @@ const { validateModelOperation, validateStudentHierarchy } = require('../utils/m
 // @route   POST /api/students
 // @access  Private/Admin
 const createStudent = asyncHandler(async (req, res) => {
+  console.log('🔍 CONTROLLER DEBUG: createStudent function called');
+  console.log('🔍 CONTROLLER DEBUG: Request body:', JSON.stringify(req.body, null, 2));
+
   const {
     name,
     rollNumber,
@@ -36,6 +39,10 @@ const createStudent = asyncHandler(async (req, res) => {
     profilePhoto
   } = req.body;
 
+  console.log('🔍 CONTROLLER DEBUG: Extracted fields:', {
+    name, rollNumber, rollNo, email, phone, department, course, batch
+  });
+
   // Validate required fields
   if (!name || !email || !phone || !department || !course || !batch) {
     res.status(400);
@@ -56,7 +63,7 @@ const createStudent = asyncHandler(async (req, res) => {
   // Use comprehensive validation helper
   const validation = await validateModelOperation('Student', {
     name,
-    rollNo,
+    rollNo: rollNo || rollNumber, // Use the correct field name for validation
     email,
     department,
     course,
@@ -71,10 +78,12 @@ const createStudent = asyncHandler(async (req, res) => {
     throw new Error(validation.errors ? validation.errors.join(', ') : validation.error);
   }
 
+  // Map rollNumber from frontend to rollNo for the model
+  const finalRollNo = rollNo || rollNumber || `STU${Date.now()}`;
+
   const student = await Student.create({
     name,
-    rollNumber,
-    rollNo: rollNo || `STU${Date.now()}`, // Generate if not provided
+    rollNo: finalRollNo, // Use the mapped roll number
     email,
     phone,
     address,

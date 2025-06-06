@@ -736,42 +736,7 @@ const LabOverview = () => {
     return { student, teacher }
   }
 
-  // Add test students function for debugging
-  const addTestStudents = () => {
-    const testStudents = [
-      {
-        _id: 'test1',
-        name: 'Test Student 1',
-        rollNo: 'TS001',
-        isActive: true,
-        batch: { name: 'Test Batch 1' }
-      },
-      {
-        _id: 'test2',
-        name: 'Test Student 2',
-        rollNo: 'TS002',
-        isActive: true,
-        batch: { name: 'Test Batch 2' }
-      },
-      {
-        _id: 'test3',
-        name: 'Test Student 3',
-        rollNo: 'TS003',
-        isActive: true,
-        batch: { name: 'Test Batch 3' }
-      }
-    ]
 
-    console.log('🧪 Adding test students:', testStudents)
-    setStudents(testStudents)
-    setFilteredStudents(testStudents)
-    setDebugInfo(prev => ({
-      ...prev,
-      studentsLoaded: true,
-      studentsCount: testStudents.length
-    }))
-    toast.success('✅ Added 3 test students for debugging')
-  }
 
   // Apply Previous Day functionality
   const handleApplyPrevious = () => {
@@ -1286,13 +1251,7 @@ const LabOverview = () => {
                     <span>Refresh Data</span>
                   </button>
 
-                  <button
-                    onClick={addTestStudents}
-                    className="px-4 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all text-sm font-medium flex items-center justify-center space-x-2"
-                  >
-                    <UserGroupIcon className="h-4 w-4" />
-                    <span>Test Data</span>
-                  </button>
+
                 </div>
               </div>
             </div>
@@ -1301,79 +1260,79 @@ const LabOverview = () => {
       </div>
 
       {/* Time Slots Selection */}
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <div className="mb-4">
-          <h2 className="text-xl font-bold text-gray-900 mb-2">Time Slots</h2>
-          <p className="text-sm text-gray-600">Click on a time slot to view PC availability for that period</p>
-        </div>
+<div className="bg-white rounded-2xl shadow-lg p-6">
+  <div className="mb-4">
+    <h2 className="text-xl font-bold text-gray-900 mb-2">Time Slots</h2>
+    <p className="text-sm text-gray-600">Click on a time slot to view PC availability for that period</p>
+  </div>
 
-        <div className="grid grid-cols-5 gap-4">
-          {timeSlots.map((slot, index) => {
-            const slotBookings = bookings.filter(booking => booking.timeSlot === slot)
-            const occupiedCount = slotBookings.length
-            const isSelected = selectedTimeSlot === slot
+  <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+    {timeSlots.map((slot, index) => {
+      const slotBookings = bookings.filter(booking => booking.timeSlot === slot)
+      const occupiedCount = slotBookings.length
+      const isSelected = selectedTimeSlot === slot
 
-            return (
-              <div
-                key={slot}
-                onClick={() => setSelectedTimeSlot(slot)}
-                className={`
-                  relative cursor-pointer rounded-xl p-4 border-2 transition-all duration-300 transform hover:scale-105
-                  ${isSelected
-                    ? 'bg-red-500 text-white border-red-600 shadow-lg'
-                    : 'bg-gray-50 hover:bg-gray-100 border-gray-200 hover:border-gray-300'
-                  }
-                `}
-              >
-                <div className="text-center">
-                  <div className={`font-bold text-lg ${isSelected ? 'text-white' : 'text-gray-900'}`}>
-                    {getTimeSlotLabel(slot)}
-                  </div>
-                  <div className={`text-sm mt-1 ${isSelected ? 'text-white/90' : 'text-gray-600'}`}>
-                    {occupiedCount} occupied
-                  </div>
-
-                  {isSelected && (
-                    <div className="absolute top-2 right-2">
-                      <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Booking indicator */}
-                {occupiedCount > 0 && !isSelected && (
-                  <div className="absolute top-2 right-2">
-                    <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
-                      {occupiedCount}
-                    </div>
-                  </div>
-                )}
-              </div>
-            )
-          })}
-        </div>
-
-        {selectedTimeSlot && (
-          <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
-            <div className="flex items-center justify-between">
-              <div>
-                <h4 className="font-semibold text-blue-900">
-                  Selected Time Slot: {selectedTimeSlot}
-                </h4>
-                <p className="text-sm text-blue-700">
-                  {bookings.filter(b => b.timeSlot === selectedTimeSlot).length} PCs booked for this time slot
-                </p>
-              </div>
-              <button
-                onClick={() => setSelectedTimeSlot('')}
-                className="text-blue-600 hover:text-blue-800 transition-colors"
-              >
-                <XMarkIcon className="h-5 w-5" />
-              </button>
+      return (
+        <div
+          key={slot}
+          onClick={() => setSelectedTimeSlot(slot)}
+          className={`
+            relative cursor-pointer rounded-xl p-4 border-2 transition-all duration-300 transform hover:scale-105
+            ${isSelected
+              ? 'bg-red-500 text-white border-red-600 shadow-lg'
+              : 'bg-gray-50 hover:bg-gray-100 border-gray-200 hover:border-gray-300'
+            }
+          `}
+        >
+          <div className="text-center">
+            <div className={`font-bold text-lg ${isSelected ? 'text-white' : 'text-gray-900'}`}>
+              {getTimeSlotLabel(slot)}
             </div>
+            <div className={`text-sm mt-1 ${isSelected ? 'text-white/90' : 'text-gray-600'}`}>
+              {occupiedCount} occupied
+            </div>
+
+            {isSelected && (
+              <div className="absolute top-2 right-2">
+                <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+              </div>
+            )}
           </div>
-        )}
+
+          {/* Booking indicator */}
+          {occupiedCount > 0 && !isSelected && (
+            <div className="absolute top-2 right-2">
+              <div className="w-6 h-6 bg-blue-500 text-white rounded-full flex items-center justify-center text-xs font-bold">
+                {occupiedCount}
+              </div>
+            </div>
+          )}
+        </div>
+      )
+    })}
+  </div>
+
+  {selectedTimeSlot && (
+    <div className="mt-4 p-4 bg-blue-50 rounded-lg border border-blue-200">
+      <div className="flex items-center justify-between">
+        <div>
+          <h4 className="font-semibold text-blue-900">
+            Selected Time Slot: {selectedTimeSlot}
+          </h4>
+          <p className="text-sm text-blue-700">
+            {bookings.filter(b => b.timeSlot === selectedTimeSlot).length} PCs booked for this time slot
+          </p>
+        </div>
+        <button
+          onClick={() => setSelectedTimeSlot('')}
+          className="text-blue-600 hover:text-blue-800 transition-colors"
+        >
+          <XMarkIcon className="h-5 w-5" />
+        </button>
       </div>
+    </div>
+  )}
+</div>
 
 
 
@@ -1387,31 +1346,31 @@ const LabOverview = () => {
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4">
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-red-500 rounded border border-red-600"></div>
-            <span className="text-sm font-medium">🔴 Booked - Present</span>
+            <span className="text-sm font-medium">Booked - Present</span>
           </div>
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-orange-500 rounded border border-orange-600"></div>
-            <span className="text-sm font-medium">🟠 Booked - Absent</span>
+            <span className="text-sm font-medium">Booked - Absent</span>
           </div>
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-purple-500 rounded border border-purple-600"></div>
-            <span className="text-sm font-medium">🟣 Booked - Late</span>
+            <span className="text-sm font-medium">Booked - Late</span>
           </div>
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-amber-500 rounded border border-amber-600"></div>
-            <span className="text-sm font-medium">🟡 Booked - Pending</span>
+            <span className="text-sm font-medium">Booked - Pending</span>
           </div>
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-green-500 rounded border border-green-600"></div>
-            <span className="text-sm font-medium">🟢 Available</span>
+            <span className="text-sm font-medium">Available</span>
           </div>
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-yellow-500 rounded border border-yellow-600"></div>
-            <span className="text-sm font-medium">🟡 Maintenance</span>
+            <span className="text-sm font-medium">Maintenance</span>
           </div>
           <div className="flex items-center space-x-2">
             <div className="w-4 h-4 bg-gray-500 rounded border border-gray-600"></div>
-            <span className="text-sm font-medium">⚫ Inactive</span>
+            <span className="text-sm font-medium">Inactive</span>
           </div>
         </div>
       </div>

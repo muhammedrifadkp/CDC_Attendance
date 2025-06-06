@@ -1259,6 +1259,200 @@ const verifyOTPAndChangePassword = asyncHandler(async (req, res) => {
   });
 });
 
+// @desc    Forgot password with OTP
+// @route   POST /api/users/forgot-password-otp
+// @access  Public
+const forgotPasswordOTP = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  console.log('🔍 Forgot Password OTP Request:');
+  console.log('Email provided:', !!email);
+
+  if (!email) {
+    res.status(400);
+    throw new Error('Please provide email address');
+  }
+
+  const normalizedEmail = email.toLowerCase().trim();
+  console.log('Normalized email:', normalizedEmail);
+
+  const user = await User.findOne({ email: normalizedEmail });
+
+  if (!user) {
+    // Don't reveal if user exists or not for security
+    res.status(200).json({
+      message: 'If an account with that email exists, an OTP has been sent.',
+      success: true
+    });
+    return;
+  }
+
+  if (!user.active) {
+    // Don't reveal if user exists or not for security
+    res.status(200).json({
+      message: 'If an account with that email exists, an OTP has been sent.',
+      success: true
+    });
+    return;
+  }
+
+  console.log('User found:', user.email);
+
+  // Generate OTP for password reset
+  const otp = user.generatePasswordChangeOTP();
+  console.log('Generated OTP for forgot password:', otp);
+
+  await user.save();
+  console.log('OTP saved to database');
+
+  // Send OTP email
+  const emailService = require('../utils/emailService');
+  let emailResult = { success: false };
+
+  try {
+    emailResult = await emailService.sendPasswordResetOTP({
+      name: user.name,
+      email: user.email,
+      otp: otp
+    });
+
+    if (emailResult.success) {
+      console.log(`Password reset OTP sent to ${user.email}`);
+    } else {
+      console.warn(`Failed to send OTP to ${user.email}:`, emailResult.message);
+    }
+  } catch (emailError) {
+    console.error('Error sending OTP email:', emailError);
+    emailResult = { success: false, message: emailError.message };
+  }
+
+  res.json({
+    message: 'If an account with that email exists, an OTP has been sent.',
+    success: true,
+    emailSent: emailResult.success,
+    emailMessage: emailResult.message,
+    ...(process.env.NODE_ENV === 'development' && emailResult.previewUrl && {
+      emailPreviewUrl: emailResult.previewUrl
+    })
+  });
+});
+
+// @desc    Verify forgot password OTP
+// @route   POST /api/users/verify-forgot-password-otp
+// @access  Public
+const verifyForgotPasswordOTP = asyncHandler(async (req, res) => {
+  const { email, otp } = req.body;
+
+  console.log('🔍 Verify Forgot Password OTP:');
+  console.log('Email provided:', !!email);
+  console.log('OTP provided:', !!otp);
+
+  if (!email || !otp) {
+    res.status(400);
+    throw new Error('Please provide email and OTP');
+  }
+
+  if (otp.length !== 6) {
+    res.status(400);
+    throw new Error('OTP must be 6 digits');
+  }
+
+  const normalizedEmail = email.toLowerCase().trim();
+  const user = await User.findOne({ email: normalizedEmail }).select('+passwordChangeOTP +passwordChangeOTPExpires');
+
+  if (!user || !user.active) {
+    res.status(400);
+    throw new Error('Invalid email or OTP');
+  }
+
+  console.log('User found:', user.email);
+  console.log('User has OTP stored:', !!user.passwordChangeOTP);
+  console.log('OTP expires at:', user.passwordChangeOTPExpires);
+
+  // Verify OTP
+  const isOTPValid = user.verifyPasswordChangeOTP(otp);
+  console.log('OTP verification result:', isOTPValid);
+
+  if (!isOTPValid) {
+    res.status(400);
+    throw new Error('Invalid or expired OTP');
+  }
+
+  console.log('Forgot password OTP verified successfully');
+
+  res.json({
+    message: 'OTP verified successfully',
+    success: true
+  });
+});
+
+// @desc    Reset password with OTP
+// @route   PUT /api/users/reset-password-with-otp
+// @access  Public
+const resetPasswordWithOTP = asyncHandler(async (req, res) => {
+  const { email, otp, newPassword, confirmPassword } = req.body;
+
+  console.log('🔍 Reset Password with OTP:');
+  console.log('Email provided:', !!email);
+  console.log('OTP provided:', !!otp);
+  console.log('New Password provided:', !!newPassword);
+  console.log('Confirm Password provided:', !!confirmPassword);
+
+  // Check if all required fields are provided
+  if (!email || !otp || !newPassword || !confirmPassword) {
+    res.status(400);
+    throw new Error('Please provide email, OTP, new password, and confirm password');
+  }
+
+  // Check if new password and confirm password match
+  if (newPassword !== confirmPassword) {
+    res.status(400);
+    throw new Error('New password and confirm password do not match');
+  }
+
+  // Validate password complexity
+  if (!validatePassword(newPassword)) {
+    res.status(400);
+    throw new Error('Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character');
+  }
+
+  const normalizedEmail = email.toLowerCase().trim();
+  const user = await User.findOne({ email: normalizedEmail }).select('+passwordChangeOTP +passwordChangeOTPExpires');
+
+  if (!user || !user.active) {
+    res.status(400);
+    throw new Error('Invalid email or OTP');
+  }
+
+  console.log('User found:', user.email);
+
+  // Verify OTP
+  const isOTPValid = user.verifyPasswordChangeOTP(otp);
+
+  if (!isOTPValid) {
+    res.status(400);
+    throw new Error('Invalid or expired OTP');
+  }
+
+  console.log('OTP verified, updating password');
+
+  // Update password
+  user.password = newPassword;
+
+  // Clear OTP fields
+  user.passwordChangeOTP = undefined;
+  user.passwordChangeOTPExpires = undefined;
+
+  await user.save();
+
+  console.log('Password reset successfully with OTP');
+
+  res.json({
+    message: 'Password reset successfully',
+    success: true
+  });
+});
+
 // @desc    Forgot password
 // @route   POST /api/users/forgot-password
 // @access  Public
@@ -1724,6 +1918,9 @@ module.exports = {
   verifyPasswordChangeOTP,
   verifyOTPAndChangePassword,
   refreshToken,
+  forgotPasswordOTP,
+  verifyForgotPasswordOTP,
+  resetPasswordWithOTP,
   forgotPassword,
   resetPassword,
   previewEmployeeId,

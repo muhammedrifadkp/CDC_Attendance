@@ -30,6 +30,9 @@ const {
   verifyPasswordChangeOTP,
   verifyOTPAndChangePassword,
   refreshToken,
+  forgotPasswordOTP,
+  verifyForgotPasswordOTP,
+  resetPasswordWithOTP,
   forgotPassword,
   resetPassword,
   previewEmployeeId,
@@ -43,6 +46,11 @@ router.post('/logout', logoutUser);
 router.post('/refresh-token', authRateLimiter, refreshToken);
 router.post('/forgot-password', passwordResetRateLimiter, forgotPassword);
 router.post('/reset-password/:token', passwordResetRateLimiter, resetPassword);
+
+// Forgot password with OTP routes (public)
+router.post('/forgot-password-otp', passwordResetRateLimiter, forgotPasswordOTP);
+router.post('/verify-forgot-password-otp', passwordResetRateLimiter, verifyForgotPasswordOTP);
+router.put('/reset-password-with-otp', passwordResetRateLimiter, resetPasswordWithOTP);
 
 // Protected routes
 router.get('/profile', protect, getUserProfile);

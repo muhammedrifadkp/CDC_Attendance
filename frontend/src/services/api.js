@@ -231,6 +231,11 @@ export const authAPI = {
   verifyPasswordChangeOTP: (otp) => api.post('/users/verify-password-change-otp', { otp }),
   verifyOTPAndChangePassword: (data) => api.put('/users/verify-otp-change-password', data),
   refreshToken: () => api.post('/users/refresh-token'),
+  // Forgot password with OTP
+  forgotPasswordOTP: (email) => api.post('/users/forgot-password-otp', { email }),
+  verifyForgotPasswordOTP: (email, otp) => api.post('/users/verify-forgot-password-otp', { email, otp }),
+  resetPasswordWithOTP: (data) => api.put('/users/reset-password-with-otp', data),
+  // Original forgot password (token-based)
   forgotPassword: (email) => api.post('/users/forgot-password', { email }),
   resetPassword: (token, password) => api.post(`/users/reset-password/${token}`, { password }),
 }

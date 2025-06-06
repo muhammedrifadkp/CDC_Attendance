@@ -415,6 +415,120 @@ This is an automated message. Please do not reply to this email.
     }
   }
 
+  // Send password reset OTP email (for forgot password)
+  async sendPasswordResetOTP(userData) {
+    try {
+      if (!this.transporter) {
+        console.log('Email service not configured. Password reset OTP email not sent.');
+        return { success: false, message: 'Email service not configured' };
+      }
+
+      const { name, email, otp } = userData;
+
+      const mailOptions = {
+        from: `"CDC Attendance System" <${process.env.EMAIL_USER}>`,
+        to: email,
+        subject: 'Password Reset Verification - OTP Required',
+        html: `
+          <!DOCTYPE html>
+          <html>
+          <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Password Reset OTP</title>
+            <style>
+              body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; background-color: #f4f4f4; }
+              .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+              .header { background: linear-gradient(135deg, #dc2626, #ef4444); color: white; padding: 30px; text-align: center; border-radius: 10px 10px 0 0; margin: -20px -20px 20px -20px; }
+              .logo { font-size: 28px; font-weight: bold; margin-bottom: 10px; }
+              .otp-box { background: #f8f9fa; border: 2px dashed #dc2626; padding: 20px; text-align: center; margin: 20px 0; border-radius: 8px; }
+              .otp-code { font-size: 32px; font-weight: bold; color: #dc2626; letter-spacing: 8px; font-family: 'Courier New', monospace; }
+              .warning { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; padding: 15px; border-radius: 5px; margin: 20px 0; }
+              .footer { text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px; }
+              .reset-info { background: #e3f2fd; border: 1px solid #2196f3; color: #1976d2; padding: 15px; border-radius: 5px; margin: 20px 0; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="header">
+                <div class="logo">🔑 CDC</div>
+                <h1>Password Reset Request</h1>
+                <p>Reset your account password securely</p>
+              </div>
+
+              <h2>Hello ${name},</h2>
+
+              <p>You have requested to reset your password for your CDC Attendance System account. To proceed with the password reset, please use the verification code below:</p>
+
+              <div class="otp-box">
+                <p style="margin: 0 0 10px 0; font-weight: bold; color: #666;">Your Password Reset Code:</p>
+                <div class="otp-code">${otp}</div>
+                <p style="margin: 10px 0 0 0; font-size: 14px; color: #666;">Valid for 10 minutes</p>
+              </div>
+
+              <div class="reset-info">
+                <strong>🔄 Password Reset Process:</strong>
+                <ol style="margin: 10px 0; padding-left: 20px;">
+                  <li>Enter this OTP on the password reset page</li>
+                  <li>Create a new secure password</li>
+                  <li>Confirm your new password</li>
+                  <li>Your account will be updated with the new password</li>
+                </ol>
+              </div>
+
+              <div class="warning">
+                <strong>⚠️ Security Notice:</strong>
+                <ul style="margin: 10px 0; padding-left: 20px;">
+                  <li>This OTP is valid for <strong>10 minutes only</strong></li>
+                  <li>Never share this code with anyone</li>
+                  <li>If you didn't request this reset, please ignore this email</li>
+                  <li>Use this code only on the CDC Attendance System website</li>
+                  <li>Your current password remains active until you complete the reset</li>
+                </ul>
+              </div>
+
+              <p><strong>Didn't request this?</strong> If you didn't request a password reset, you can safely ignore this email. Your account remains secure and no changes will be made.</p>
+
+              <div class="footer">
+                <p><strong>CDC Attendance Management System</strong></p>
+                <p>This is an automated message. Please do not reply to this email.</p>
+                <p>If you need assistance, please contact your system administrator.</p>
+                <p style="font-size: 12px; color: #999;">
+                  Sent on ${new Date().toLocaleString('en-US', {
+                    timeZone: 'Asia/Kolkata',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })} IST
+                </p>
+              </div>
+            </div>
+          </body>
+          </html>
+        `
+      };
+
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log(`Password reset OTP sent successfully: ${info.messageId}`);
+
+      return {
+        success: true,
+        message: 'Password reset OTP sent successfully',
+        messageId: info.messageId,
+        previewUrl: process.env.NODE_ENV === 'development' ? nodemailer.getTestMessageUrl(info) : null
+      };
+
+    } catch (error) {
+      console.error('Error sending password reset OTP:', error);
+      return {
+        success: false,
+        message: error.message || 'Failed to send password reset OTP email'
+      };
+    }
+  }
+
   // Send admin welcome email
   async sendAdminWelcomeEmail(adminData) {
     try {

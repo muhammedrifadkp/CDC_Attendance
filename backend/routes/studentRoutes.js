@@ -16,8 +16,17 @@ const {
 const { protect, teacher } = require('../middleware/authMiddleware');
 const { validateStudentRegistration } = require('../middleware/validationMiddleware');
 
+// Debug middleware for student creation
+const debugStudentCreation = (req, res, next) => {
+  console.log('🔍 DEBUG: Student creation request received');
+  console.log('🔍 DEBUG: Request body:', JSON.stringify(req.body, null, 2));
+  console.log('🔍 DEBUG: Request headers:', JSON.stringify(req.headers, null, 2));
+  console.log('🔍 DEBUG: User:', req.user ? { id: req.user._id, role: req.user.role } : 'Not authenticated');
+  next();
+};
+
 router.route('/')
-  .post(protect, teacher, validateStudentRegistration, createStudent)
+  .post(protect, teacher, debugStudentCreation, validateStudentRegistration, createStudent)
   .get(protect, teacher, getStudents);
 
 router.get('/overview', protect, getStudentsOverview);

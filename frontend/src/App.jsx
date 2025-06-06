@@ -46,7 +46,7 @@ import LabAvailability from './pages/teacher/LabAvailability'
 import LabOverview from './pages/admin/LabOverview'
 import LabOverviewFixed from './pages/admin/LabOverviewFixed'
 import LabManagementSimple from './pages/admin/lab/LabManagementSimple'
-import LabDebug from './pages/admin/lab/LabDebug'
+
 import LabBooking from './pages/admin/lab/LabBooking'
 import AdminPCForm from './pages/admin/lab/PCForm'
 import AdminPCList from './pages/admin/lab/PCList'
@@ -69,7 +69,7 @@ import DepartmentDetails from './pages/admin/departments/DepartmentDetails'
 import CoursesList from './pages/admin/courses/CoursesList'
 import CourseForm from './pages/admin/courses/CourseForm'
 import CourseDetails from './pages/admin/courses/CourseDetails'
-import TestAPI from './pages/admin/TestAPI'
+
 import AttendanceDashboard from './pages/teacher/attendance/AttendanceDashboard'
 import AttendanceCalendar from './pages/teacher/attendance/AttendanceCalendar'
 import AttendanceForm from './pages/teacher/attendance/AttendanceForm'
@@ -141,8 +141,7 @@ function App() {
           <Route path="courses/:id" element={<CourseDetails />} />
           <Route path="courses/:id/edit" element={<CourseForm />} />
 
-          {/* Test API Route */}
-          <Route path="test-api" element={<TestAPI />} />
+
 
           <Route path="admins" element={<AdminsList />} />
           <Route path="admins/new" element={<CreateAdmin />} />
@@ -177,7 +176,7 @@ function App() {
           <Route path="lab" element={<LabOverview />} />
           <Route path="lab/fixed" element={<LabOverviewFixed />} />
           <Route path="lab/management-simple" element={<LabManagementSimple />} />
-          <Route path="lab/debug" element={<LabDebug />} />
+
           <Route path="lab/booking" element={<LabBooking />} />
           <Route path="lab/control" element={<AdminLabControl />} />
           <Route path="lab/maintenance" element={<AdminMaintenancePage />} />

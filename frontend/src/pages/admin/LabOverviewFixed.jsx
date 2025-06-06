@@ -1046,7 +1046,7 @@ const LabOverviewFixed = () => {
           <div className="flex items-center space-x-3 p-3 rounded-lg bg-red-50 border border-red-200">
             <div className="w-4 h-4 bg-red-500 rounded border border-red-600"></div>
             <div>
-              <div className="text-sm font-medium text-red-700">🔴 Present</div>
+              <div className="text-sm font-medium text-red-700">Present</div>
               <div className="text-xs text-red-600">Booked & Present</div>
             </div>
           </div>
@@ -1054,7 +1054,7 @@ const LabOverviewFixed = () => {
           <div className="flex items-center space-x-3 p-3 rounded-lg bg-orange-50 border border-orange-200">
             <div className="w-4 h-4 bg-orange-500 rounded border border-orange-600"></div>
             <div>
-              <div className="text-sm font-medium text-orange-700">🟠 Absent</div>
+              <div className="text-sm font-medium text-orange-700">Absent</div>
               <div className="text-xs text-orange-600">Booked but Absent</div>
             </div>
           </div>
@@ -1062,7 +1062,7 @@ const LabOverviewFixed = () => {
           <div className="flex items-center space-x-3 p-3 rounded-lg bg-purple-50 border border-purple-200">
             <div className="w-4 h-4 bg-purple-500 rounded border border-purple-600"></div>
             <div>
-              <div className="text-sm font-medium text-purple-700">🟣 Late</div>
+              <div className="text-sm font-medium text-purple-700">Late</div>
               <div className="text-xs text-purple-600">Booked & Late</div>
             </div>
           </div>
@@ -1070,7 +1070,7 @@ const LabOverviewFixed = () => {
           <div className="flex items-center space-x-3 p-3 rounded-lg bg-amber-50 border border-amber-200">
             <div className="w-4 h-4 bg-amber-500 rounded border border-amber-600"></div>
             <div>
-              <div className="text-sm font-medium text-amber-700">🟡 Pending</div>
+              <div className="text-sm font-medium text-amber-700">Pending</div>
               <div className="text-xs text-amber-600">Attendance Not Marked</div>
             </div>
           </div>
@@ -1078,7 +1078,7 @@ const LabOverviewFixed = () => {
           <div className="flex items-center space-x-3 p-3 rounded-lg bg-green-50 border border-green-200">
             <div className="w-4 h-4 bg-green-500 rounded border border-green-600"></div>
             <div>
-              <div className="text-sm font-medium text-green-700">🟢 Available</div>
+              <div className="text-sm font-medium text-green-700">Available</div>
               <div className="text-xs text-green-600">Ready for Booking</div>
             </div>
           </div>
@@ -1086,7 +1086,7 @@ const LabOverviewFixed = () => {
           <div className="flex items-center space-x-3 p-3 rounded-lg bg-yellow-50 border border-yellow-200">
             <div className="w-4 h-4 bg-yellow-500 rounded border border-yellow-600"></div>
             <div>
-              <div className="text-sm font-medium text-yellow-700">🟡 Maintenance</div>
+              <div className="text-sm font-medium text-yellow-700">Maintenance</div>
               <div className="text-xs text-yellow-600">Under Repair</div>
             </div>
           </div>
@@ -1094,7 +1094,7 @@ const LabOverviewFixed = () => {
           <div className="flex items-center space-x-3 p-3 rounded-lg bg-gray-50 border border-gray-200">
             <div className="w-4 h-4 bg-gray-500 rounded border border-gray-600"></div>
             <div>
-              <div className="text-sm font-medium text-gray-700">⚫ Inactive</div>
+              <div className="text-sm font-medium text-gray-700">Inactive</div>
               <div className="text-xs text-gray-600">Offline/Disabled</div>
             </div>
           </div>
