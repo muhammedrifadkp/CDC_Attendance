@@ -7,7 +7,7 @@
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Now-blue?style=for-the-badge)](https://cdc-attendance-com.vercel.app)
 [![Backend API](https://img.shields.io/badge/🔗_API-Backend-green?style=for-the-badge)](https://cdc-attendance-backend.onrender.com)
 [![License](https://img.shields.io/badge/📄_License-MIT-yellow?style=for-the-badge)](LICENSE)
-[![Developer](https://img.shields.io/badge/👨‍💻_Developer-Muhammed_Rifad_KP-purple?style=for-the-badge)](https://github.com/your-username)
+[![Developer](https://img.shields.io/badge/👨‍💻_Developer-Muhammed_Rifad_KP-purple?style=for-the-badge)](https://github.com/muhammedrifadkp)
 
 ![React](https://img.shields.io/badge/React-18.x-61DAFB?style=flat&logo=react&logoColor=white)
 ![Node.js](https://img.shields.io/badge/Node.js-18.x-339933?style=flat&logo=node.js&logoColor=white)
@@ -18,7 +18,7 @@
 
 *A modern, secure, and feature-rich attendance management system designed specifically for educational institutes. Built with cutting-edge technologies to streamline academic operations.*
 
-**Developed by [Muhammed Rifad KP](https://github.com/your-username)**
+**Developed by [Muhammed Rifad KP](https://github.com/muhammedrifadkp)**
 
 </div>
 
@@ -166,7 +166,7 @@ Before you begin, ensure you have the following installed:
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/CDC_Attendance.git
+git clone https://github.com/muhammedrifadkp/CDC_Attendance.git
 cd CDC_Attendance
 
 # Verify structure
@@ -652,10 +652,10 @@ This project demonstrates expertise in building enterprise-level applications wi
 - **Modern Technologies** - Latest industry standards and practices
 
 ### 🤝 **Connect with the Developer**
-- 💼 **LinkedIn**: [Connect on LinkedIn](https://linkedin.com/in/your-profile)
-- 🐙 **GitHub**: [View More Projects](https://github.com/your-username)
-- 📧 **Email**: rifad@example.com
-- 🌐 **Portfolio**: [View Portfolio](https://your-portfolio.com)
+- 💼 **LinkedIn**: [Connect on LinkedIn](https://linkedin.com/in/muhammedrifadkp)
+- 🐙 **GitHub**: [View More Projects](https://github.com/muhammedrifadkp)
+- 📧 **Email**: muhammedrifadkp@gmail.com
+- 🌐 **Portfolio**: [View Portfolio](https://muhammedrifadkp.github.io)
 
 ---
 
@@ -685,9 +685,9 @@ This project demonstrates expertise in building enterprise-level applications wi
 
 ### *Empowering Institutes with Modern Technology*
 
-[![GitHub Stars](https://img.shields.io/github/stars/your-username/CDC_Attendance?style=social)](https://github.com/your-username/CDC_Attendance)
-[![GitHub Forks](https://img.shields.io/github/forks/your-username/CDC_Attendance?style=social)](https://github.com/your-username/CDC_Attendance)
-[![GitHub Issues](https://img.shields.io/github/issues/your-username/CDC_Attendance)](https://github.com/your-username/CDC_Attendance/issues)
+[![GitHub Stars](https://img.shields.io/github/stars/muhammedrifadkp/CDC_Attendance?style=social)](https://github.com/muhammedrifadkp/CDC_Attendance)
+[![GitHub Forks](https://img.shields.io/github/forks/muhammedrifadkp/CDC_Attendance?style=social)](https://github.com/muhammedrifadkp/CDC_Attendance)
+[![GitHub Issues](https://img.shields.io/github/issues/muhammedrifadkp/CDC_Attendance)](https://github.com/muhammedrifadkp/CDC_Attendance/issues)
 
 **⭐ Star this repository if you find it helpful!**
 
