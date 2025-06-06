@@ -138,8 +138,32 @@ api.interceptors.response.use(
       // Handle token expiration or invalid token
       const errorType = error.response?.data?.error;
 
-      if (errorType === 'TokenExpiredError') {
-        // Clear all auth data securely
+      if (errorType === 'TokenExpiredError' && error.response?.data?.shouldRefresh) {
+        // Try to refresh the token automatically
+        try {
+          console.log('🔄 Attempting automatic token refresh...')
+          const refreshResponse = await api.post('/users/refresh-token')
+
+          if (refreshResponse.status === 200) {
+            console.log('✅ Token refreshed successfully, retrying original request')
+            // Retry the original request with the new token
+            return api.request(error.config)
+          }
+        } catch (refreshError) {
+          console.error('❌ Token refresh failed:', refreshError)
+          // Fall through to logout flow
+        }
+
+        // If refresh fails, clear auth data and redirect
+        removeToken()
+        toast.error('Your session has expired. Please login again.')
+
+        // Redirect to login after a short delay
+        setTimeout(() => {
+          window.location.href = '/login'
+        }, 1500)
+      } else if (errorType === 'TokenExpiredError') {
+        // Token expired but no refresh available
         removeToken()
         toast.error('Your session has expired. Please login again.')
 
@@ -217,8 +241,82 @@ async function offlineAwareRequest(requestFn, fallbackData = null, operationType
   }
 }
 
+// Token refresh management
+let refreshTokenTimer = null
+
+// Function to decode JWT and get expiration time
+const getTokenExpiration = (token) => {
+  if (!token) return null
+
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    return payload.exp * 1000 // Convert to milliseconds
+  } catch (error) {
+    console.error('Error decoding token:', error)
+    return null
+  }
+}
+
+// Function to start proactive token refresh
+const startTokenRefreshTimer = () => {
+  const token = getToken()
+  if (!token) return
+
+  const expirationTime = getTokenExpiration(token)
+  if (!expirationTime) return
+
+  const currentTime = Date.now()
+  const timeUntilExpiry = expirationTime - currentTime
+
+  // Refresh token 5 minutes before it expires
+  const refreshTime = Math.max(timeUntilExpiry - (5 * 60 * 1000), 60000) // At least 1 minute
+
+  if (refreshTime > 0) {
+    console.log(`🔄 Token refresh scheduled in ${Math.round(refreshTime / 60000)} minutes`)
+
+    refreshTokenTimer = setTimeout(async () => {
+      try {
+        console.log('🔄 Proactively refreshing token...')
+        await api.post('/users/refresh-token')
+        console.log('✅ Token refreshed proactively')
+
+        // Schedule next refresh
+        startTokenRefreshTimer()
+      } catch (error) {
+        console.error('❌ Proactive token refresh failed:', error)
+        // Don't logout here, let the normal error handling take care of it
+      }
+    }, refreshTime)
+  }
+}
+
+// Function to stop token refresh timer
+const stopTokenRefreshTimer = () => {
+  if (refreshTokenTimer) {
+    clearTimeout(refreshTokenTimer)
+    refreshTokenTimer = null
+    console.log('🛑 Token refresh timer stopped')
+  }
+}
+
+// Enhanced token management functions
+const enhancedSetToken = (token) => {
+  setToken(token)
+  startTokenRefreshTimer()
+}
+
+const enhancedRemoveToken = () => {
+  removeToken()
+  stopTokenRefreshTimer()
+}
+
+// Start timer when page loads if token exists
+if (getToken()) {
+  startTokenRefreshTimer()
+}
+
 // Export token management functions for use in other components
-export { getToken, setToken, removeToken }
+export { getToken, enhancedSetToken as setToken, enhancedRemoveToken as removeToken, startTokenRefreshTimer, stopTokenRefreshTimer }
 
 // Auth API
 export const authAPI = {

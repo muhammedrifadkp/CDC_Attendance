@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'
-import { authAPI, getToken, setToken, removeToken } from '../services/api'
+import { authAPI, getToken, setToken, removeToken, startTokenRefreshTimer, stopTokenRefreshTimer } from '../services/api'
 import toast from 'react-hot-toast'
 
 const AuthContext = createContext()
@@ -139,6 +139,7 @@ export const AuthProvider = ({ children }) => {
 
     const handleLogout = () => {
       removeToken()
+      stopTokenRefreshTimer()
       localStorage.removeItem('lastProfileCheck')
       localStorage.removeItem('cachedUser')
       localStorage.removeItem('forceProfileRefresh')
@@ -207,6 +208,7 @@ export const AuthProvider = ({ children }) => {
 
       // Set login flag - token is now handled by HTTP-only cookies
       setToken() // This now only sets isLoggedIn flag
+      startTokenRefreshTimer()
 
       return res.data
     } catch (error) {
@@ -239,6 +241,7 @@ export const AuthProvider = ({ children }) => {
 
       // Remove all auth data securely
       removeToken()
+      stopTokenRefreshTimer()
 
       console.log('Logout successful')
     } catch (error) {
@@ -247,6 +250,7 @@ export const AuthProvider = ({ children }) => {
       // Even if the API call fails, clear the local state
       setUser(null)
       removeToken()
+      stopTokenRefreshTimer()
     }
   }
 

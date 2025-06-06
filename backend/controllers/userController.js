@@ -25,7 +25,7 @@ const generateToken = (id, userAgent = '', ip = '') => {
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: '15m',
+      expiresIn: '2h',
       issuer: 'cadd-attendance',
       audience: 'cadd-attendance-users'
     }
@@ -182,7 +182,7 @@ const loginUser = asyncHandler(async (req, res) => {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-    maxAge: 15 * 60 * 1000, // 15 minutes
+    maxAge: 2 * 60 * 60 * 1000, // 2 hours
     path: '/',
   });
 
@@ -230,7 +230,7 @@ const refreshToken = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
-      maxAge: 15 * 60 * 1000, // 15 minutes
+      maxAge: 2 * 60 * 60 * 1000, // 2 hours
       path: '/',
     });
 
