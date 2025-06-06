@@ -45,11 +45,14 @@ const BatchForm = () => {
       try {
         // Fetch courses and departments
         const [coursesRes, departmentsRes] = await Promise.all([
-          api.get('/courses?active=true'),
+          api.get('/courses?active=true&limit=all'),
           api.get('/departments?active=true')
         ]);
 
-        setCourses(coursesRes.data.courses || coursesRes.data || []);
+        const coursesData = coursesRes.data.courses || coursesRes.data || [];
+        console.log('📚 Fetched courses:', coursesData.length, 'courses');
+        console.log('📚 Courses data:', coursesData);
+        setCourses(coursesData);
 
         // Filter departments to only include the 4 required ones
         const allDepartments = departmentsRes.data || [];

@@ -73,11 +73,14 @@ const AdminBatchForm = () => {
     try {
       setFetchLoading(true)
       const [coursesRes, departmentsRes] = await Promise.all([
-        coursesAPI.getCourses(),
+        coursesAPI.getCourses({ active: 'true', limit: 'all' }),
         departmentsAPI.getDepartments()
       ])
 
-      setCourses(coursesRes.data)
+      const coursesData = coursesRes.data.courses || coursesRes.data || [];
+      console.log('📚 Admin: Fetched courses:', coursesData.length, 'courses');
+      console.log('📚 Admin: Courses data:', coursesData);
+      setCourses(coursesData)
       setDepartments(departmentsRes.data)
       setFilteredCourses(coursesRes.data)
 

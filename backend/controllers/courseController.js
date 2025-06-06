@@ -107,7 +107,26 @@ const getCourses = asyncHandler(async (req, res) => {
     ];
   }
 
-  // Pagination
+  // Check if this is a request for all courses (for forms)
+  if (limit === '0' || limit === 'all' || parseInt(limit) > 100) {
+    // Return all courses without pagination for forms
+    const courses = await Course.find(query)
+      .populate('department', 'name code')
+      .populate('batchCount')
+      .sort({ name: 1 });
+
+    return res.json({
+      courses,
+      pagination: {
+        page: 1,
+        limit: courses.length,
+        total: courses.length,
+        pages: 1
+      }
+    });
+  }
+
+  // Pagination for regular requests
   const skip = (parseInt(page) - 1) * parseInt(limit);
 
   // Sort options
