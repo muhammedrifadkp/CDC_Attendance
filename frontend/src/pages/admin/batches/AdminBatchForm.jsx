@@ -295,9 +295,13 @@ const AdminBatchForm = () => {
                   id="course"
                   value={formData.course}
                   onChange={(e) => handleInputChange('course', e.target.value)}
-                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors ${
+                  className={`form-select block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors ${
                     errors.course ? 'border-red-300' : 'border-gray-300'
                   }`}
+                  style={{
+                    maxHeight: '200px',
+                    overflowY: 'auto'
+                  }}
                 >
                   <option value="">Select a course</option>
                   {filteredCourses.map(course => (

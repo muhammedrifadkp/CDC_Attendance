@@ -4,6 +4,7 @@ import { batchesAPI } from '../../../services/api'
 import api from '../../../services/api'
 import toast from 'react-hot-toast'
 import { ClockIcon } from '@heroicons/react/24/outline'
+import SearchableSelect from '../../../components/SearchableSelect'
 
 const BatchForm = () => {
   const { id } = useParams()
@@ -173,7 +174,7 @@ const BatchForm = () => {
                 name="department"
                 id="department"
                 required
-                className="form-input"
+                className="form-select"
                 value={formData.department}
                 onChange={handleChange}
               >
@@ -190,31 +191,27 @@ const BatchForm = () => {
               <label htmlFor="course" className="form-label">
                 Course
               </label>
-              <select
-                name="course"
-                id="course"
-                required
-                className="form-input"
+              <SearchableSelect
+                options={formData.department ? courses.filter(course => {
+                  const courseDept = course.department?._id || course.department;
+                  return courseDept === formData.department;
+                }) : []}
                 value={formData.course}
-                onChange={handleChange}
+                onChange={(value) => setFormData({ ...formData, course: value })}
+                placeholder={!formData.department ? 'Select department first' : 'Select a course'}
+                searchPlaceholder="Search courses..."
                 disabled={!formData.department}
-              >
-                <option value="">
-                  {!formData.department ? 'Select department first' : 'Select a course'}
-                </option>
-                {formData.department && courses
-                  .filter(course => {
-                    // Filter courses by selected department
-                    const courseDept = course.department?._id || course.department;
-                    return courseDept === formData.department;
-                  })
-                  .map(course => (
-                    <option key={course._id} value={course._id}>
-                      {course.name} ({course.code})
-                    </option>
-                  ))
-                }
-              </select>
+                getOptionLabel={(course) => `${course.name} (${course.code})`}
+                getOptionValue={(course) => course._id}
+                renderOption={(course) => (
+                  <div>
+                    <div className="font-medium">{course.name}</div>
+                    <div className="text-xs text-gray-500">{course.code} • {course.department?.name}</div>
+                  </div>
+                )}
+                className="w-full"
+                maxHeight="250px"
+              />
               {!formData.department && (
                 <p className="mt-1 text-sm text-gray-500">
                   Please select a department to see available courses

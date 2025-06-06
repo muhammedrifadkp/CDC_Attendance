@@ -226,6 +226,45 @@
     @apply shadow-lg transform scale-105;
   }
 
+  /* Enhanced Select Dropdown Styles */
+  .form-select {
+    @apply block w-full rounded-lg border-2 border-gray-200 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm transition-all duration-300 px-4 py-3;
+    /* Force dropdown to show more options */
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+  }
+
+  .form-select:focus {
+    @apply shadow-lg;
+    /* Remove transform scale for select to prevent dropdown positioning issues */
+  }
+
+  /* Custom dropdown styling for better visibility */
+  .form-select option {
+    @apply py-2 px-4;
+    background-color: white;
+    color: #374151;
+  }
+
+  .form-select option:hover,
+  .form-select option:focus {
+    background-color: #f3f4f6;
+  }
+
+  .form-select option:checked {
+    background-color: #dc2626;
+    color: white;
+  }
+
+  /* Ensure dropdown shows at least 10 options */
+  .form-select[size] {
+    height: auto;
+  }
+
   .form-label {
     @apply block text-sm font-semibold text-gray-700 mb-2;
   }
