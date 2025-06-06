@@ -25,12 +25,8 @@ export default defineConfig(({ command, mode }) => {
       react({
         // Enable Fast Refresh
         fastRefresh: isDev,
-        // Basic babel configuration
-        babel: isProd ? {
-          plugins: [
-            // Only use plugins that don't require additional dependencies
-          ]
-        } : undefined
+        // Ensure React is properly handled in production
+        jsxRuntime: 'automatic'
       })
     ],
     server: {
@@ -108,17 +104,18 @@ export default defineConfig(({ command, mode }) => {
           manualChunks: (id) => {
             // Vendor chunks
             if (id.includes('node_modules')) {
-              if (id.includes('react') || id.includes('react-dom')) {
-                return 'react-vendor'
+              // Keep React and React-DOM together in a single chunk
+              if (id.includes('react') || id.includes('react-dom') || id.includes('react/jsx-runtime')) {
+                return 'vendor'
               }
               if (id.includes('react-router')) {
-                return 'router-vendor'
+                return 'vendor'
               }
               if (id.includes('@headlessui') || id.includes('@heroicons')) {
-                return 'ui-vendor'
+                return 'vendor'
               }
               if (id.includes('axios') || id.includes('react-hot-toast')) {
-                return 'utils-vendor'
+                return 'vendor'
               }
               // Other vendor libraries
               return 'vendor'
@@ -202,6 +199,8 @@ export default defineConfig(({ command, mode }) => {
       include: [
         'react',
         'react-dom',
+        'react-dom/client',
+        'react/jsx-runtime',
         'react-router-dom',
         'axios',
         'react-hot-toast',
