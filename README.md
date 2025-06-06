@@ -699,6 +699,6 @@ Special thanks to all the educational institutions and teachers who provided val
 
 ---
 
-*© 2024 CDC Attendance Management System. Developed by **Muhammed Rifad KP**. All rights reserved.*
+*© 2025 CDC Attendance Management System. Developed by **Muhammed Rifad KP**. All rights reserved.*
 
 </div>
