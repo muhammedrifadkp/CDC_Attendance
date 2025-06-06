@@ -122,6 +122,9 @@ class EmailService {
    */
   generateTeacherWelcomeEmail(teacherData) {
     const { name, email, employeeId, password, department } = teacherData;
+
+    // Get frontend URL from environment variables
+    const frontendUrl = process.env.FRONTEND_URL || 'https://cdc-attendance-com.vercel.app';
     
     const subject = 'Welcome to CDC Attendance System - Your Login Credentials';
     
@@ -197,8 +200,17 @@ class EmailService {
                 </div>
                 
                 <h3>How to Login:</h3>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="${frontendUrl}" class="button" style="display: inline-block; background: #dc2626; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; margin: 10px 0; font-weight: bold;">
+                        🚀 Access CDC Attendance System
+                    </a>
+                    <p style="margin: 10px 0; color: #666; font-size: 14px;">
+                        Click the button above or visit: <a href="${frontendUrl}" style="color: #dc2626;">${frontendUrl}</a>
+                    </p>
+                </div>
+
                 <ol>
-                    <li>Visit the CDC Attendance System login page</li>
+                    <li>Visit the CDC Attendance System login page using the link above</li>
                     <li>Select "Teacher Login"</li>
                     <li>Enter either your <strong>Email</strong> (${email}) or <strong>Employee ID</strong> (${employeeId})</li>
                     <li>Enter your temporary password: <code>${password}</code></li>
@@ -234,12 +246,14 @@ Login Credentials:
 IMPORTANT: This is a temporary password. Please change it immediately after your first login.
 
 How to Login:
-1. Visit the CDC Attendance System login page
+1. Visit the CDC Attendance System login page: ${frontendUrl}
 2. Select "Teacher Login"
 3. Enter either your Email (${email}) or Employee ID (${employeeId})
 4. Enter your temporary password: ${password}
 5. Click "Sign In"
 6. Change your password immediately after login
+
+Login URL: ${frontendUrl}
 
 You can login using either your email address or Employee ID.
 
@@ -539,6 +553,9 @@ This is an automated message. Please do not reply to this email.
 
       const { name, email, password, role } = adminData;
 
+      // Get frontend URL from environment variables
+      const frontendUrl = process.env.FRONTEND_URL || 'https://cdc-attendance-com.vercel.app';
+
       const mailOptions = {
         from: `"CDC Attendance System" <${process.env.EMAIL_USER}>`,
         to: email,
@@ -608,9 +625,18 @@ This is an automated message. Please do not reply to this email.
                 </ul>
               </div>
 
+              <div style="text-align: center; margin: 30px 0;">
+                <a href="${frontendUrl}" style="display: inline-block; background: #dc2626; color: white; padding: 12px 30px; text-decoration: none; border-radius: 5px; margin: 10px 0; font-weight: bold;">
+                  🚀 Access Admin Dashboard
+                </a>
+                <p style="margin: 10px 0; color: #666; font-size: 14px;">
+                  Click the button above or visit: <a href="${frontendUrl}" style="color: #dc2626;">${frontendUrl}</a>
+                </p>
+              </div>
+
               <h3>🚀 Getting Started:</h3>
               <ol>
-                <li><strong>Login:</strong> Use your email and the password above</li>
+                <li><strong>Login:</strong> Use your email and the password above at ${frontendUrl}</li>
                 <li><strong>Change Password:</strong> Go to Profile → Change Password</li>
                 <li><strong>Explore:</strong> Access admin dashboard and all management features</li>
                 <li><strong>Manage:</strong> Add teachers, create departments, monitor attendance</li>
