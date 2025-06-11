@@ -17,6 +17,10 @@ const courseRoutes = require('./routes/courseRoutes');
 const labRoutes = require('./routes/labRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
+const keepAliveRoutes = require('./routes/keepAliveRoutes');
+
+// Import keep-alive service
+const keepAliveService = require('./services/keepAliveService');
 
 // Load environment variables
 dotenv.config();
@@ -134,6 +138,7 @@ app.use('/api/attendance', attendanceRoutes);
 app.use('/api/lab', labRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/keep-alive', keepAliveRoutes);
 
 // Health check endpoint
 app.get('/api/test', (req, res) => {
@@ -151,6 +156,7 @@ app.get('/api/health', async (req, res) => {
   try {
     const mongoose = require('mongoose');
     const errorLogger = require('./utils/errorLogger');
+    const keepAliveLogger = require('./utils/keepAliveLogger');
 
     const health = {
       status: 'healthy',
@@ -171,6 +177,11 @@ app.get('/api/health', async (req, res) => {
           rateLimiting: process.env.NODE_ENV === 'production' || process.env.ENABLE_RATE_LIMITING === 'true',
           cors: true,
           helmet: true
+        },
+        keepAlive: {
+          enabled: process.env.NODE_ENV === 'production' || process.env.ENABLE_KEEP_ALIVE === 'true',
+          status: keepAliveService.getStatus().isRunning ? 'running' : 'stopped',
+          stats: keepAliveLogger.getStats()
         }
       },
       system: {
@@ -233,4 +244,13 @@ process.on('unhandledRejection', (err) => {
 const PORT = process.env.PORT || 5000;
 const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Server running in ${process.env.NODE_ENV || 'development'} mode on port ${PORT}`);
+
+  // Initialize keep-alive service after server starts
+  // Only in production or when explicitly enabled
+  if (process.env.NODE_ENV === 'production' || process.env.ENABLE_KEEP_ALIVE === 'true') {
+    console.log('🔄 Initializing keep-alive service...');
+    keepAliveService.init();
+  } else {
+    console.log('⚠️ Keep-alive service disabled for development');
+  }
 });
