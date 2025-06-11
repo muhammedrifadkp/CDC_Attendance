@@ -45,7 +45,13 @@ export const AuthProvider = ({ children }) => {
         if (!cacheExpired && !forceRefresh && cachedUser) {
           if (mounted) {
             console.log('Using cached profile data')
-            setUser(JSON.parse(cachedUser))
+            const parsedUser = JSON.parse(cachedUser)
+            // Ensure cached user has _id field
+            const userData = {
+              ...parsedUser,
+              _id: parsedUser._id || parsedUser.id
+            }
+            setUser(userData)
             setLoading(false)
             setRetryCount(0)
           }
@@ -56,12 +62,19 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('forceProfileRefresh')
 
         const res = await authAPI.getProfile()
-        
+
         if (mounted) {
           console.log('Profile fetched successfully:', res.data)
+
+          // Ensure user data has required fields for IndexedDB
+          const userData = {
+            ...res.data,
+            _id: res.data._id || res.data.id // Ensure _id field exists
+          }
+
           localStorage.setItem('lastProfileCheck', now.toString())
-          localStorage.setItem('cachedUser', JSON.stringify(res.data))
-          setUser(res.data)
+          localStorage.setItem('cachedUser', JSON.stringify(userData))
+          setUser(userData)
           setLoading(false)
           setRetryCount(0)
         }
@@ -75,7 +88,13 @@ export const AuthProvider = ({ children }) => {
 
           if (cachedUser) {
             if (mounted) {
-              setUser(JSON.parse(cachedUser))
+              const parsedUser = JSON.parse(cachedUser)
+              // Ensure cached user has _id field
+              const userData = {
+                ...parsedUser,
+                _id: parsedUser._id || parsedUser.id
+              }
+              setUser(userData)
               setLoading(false)
               // Don't reset retry count to prevent rapid retries
             }
@@ -203,14 +222,20 @@ export const AuthProvider = ({ children }) => {
       const res = await authAPI.login({ email, password })
       console.log('Login successful, user data:', res.data)
 
+      // Ensure user data has required fields for IndexedDB
+      const userData = {
+        ...res.data,
+        _id: res.data._id || res.data.id // Ensure _id field exists
+      }
+
       // Store user in state
-      setUser(res.data)
+      setUser(userData)
 
       // Set login flag - token is now handled by HTTP-only cookies
       setToken() // This now only sets isLoggedIn flag
       startTokenRefreshTimer()
 
-      return res.data
+      return userData
     } catch (error) {
       console.error('Login error:', error)
       console.error('Response data:', error.response?.data)

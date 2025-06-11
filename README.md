@@ -302,7 +302,14 @@ EMAIL_ENABLED=true
 EMAIL_SERVICE=gmail
 EMAIL_USER=production_email@gmail.com
 EMAIL_APP_PASSWORD=production_app_password
+
+# Keep-Alive Configuration (Optional)
+ENABLE_KEEP_ALIVE=true
+RENDER_EXTERNAL_URL=https://your-backend.onrender.com
+KEEP_ALIVE_EXTERNAL_URLS=https://external-monitor.com/ping
 ```
+
+> 🔄 **Keep-Alive**: Automatically enabled in production to prevent Render from shutting down due to inactivity. The service pings itself every 10 minutes to maintain activity.
 </details>
 
 ---
@@ -549,8 +556,44 @@ EMAIL_APP_PASSWORD=production_app_password
 | Endpoint | Purpose | Response |
 |----------|---------|----------|
 | `/api/health` | System health status | JSON health report |
-| `/api/health/db` | Database connectivity | Connection status |
-| `/api/health/email` | Email service status | Service availability |
+| `/api/keep-alive/ping` | Service availability ping | Keep-alive response |
+| `/api/keep-alive/health` | Keep-alive service health | Service status |
+| `/api/keep-alive/status` | Detailed service status | Configuration & stats |
+
+### 🔄 **Keep-Alive Service**
+
+The system includes an **automatic keep-alive mechanism** that prevents Render from shutting down the backend due to inactivity:
+
+<table>
+<tr>
+<td width="50%">
+
+**⚡ Features**
+- 🕐 Pings every 10 minutes
+- 🎯 Automatic in production
+- 📊 Performance monitoring
+- 🔄 Retry logic with fallback
+
+</td>
+<td width="50%">
+
+**📈 Monitoring**
+- ✅ Success rate tracking
+- ⏱️ Response time metrics
+- 📝 Comprehensive logging
+- 🚨 Health status alerts
+
+</td>
+</tr>
+</table>
+
+**Keep-Alive Endpoints:**
+- `GET /api/keep-alive/ping` - Simple ping endpoint
+- `GET /api/keep-alive/stats` - Detailed statistics
+- `POST /api/keep-alive/manual-ping` - Manual trigger
+- `POST /api/keep-alive/reset-stats` - Reset statistics
+
+> 💡 **Note**: The keep-alive service automatically activates in production environments to ensure continuous availability on Render hosting.
 
 ### 📝 **Logging System**
 

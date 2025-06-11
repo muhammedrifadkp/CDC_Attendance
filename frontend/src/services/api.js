@@ -259,35 +259,28 @@ const getTokenExpiration = (token) => {
 
 // Function to start proactive token refresh
 const startTokenRefreshTimer = () => {
-  const token = getToken()
-  if (!token) return
+  const isLoggedIn = getToken()
+  if (!isLoggedIn) return
 
-  const expirationTime = getTokenExpiration(token)
-  if (!expirationTime) return
+  // Since we're using HTTP-only cookies, we can't decode the token directly
+  // Instead, we'll set up a periodic refresh every 90 minutes (tokens expire in 2 hours)
+  const refreshInterval = 90 * 60 * 1000 // 90 minutes
 
-  const currentTime = Date.now()
-  const timeUntilExpiry = expirationTime - currentTime
+  console.log(`🔄 Token refresh scheduled in ${Math.round(refreshInterval / 60000)} minutes`)
 
-  // Refresh token 5 minutes before it expires
-  const refreshTime = Math.max(timeUntilExpiry - (5 * 60 * 1000), 60000) // At least 1 minute
+  refreshTokenTimer = setTimeout(async () => {
+    try {
+      console.log('🔄 Proactively refreshing token...')
+      await api.post('/users/refresh-token')
+      console.log('✅ Token refreshed proactively')
 
-  if (refreshTime > 0) {
-    console.log(`🔄 Token refresh scheduled in ${Math.round(refreshTime / 60000)} minutes`)
-
-    refreshTokenTimer = setTimeout(async () => {
-      try {
-        console.log('🔄 Proactively refreshing token...')
-        await api.post('/users/refresh-token')
-        console.log('✅ Token refreshed proactively')
-
-        // Schedule next refresh
-        startTokenRefreshTimer()
-      } catch (error) {
-        console.error('❌ Proactive token refresh failed:', error)
-        // Don't logout here, let the normal error handling take care of it
-      }
-    }, refreshTime)
-  }
+      // Schedule next refresh
+      startTokenRefreshTimer()
+    } catch (error) {
+      console.error('❌ Proactive token refresh failed:', error)
+      // Don't logout here, let the normal error handling take care of it
+    }
+  }, refreshInterval)
 }
 
 // Function to stop token refresh timer
@@ -300,8 +293,8 @@ const stopTokenRefreshTimer = () => {
 }
 
 // Enhanced token management functions
-const enhancedSetToken = (token) => {
-  setToken(token)
+const enhancedSetToken = () => {
+  setToken()
   startTokenRefreshTimer()
 }
 
