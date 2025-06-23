@@ -54,6 +54,7 @@ import AdminLabControl from './pages/admin/lab/LabControl'
 import AdminMaintenancePage from './pages/admin/lab/MaintenancePage'
 
 import BatchesList from './pages/teacher/batches/BatchesList'
+import AdminBatchesList from './pages/admin/batches/AdminBatchesList'
 import BatchForm from './pages/teacher/batches/BatchForm'
 import BatchDetails from './pages/teacher/batches/BatchDetails'
 import AdminBatchForm from './pages/admin/batches/AdminBatchForm'
@@ -166,7 +167,7 @@ function App() {
           <Route path="attendance/reports" element={<AdminAttendanceReport />} />
           <Route path="attendance/calendar" element={<AttendanceCalendar />} />
           <Route path="attendance/report" element={<AdminAttendanceReport />} />
-          <Route path="batches" element={<BatchesList />} />
+          <Route path="batches" element={<AdminBatchesList />} />
           <Route path="batches/new" element={<AdminBatchForm />} />
           <Route path="batches/:id/edit" element={<AdminBatchForm />} />
           <Route path="batches/:id" element={<BatchDetails />} />

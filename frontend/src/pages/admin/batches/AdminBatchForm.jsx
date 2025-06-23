@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import toast from 'react-hot-toast'
-import { batchesAPI, coursesAPI, departmentsAPI } from '../../../services/api'
+import { batchesAPI, coursesAPI, departmentsAPI, teachersAPI } from '../../../services/api'
 import {
   AcademicCapIcon,
   BuildingOfficeIcon,
   CalendarDaysIcon,
   ClockIcon,
   UserGroupIcon,
-  DocumentTextIcon
+  DocumentTextIcon,
+  UserIcon
 } from '@heroicons/react/24/outline'
 import BackButton from '../../../components/BackButton'
 import CourseDropdown from '../../../components/CourseDropdown'
@@ -30,11 +31,13 @@ const AdminBatchForm = () => {
     section: '',
     timing: '',
     startDate: '',
-    maxStudents: 20
+    maxStudents: 20,
+    assignedTeacher: ''
   })
 
   const [courses, setCourses] = useState([])
   const [departments, setDepartments] = useState([])
+  const [teachers, setTeachers] = useState([])
   const [filteredCourses, setFilteredCourses] = useState([])
   const [selectedDepartment, setSelectedDepartment] = useState('')
   const [loading, setLoading] = useState(false)
@@ -72,9 +75,10 @@ const AdminBatchForm = () => {
   const fetchInitialData = async () => {
     try {
       setFetchLoading(true)
-      const [coursesRes, departmentsRes] = await Promise.all([
+      const [coursesRes, departmentsRes, teachersRes] = await Promise.all([
         coursesAPI.getCourses({ active: 'true', limit: 'all' }),
-        departmentsAPI.getDepartments()
+        departmentsAPI.getDepartments(),
+        teachersAPI.getTeachers()
       ])
 
       const coursesData = coursesRes.data.courses || coursesRes.data || [];
@@ -82,11 +86,12 @@ const AdminBatchForm = () => {
       console.log('📚 Admin: Courses data:', coursesData);
       setCourses(coursesData)
       setDepartments(departmentsRes.data)
-      setFilteredCourses(coursesRes.data)
+      setTeachers(teachersRes.data || [])
+      setFilteredCourses(coursesData) // Fix: Use coursesData instead of coursesRes.data
 
       // If preselected course, set the department filter
       if (preselectedCourse) {
-        const selectedCourse = coursesRes.data.find(c => c._id === preselectedCourse)
+        const selectedCourse = coursesData.find(c => c._id === preselectedCourse)
         if (selectedCourse?.department) {
           setSelectedDepartment(selectedCourse.department._id)
         }
@@ -112,7 +117,8 @@ const AdminBatchForm = () => {
         section: batch.section,
         timing: batch.timing,
         startDate: batch.startDate ? new Date(batch.startDate).toISOString().split('T')[0] : '',
-        maxStudents: batch.maxStudents || 20
+        maxStudents: batch.maxStudents || 20,
+        assignedTeacher: batch.createdBy?._id || ''
       })
 
       // Set department filter based on course
@@ -439,6 +445,34 @@ const AdminBatchForm = () => {
               )}
               <p className="mt-1 text-sm text-gray-500">
                 Maximum number of students allowed in this batch (1-50)
+              </p>
+            </div>
+
+            {/* Assign Teacher */}
+            <div>
+              <label htmlFor="assignedTeacher" className="block text-sm font-medium text-gray-700 mb-2">
+                Assign Teacher
+              </label>
+              <div className="relative">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <UserIcon className="h-5 w-5 text-gray-400" />
+                </div>
+                <select
+                  id="assignedTeacher"
+                  value={formData.assignedTeacher}
+                  onChange={(e) => handleInputChange('assignedTeacher', e.target.value)}
+                  className="block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors"
+                >
+                  <option value="">Select a teacher (optional)</option>
+                  {teachers.map(teacher => (
+                    <option key={teacher._id} value={teacher._id}>
+                      {teacher.name} ({teacher.email})
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <p className="mt-1 text-sm text-gray-500">
+                Assign a teacher to this batch. If not selected, you will be assigned as the default teacher.
               </p>
             </div>
 

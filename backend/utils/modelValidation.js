@@ -236,6 +236,8 @@ async function validateUniqueConstraints(modelName, data, excludeId = null) {
     // Define unique field checks for each model
     const uniqueChecks = {
       Student: [
+        // Student ID should be globally unique (only check if provided)
+        ...(data.studentId ? [{ field: 'studentId', value: data.studentId.toUpperCase() }] : []),
         // Only check email uniqueness if email is provided (since it's now optional)
         ...(data.email && data.email.trim() !== '' ? [{ field: 'email', value: data.email }] : []),
         // Roll number should be unique within each batch, not globally

@@ -13,11 +13,23 @@ const {
   getBatchStats,
   getBatchesOverview,
 } = require('../controllers/batchController');
-const { protect, teacher } = require('../middleware/authMiddleware');
+const { protect, teacher, admin } = require('../middleware/authMiddleware');
+
+// Create middleware that allows both admin and teacher access
+const adminOrTeacher = (req, res, next) => {
+  if (req.user && (req.user.role === 'admin' || req.user.role === 'teacher')) {
+    next();
+  } else {
+    return res.status(403).json({
+      message: 'Not authorized. Admin or Teacher access required.',
+      error: 'AdminOrTeacherAccessRequired'
+    });
+  }
+};
 
 router.route('/')
-  .post(protect, teacher, createBatch)
-  .get(protect, teacher, getBatches);
+  .post(protect, adminOrTeacher, createBatch)
+  .get(protect, adminOrTeacher, getBatches);
 
 router.get('/overview', protect, getBatchesOverview);
 
@@ -29,12 +41,12 @@ router.route('/department/:departmentId')
 
 router.route('/:id')
   .get(protect, getBatchById)
-  .put(protect, teacher, updateBatch)
-  .delete(protect, teacher, deleteBatch);
+  .put(protect, adminOrTeacher, updateBatch)
+  .delete(protect, adminOrTeacher, deleteBatch);
 
 router.get('/:id/stats', protect, getBatchStats);
 
 router.get('/:id/students', protect, getBatchStudents);
-router.put('/:id/toggle-finished', protect, teacher, toggleBatchFinished);
+router.put('/:id/toggle-finished', protect, adminOrTeacher, toggleBatchFinished);
 
 module.exports = router;

@@ -5,10 +5,10 @@ const Attendance = require('../models/attendanceModel');
 
 // @desc    Create a new batch
 // @route   POST /api/batches
-// @access  Private/Teacher
+// @access  Private/Admin or Teacher
 const createBatch = async (req, res) => {
   try {
-    const { name, course, academicYear, section, timing, startDate, endDate, maxStudents } = req.body;
+    const { name, course, academicYear, section, timing, startDate, endDate, maxStudents, assignedTeacher } = req.body;
 
     // Validate required fields
     if (!name || !course || !academicYear || !section || !timing || !startDate) {
@@ -36,6 +36,19 @@ const createBatch = async (req, res) => {
       }
     }
 
+    // Determine who should be assigned to this batch
+    let batchCreatedBy = req.user._id;
+
+    // If admin is creating and assignedTeacher is provided, validate the teacher
+    if (req.user.role === 'admin' && assignedTeacher) {
+      const User = require('../models/userModel');
+      const teacher = await User.findById(assignedTeacher);
+      if (!teacher || teacher.role !== 'teacher') {
+        return res.status(400).json({ message: 'Invalid teacher assignment' });
+      }
+      batchCreatedBy = assignedTeacher;
+    }
+
     const batchData = {
       name,
       course,
@@ -44,7 +57,7 @@ const createBatch = async (req, res) => {
       timing,
       startDate: start,
       maxStudents: maxStudents || courseExists.maxStudentsPerBatch || 20,
-      createdBy: req.user._id,
+      createdBy: batchCreatedBy,
     };
 
     // Only add endDate if provided

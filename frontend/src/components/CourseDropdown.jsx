@@ -13,8 +13,9 @@ const CourseDropdown = ({
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef(null)
 
-  // Find selected course
-  const selectedCourse = courses.find(course => course._id === value)
+  // Ensure courses is an array and find selected course
+  const coursesArray = Array.isArray(courses) ? courses : []
+  const selectedCourse = coursesArray.find(course => course._id === value)
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -71,7 +72,7 @@ const CourseDropdown = ({
               maxHeight: '240px' // Fixed height that will definitely show scroll
             }}
           >
-            {courses.length === 0 ? (
+            {coursesArray.length === 0 ? (
               <div className="px-3 py-2 text-gray-500 text-sm">
                 No courses available
               </div>
@@ -90,7 +91,7 @@ const CourseDropdown = ({
                 </button>
                 
                 {/* Course options */}
-                {courses.map((course) => (
+                {coursesArray.map((course) => (
                   <button
                     key={course._id}
                     type="button"

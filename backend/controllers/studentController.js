@@ -17,6 +17,7 @@ const createStudent = asyncHandler(async (req, res) => {
 
   const {
     name,
+    studentId,
     rollNumber,
     rollNo,
     email,
@@ -40,13 +41,37 @@ const createStudent = asyncHandler(async (req, res) => {
   } = req.body;
 
   console.log('🔍 CONTROLLER DEBUG: Extracted fields:', {
-    name, rollNumber, rollNo, email, phone, department, course, batch
+    name, studentId, rollNumber, rollNo, email, phone, department, course, batch
   });
 
   // Validate required fields (email and phone are now optional)
   if (!name || !department || !course || !batch) {
     res.status(400);
     throw new Error('Please provide all required fields: name, department, course, batch');
+  }
+
+  // Student ID validation - only admins can set student ID
+  if (studentId) {
+    if (req.user.role !== 'admin') {
+      res.status(403);
+      throw new Error('Only administrators can set student ID');
+    }
+
+    // Check if student ID already exists
+    const existingStudent = await Student.findOne({ studentId: studentId.toUpperCase() });
+    if (existingStudent) {
+      res.status(400);
+      throw new Error('Student ID already exists');
+    }
+  } else if (req.user.role === 'admin') {
+    // If admin doesn't provide studentId, generate one
+    const lastStudent = await Student.findOne({}, {}, { sort: { 'createdAt': -1 } });
+    const nextNumber = lastStudent ?
+      (parseInt(lastStudent.studentId?.replace(/\D/g, '') || '0') + 1) : 1;
+    studentId = `STU${nextNumber.toString().padStart(4, '0')}`;
+  } else {
+    res.status(400);
+    throw new Error('Student ID is required');
   }
 
   // Validate fees
@@ -83,6 +108,7 @@ const createStudent = asyncHandler(async (req, res) => {
 
   const student = await Student.create({
     name,
+    studentId: studentId.toUpperCase(),
     rollNo: finalRollNo, // Use the mapped roll number
     email,
     phone,
@@ -168,6 +194,7 @@ const getStudents = asyncHandler(async (req, res) => {
   if (search) {
     query.$or = [
       { name: { $regex: search, $options: 'i' } },
+      { studentId: { $regex: search, $options: 'i' } },
       { email: { $regex: search, $options: 'i' } },
       { rollNo: { $regex: search, $options: 'i' } },
       { rollNumber: { $regex: search, $options: 'i' } },
@@ -261,6 +288,7 @@ const getStudentById = asyncHandler(async (req, res) => {
 const updateStudent = asyncHandler(async (req, res) => {
   const {
     name,
+    studentId,
     rollNumber,
     rollNo,
     email,
@@ -301,6 +329,24 @@ const updateStudent = asyncHandler(async (req, res) => {
     if (!batchIds.includes(student.batch._id.toString())) {
       res.status(403);
       throw new Error('Not authorized to update this student');
+    }
+  }
+
+  // Check if studentId is being changed - only admins can modify student ID
+  if (studentId && studentId !== student.studentId) {
+    if (req.user.role !== 'admin') {
+      res.status(403);
+      throw new Error('Only administrators can modify student ID');
+    }
+
+    // Check if new student ID already exists
+    const studentIdExists = await Student.findOne({
+      studentId: studentId.toUpperCase(),
+      _id: { $ne: req.params.id }
+    });
+    if (studentIdExists) {
+      res.status(400);
+      throw new Error('Student ID already exists');
     }
   }
 
@@ -392,6 +438,7 @@ const updateStudent = asyncHandler(async (req, res) => {
 
   // Update fields
   student.name = name || student.name;
+  student.studentId = studentId ? studentId.toUpperCase() : student.studentId;
   student.rollNumber = rollNumber !== undefined ? rollNumber : student.rollNumber;
   student.rollNo = rollNo || student.rollNo;
   student.email = email || student.email;

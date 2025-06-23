@@ -7,6 +7,13 @@ const studentSchema = mongoose.Schema(
       required: [true, 'Please add a name'],
       trim: true,
     },
+    studentId: {
+      type: String,
+      required: [true, 'Please add a student ID'],
+      trim: true,
+      uppercase: true,
+      // Global unique constraint - only admins can set this
+    },
     rollNo: {
       type: String,
       required: [true, 'Please add a roll number'],
@@ -115,6 +122,8 @@ studentSchema.virtual('attendance', {
 });
 
 // Indexes for performance optimization
+// Student ID should be globally unique across all students
+studentSchema.index({ studentId: 1 }, { unique: true });
 // Email should be unique when provided, but allow null values (sparse index)
 studentSchema.index({ email: 1 }, { unique: true, sparse: true });
 // Roll number should be unique within each batch, not globally

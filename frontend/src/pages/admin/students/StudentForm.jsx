@@ -26,6 +26,7 @@ const StudentForm = () => {
 
   const [formData, setFormData] = useState({
     name: '',
+    studentId: '',
     email: '',
     phone: '',
     address: '',
@@ -124,6 +125,7 @@ const StudentForm = () => {
 
       setFormData({
         name: student.name || '',
+        studentId: student.studentId || '',
         email: student.email || '',
         phone: student.phone || '',
         address: student.address || '',
@@ -199,6 +201,12 @@ const StudentForm = () => {
 
     if (!formData.name.trim()) {
       newErrors.name = 'Student name is required'
+    }
+
+    if (!formData.studentId.trim()) {
+      newErrors.studentId = 'Student ID is required'
+    } else if (!/^[A-Z0-9]+$/.test(formData.studentId.toUpperCase())) {
+      newErrors.studentId = 'Student ID should contain only letters and numbers'
     }
 
     // Email is optional - only validate if provided
@@ -330,6 +338,30 @@ const StudentForm = () => {
                 {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
               </div>
 
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <IdentificationIcon className="h-4 w-4 inline mr-1" />
+                  Student ID * <span className="text-xs text-blue-600">(Admin Only)</span>
+                </label>
+                <input
+                  type="text"
+                  name="studentId"
+                  value={formData.studentId}
+                  onChange={handleChange}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-cadd-red focus:border-transparent ${
+                    errors.studentId ? 'border-red-500' : 'border-gray-300'
+                  }`}
+                  placeholder="e.g., STU0001"
+                  style={{ textTransform: 'uppercase' }}
+                />
+                {errors.studentId && <p className="text-red-500 text-sm mt-1">{errors.studentId}</p>}
+                <p className="text-xs text-gray-500 mt-1">
+                  Unique identifier for the student (letters and numbers only)
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <IdentificationIcon className="h-4 w-4 inline mr-1" />
