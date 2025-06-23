@@ -61,6 +61,10 @@ const setToken = () => {
 const removeToken = () => {
   try {
     localStorage.removeItem('isLoggedIn')
+    // Also clear any cached user data
+    localStorage.removeItem('cachedUser')
+    localStorage.removeItem('lastProfileCheck')
+    localStorage.removeItem('forceProfileRefresh')
   } catch (error) {
     console.error('Error removing login state:', error)
   }
@@ -69,14 +73,13 @@ const removeToken = () => {
 // Request interceptor (simplified without CSRF)
 api.interceptors.request.use(
   (config) => {
-    // Add auth token if available
-    const token = getToken()
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
-    }
+    // Since we're using HTTP-only cookies, we don't need to manually add Authorization header
+    // The browser will automatically include the JWT cookie with each request
+    // We just check if user is logged in for client-side logic
+    const isLoggedIn = getToken()
 
     // Add request timestamp for debugging
-    config.metadata = { startTime: new Date() }
+    config.metadata = { startTime: new Date(), isLoggedIn }
 
     return config
   },
@@ -317,8 +320,39 @@ if (getToken()) {
   startTokenRefreshTimer()
 }
 
+// Function to force clear all authentication data
+const forceLogout = async () => {
+  try {
+    // Try to call logout endpoint to clear server-side cookies
+    await api.post('/users/logout').catch(() => {
+      // Ignore errors - we want to clear local state regardless
+    });
+  } catch (error) {
+    console.log('Logout API call failed, clearing local state anyway');
+  }
+
+  // Clear all local storage
+  removeToken();
+
+  // Clear any remaining cookies manually (fallback)
+  document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+  document.cookie = 'refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/api/users/refresh-token;';
+
+  // Stop any running timers
+  stopTokenRefreshTimer();
+
+  console.log('🧹 All authentication data cleared');
+};
+
 // Export token management functions for use in other components
-export { getToken, enhancedSetToken as setToken, enhancedRemoveToken as removeToken, startTokenRefreshTimer, stopTokenRefreshTimer }
+export {
+  getToken,
+  enhancedSetToken as setToken,
+  enhancedRemoveToken as removeToken,
+  startTokenRefreshTimer,
+  stopTokenRefreshTimer,
+  forceLogout
+}
 
 // Auth API
 export const authAPI = {

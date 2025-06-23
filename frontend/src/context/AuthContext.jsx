@@ -1,5 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'
-import { authAPI, getToken, setToken, removeToken, startTokenRefreshTimer, stopTokenRefreshTimer } from '../services/api'
+import { authAPI, getToken, setToken, removeToken, startTokenRefreshTimer, stopTokenRefreshTimer, forceLogout } from '../services/api'
 import toast from 'react-hot-toast'
 
 const AuthContext = createContext()

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Authentication Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .button {
+            background-color: #dc3545;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .button:hover {
+            background-color: #c82333;
+        }
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .info {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Clear Authentication Data</h1>
+        
+        <div class="info">
+            <strong>Issue:</strong> JWT malformed errors are occurring because of corrupted authentication tokens.
+            <br><br>
+            <strong>Solution:</strong> Clear all authentication data and login fresh.
+        </div>
+        
+        <button class="button" onclick="clearAllAuthData()">
+            Clear All Authentication Data
+        </button>
+        
+        <button class="button" onclick="openLoginPage()">
+            Go to Login Page
+        </button>
+        
+        <div id="result"></div>
+        
+        <h3>What this will clear:</h3>
+        <ul style="text-align: left;">
+            <li>JWT cookies (httpOnly)</li>
+            <li>Refresh token cookies</li>
+            <li>Local storage authentication flags</li>
+            <li>Cached user data</li>
+            <li>Profile check timestamps</li>
+        </ul>
+    </div>
+
+    <script>
+        function clearAllAuthData() {
+            try {
+                console.log('🧹 Starting authentication data cleanup...');
+                
+                // Clear localStorage items
+                const itemsToClear = [
+                    'isLoggedIn',
+                    'cachedUser', 
+                    'lastProfileCheck',
+                    'forceProfileRefresh',
+                    'errorBoundaryLogs'
+                ];
+                
+                itemsToClear.forEach(item => {
+                    localStorage.removeItem(item);
+                    console.log(`✅ Cleared localStorage: ${item}`);
+                });
+                
+                // Clear sessionStorage
+                sessionStorage.clear();
+                console.log('✅ Cleared sessionStorage');
+                
+                // Clear cookies manually (fallback)
+                const cookiesToClear = [
+                    'jwt',
+                    'refreshToken'
+                ];
+                
+                cookiesToClear.forEach(cookie => {
+                    // Clear for root path
+                    document.cookie = `${cookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+                    // Clear for API path
+                    document.cookie = `${cookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/api/users/refresh-token;`;
+                    console.log(`✅ Cleared cookie: ${cookie}`);
+                });
+                
+                // Call logout endpoint to clear server-side cookies
+                fetch('http://localhost:5000/api/users/logout', {
+                    method: 'POST',
+                    credentials: 'include'
+                }).then(() => {
+                    console.log('✅ Called logout endpoint');
+                }).catch(() => {
+                    console.log('⚠️ Logout endpoint call failed (this is okay)');
+                });
+                
+                // Show success message
+                document.getElementById('result').innerHTML = `
+                    <div class="success">
+                        <strong>✅ Success!</strong><br>
+                        All authentication data has been cleared.<br>
+                        You can now login fresh without JWT errors.
+                    </div>
+                `;
+                
+                console.log('🎉 Authentication cleanup completed successfully!');
+                
+            } catch (error) {
+                console.error('❌ Error during cleanup:', error);
+                document.getElementById('result').innerHTML = `
+                    <div style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px; margin: 20px 0;">
+                        <strong>❌ Error:</strong><br>
+                        ${error.message}<br>
+                        Please try manually clearing browser data.
+                    </div>
+                `;
+            }
+        }
+        
+        function openLoginPage() {
+            window.open('http://localhost:5174/login', '_blank');
+        }
+        
+        // Auto-run cleanup on page load
+        window.onload = function() {
+            console.log('🔧 Authentication cleanup tool loaded');
+            console.log('Click "Clear All Authentication Data" to fix JWT malformed errors');
+        };
+    </script>
+</body>
+</html>
