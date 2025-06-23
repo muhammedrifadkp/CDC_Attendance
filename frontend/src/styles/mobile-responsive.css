@@ -1,0 +1,805 @@
+/* Mobile-First Responsive Design for Entire Project */
+
+/* Base Mobile Styles */
+@media (max-width: 640px) {
+
+  /* Container and Layout Fixes */
+  .container {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  /* Header and Navigation */
+  .mobile-header {
+    padding: 0.75rem 1rem !important;
+  }
+
+  .mobile-nav-item {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.875rem !important;
+  }
+
+  /* Enhanced Mobile Navigation */
+  .mobile-sidebar {
+    width: 100% !important;
+    max-width: 320px !important;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s ease-in-out !important;
+  }
+
+  .mobile-sidebar.open {
+    transform: translateX(0) !important;
+  }
+
+  .mobile-nav-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    z-index: 40 !important;
+  }
+
+  /* Cards and Grid Layouts */
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .card-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Enhanced Dashboard Cards */
+  .dashboard-card {
+    padding: 1.25rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .dashboard-card-content {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
+
+  .dashboard-card-icon {
+    width: 3rem !important;
+    height: 3rem !important;
+  }
+
+  .dashboard-card-stats {
+    text-align: left !important;
+  }
+
+  /* Enhanced Forms */
+  .form-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    width: 100% !important;
+    font-size: 16px !important;
+    /* Prevents zoom on iOS */
+    padding: 0.875rem !important;
+    border-radius: 0.75rem !important;
+    min-height: 44px !important;
+  }
+
+  /* Fix for inputs with left icons */
+  .form-input.pl-10 {
+    padding-left: 3rem !important;
+    /* Increased from 2.5rem to 3rem for better spacing */
+  }
+
+  /* Fix for inputs with both left and right icons */
+  .form-input.pl-10.pr-10 {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+  }
+
+  /* Ensure proper icon positioning on mobile */
+  .form-group .absolute.inset-y-0.left-0 {
+    padding-left: 0.875rem !important;
+    /* Adjust icon position */
+  }
+
+  .form-group .absolute.inset-y-0.right-0 {
+    padding-right: 0.875rem !important;
+    /* Adjust right icon position */
+  }
+
+  /* Better touch targets for password toggle */
+  .btn-icon-mobile {
+    min-width: 44px !important;
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .form-row {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .form-label {
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .form-group {
+    margin-bottom: 1.25rem !important;
+  }
+
+  .form-actions {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    margin-top: 1.5rem !important;
+  }
+
+  .form-button {
+    width: 100% !important;
+    min-height: 48px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+  }
+
+  /* Enhanced Tables */
+  .table-container {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    border-radius: 0.75rem !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .mobile-table {
+    min-width: 600px !important;
+  }
+
+  .table-cell {
+    padding: 0.75rem 0.5rem !important;
+    font-size: 0.875rem !important;
+    white-space: nowrap !important;
+  }
+
+  .table-header {
+    padding: 1rem 0.5rem !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+  }
+
+  .table-row {
+    min-height: 48px !important;
+  }
+
+  .table-row:hover {
+    background-color: rgba(59, 130, 246, 0.05) !important;
+  }
+
+  /* Enhanced Buttons */
+  .btn-group {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .btn-mobile {
+    width: 100% !important;
+    justify-content: center !important;
+    min-height: 48px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    border-radius: 0.75rem !important;
+  }
+
+  .btn-icon-mobile {
+    padding: 0.75rem !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  /* Enhanced Modal and Popups */
+  .modal-overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    background-color: rgba(0, 0, 0, 0.6) !important;
+    z-index: 50 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 1rem !important;
+  }
+
+  .modal-content {
+    width: 100% !important;
+    max-width: calc(100vw - 2rem) !important;
+    max-height: calc(100vh - 2rem) !important;
+    overflow-y: auto !important;
+    border-radius: 1rem !important;
+    background-color: white !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+  }
+
+  .modal-header {
+    padding: 1.5rem 1.5rem 1rem !important;
+    border-bottom: 1px solid #e5e7eb !important;
+  }
+
+  .modal-body {
+    padding: 1.5rem !important;
+  }
+
+  .modal-footer {
+    padding: 1rem 1.5rem 1.5rem !important;
+    border-top: 1px solid #e5e7eb !important;
+  }
+
+  /* Charts */
+  .chart-container {
+    height: 250px !important;
+  }
+
+  .chart-mobile {
+    height: 200px !important;
+  }
+
+  /* Filters and Controls */
+  .filter-container {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  .filter-row {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .filter-group {
+    width: 100% !important;
+  }
+
+  /* Date Inputs */
+  .date-range {
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+
+  .date-input {
+    width: 100% !important;
+  }
+
+  /* View Mode Tabs */
+  .view-tabs {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .view-tab {
+    white-space: nowrap !important;
+    min-width: auto !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.75rem !important;
+  }
+
+  /* Export Menu */
+  .export-menu {
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    border-radius: 1rem 1rem 0 0 !important;
+    max-height: 50vh !important;
+    overflow-y: auto !important;
+  }
+
+  /* Attendance Report Specific */
+  .attendance-header {
+    padding: 1.5rem 1rem !important;
+  }
+
+  .attendance-title {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .attendance-subtitle {
+    font-size: 0.875rem !important;
+  }
+
+  .stats-card {
+    padding: 1rem !important;
+  }
+
+  .stats-card-title {
+    font-size: 1.25rem !important;
+  }
+
+  .stats-card-value {
+    font-size: 1.5rem !important;
+  }
+
+  /* Enhanced Lab Management */
+  .lab-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .pc-card {
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+    min-height: 44px !important;
+  }
+
+  .pc-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+  }
+
+  .pc-grid-large {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+
+  .pc-status-card {
+    padding: 0.875rem !important;
+    border-radius: 0.75rem !important;
+    min-height: 48px !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    text-align: center !important;
+    transition: all 0.2s ease-in-out !important;
+  }
+
+  .pc-status-card:active {
+    transform: scale(0.95) !important;
+  }
+
+  .lab-time-slots {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .lab-time-slot {
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+    min-height: 48px !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+  }
+
+  .lab-booking-form {
+    padding: 1.5rem !important;
+  }
+
+  .lab-booking-controls {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  /* Enhanced Batch and Student Lists */
+  .list-item {
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .list-item-content {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0.75rem !important;
+  }
+
+  .list-item-actions {
+    width: 100% !important;
+    justify-content: flex-end !important;
+    gap: 0.75rem !important;
+    margin-top: 0.75rem !important;
+  }
+
+  .list-item-header {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .list-item-title {
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    line-height: 1.3 !important;
+  }
+
+  .list-item-subtitle {
+    font-size: 0.875rem !important;
+    color: #6b7280 !important;
+    margin-top: 0.25rem !important;
+  }
+
+  .list-item-meta {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    margin-top: 0.5rem !important;
+  }
+
+  .list-item-badge {
+    padding: 0.25rem 0.75rem !important;
+    border-radius: 9999px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+  }
+
+  /* Enhanced Search and Filters */
+  .search-container {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .search-input {
+    width: 100% !important;
+    padding: 0.875rem 1rem !important;
+    font-size: 16px !important;
+    border-radius: 0.75rem !important;
+    border: 2px solid #e5e7eb !important;
+    min-height: 48px !important;
+  }
+
+  .search-input:focus {
+    border-color: #3b82f6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+  }
+
+  .filter-tabs {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 0.5rem !important;
+    margin-top: 1rem !important;
+  }
+
+  .filter-tab {
+    padding: 0.5rem 1rem !important;
+    border-radius: 9999px !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    min-height: 40px !important;
+    white-space: nowrap !important;
+  }
+
+  /* Sidebar */
+  .sidebar-mobile {
+    width: 100% !important;
+    max-width: 320px !important;
+  }
+
+  .sidebar-content {
+    padding: 1rem !important;
+  }
+
+  .sidebar-nav {
+    gap: 0.5rem !important;
+  }
+
+  .sidebar-nav-item {
+    padding: 0.75rem !important;
+    font-size: 0.875rem !important;
+  }
+
+  /* Typography */
+  .mobile-title {
+    font-size: 1.25rem !important;
+    line-height: 1.3 !important;
+  }
+
+  .mobile-subtitle {
+    font-size: 0.875rem !important;
+  }
+
+  .mobile-text {
+    font-size: 0.875rem !important;
+  }
+
+  /* Spacing */
+  .mobile-spacing {
+    padding: 1rem !important;
+  }
+
+  .mobile-spacing-sm {
+    padding: 0.75rem !important;
+  }
+
+  .mobile-gap {
+    gap: 0.75rem !important;
+  }
+
+  .mobile-gap-sm {
+    gap: 0.5rem !important;
+  }
+
+  /* Enhanced Attendance Components */
+  .attendance-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .attendance-card {
+    padding: 1.25rem !important;
+    border-radius: 0.75rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .attendance-student-card {
+    padding: 1rem !important;
+    border-radius: 0.75rem !important;
+    margin-bottom: 0.75rem !important;
+    border: 2px solid #e5e7eb !important;
+  }
+
+  .attendance-student-info {
+    margin-bottom: 1rem !important;
+  }
+
+  .attendance-student-name {
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    margin-bottom: 0.25rem !important;
+  }
+
+  .attendance-student-id {
+    font-size: 0.875rem !important;
+    color: #6b7280 !important;
+  }
+
+  .attendance-status-buttons {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.5rem !important;
+  }
+
+  .attendance-status-button {
+    width: 100% !important;
+    padding: 0.75rem !important;
+    border-radius: 0.5rem !important;
+    font-size: 0.875rem !important;
+    font-weight: 600 !important;
+    min-height: 44px !important;
+    transition: all 0.2s ease-in-out !important;
+  }
+
+  .attendance-status-button:active {
+    transform: scale(0.98) !important;
+  }
+
+  .attendance-summary {
+    padding: 1.25rem !important;
+    border-radius: 0.75rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .attendance-summary-stats {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+
+  .attendance-summary-stat {
+    text-align: center !important;
+    padding: 1rem !important;
+    border-radius: 0.5rem !important;
+  }
+
+  .attendance-batch-selector {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .attendance-date-picker {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .attendance-actions {
+    position: sticky !important;
+    bottom: 0 !important;
+    background-color: white !important;
+    padding: 1rem !important;
+    border-top: 1px solid #e5e7eb !important;
+    margin: 0 -1rem -1rem !important;
+  }
+
+  .attendance-submit-button {
+    width: 100% !important;
+    min-height: 52px !important;
+    font-size: 1.125rem !important;
+    font-weight: 700 !important;
+    border-radius: 0.75rem !important;
+  }
+}
+
+/* Tablet Styles */
+@media (min-width: 641px) and (max-width: 1024px) {
+  .tablet-grid-2 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .tablet-grid-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .tablet-flex-col {
+    flex-direction: column !important;
+  }
+
+  .tablet-w-full {
+    width: 100% !important;
+  }
+
+  /* Charts for tablet */
+  .chart-container {
+    height: 300px !important;
+  }
+
+  /* Tables for tablet */
+  .table-container {
+    overflow-x: auto !important;
+  }
+
+  /* Forms for tablet */
+  .form-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+
+/* Touch-friendly interactions */
+@media (hover: none) and (pointer: coarse) {
+  .touch-target {
+    min-height: 44px !important;
+    min-width: 44px !important;
+  }
+
+  .btn {
+    min-height: 44px !important;
+    padding: 0.75rem 1rem !important;
+  }
+
+  .nav-item {
+    min-height: 48px !important;
+  }
+
+  .table-row {
+    min-height: 48px !important;
+  }
+}
+
+/* Landscape mobile */
+@media (max-width: 896px) and (orientation: landscape) {
+  .landscape-hide {
+    display: none !important;
+  }
+
+  .landscape-compact {
+    padding: 0.5rem !important;
+  }
+
+  .chart-container {
+    height: 200px !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .print-hide {
+    display: none !important;
+  }
+
+  .print-full-width {
+    width: 100% !important;
+  }
+
+  .chart-container {
+    height: 400px !important;
+  }
+
+  .page-break {
+    page-break-before: always !important;
+  }
+}
+
+/* High DPI displays */
+@media (-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+  .high-dpi-text {
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .motion-reduce {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .dark-mode-bg {
+    background-color: #1f2937 !important;
+    color: #f9fafb !important;
+  }
+
+  .dark-mode-card {
+    background-color: #374151 !important;
+    border-color: #4b5563 !important;
+  }
+}
+
+/* Utility classes for responsive design */
+.mobile-only {
+  display: block;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .mobile-only {
+    display: none;
+  }
+
+  .desktop-only {
+    display: block;
+  }
+}
+
+/* Responsive text sizes */
+.responsive-text-xs {
+  font-size: 0.75rem;
+}
+
+.responsive-text-sm {
+  font-size: 0.875rem;
+}
+
+.responsive-text-base {
+  font-size: 1rem;
+}
+
+.responsive-text-lg {
+  font-size: 1.125rem;
+}
+
+.responsive-text-xl {
+  font-size: 1.25rem;
+}
+
+@media (max-width: 640px) {
+  .responsive-text-xs {
+    font-size: 0.625rem;
+  }
+
+  .responsive-text-sm {
+    font-size: 0.75rem;
+  }
+
+  .responsive-text-base {
+    font-size: 0.875rem;
+  }
+
+  .responsive-text-lg {
+    font-size: 1rem;
+  }
+
+  .responsive-text-xl {
+    font-size: 1.125rem;
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "version": 2,
+  "name": "cdc-attendance-frontend",
+  "buildCommand": "cd frontend && npm run build",
+  "outputDirectory": "frontend/dist",
+  "installCommand": "cd frontend && npm install",
+  "env": {
+    "VITE_API_URL": "https://cdc-attendance-backend.onrender.com/api",
+    "VITE_DEV_API_URL": "https://cdc-attendance-backend.onrender.com/api",
+    "VITE_LOCAL_API_URL": "https://cdc-attendance-backend.onrender.com/api",
+    "VITE_APP_NAME": "CDC Attendance Management System",
+    "VITE_APP_VERSION": "1.0.0"
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
