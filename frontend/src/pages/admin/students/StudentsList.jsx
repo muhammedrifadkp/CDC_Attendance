@@ -104,6 +104,7 @@ const StudentsList = () => {
     if (searchTerm) {
       filtered = filtered.filter(student =>
         student.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        student.studentId?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.phone?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         student.rollNo?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -285,7 +286,7 @@ const StudentsList = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="block w-full pl-9 md:pl-10 pr-3 py-2 md:py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cadd-red focus:border-transparent transition-colors text-xs md:text-sm"
-              placeholder="Search by name, email, phone..."
+              placeholder="Search by name, student ID, email, phone..."
             />
           </div>
         </div>
@@ -429,7 +430,7 @@ const StudentsList = () => {
                 </span>
               </div>
               <p className="text-white/80 text-xs md:text-sm mt-1">
-                Roll: {student.rollNo || student.rollNumber || 'N/A'}
+                ID: {student.studentId || 'N/A'} • Roll: {student.rollNo || student.rollNumber || 'N/A'}
               </p>
             </div>
 

@@ -206,11 +206,12 @@ const LabOverviewFixed = () => {
       const searchTerm = studentSearch.toLowerCase()
       studentsArray = studentsArray.filter(student => {
         const nameMatch = student.name?.toLowerCase().includes(searchTerm)
+        const studentIdMatch = student.studentId?.toLowerCase().includes(searchTerm)
         const rollMatch = student.rollNo?.toLowerCase().includes(searchTerm)
         const teacherMatch = student.teacher?.name?.toLowerCase().includes(searchTerm)
         const batchMatch = student.batch?.name?.toLowerCase().includes(searchTerm)
 
-        return nameMatch || rollMatch || teacherMatch || batchMatch
+        return nameMatch || studentIdMatch || rollMatch || teacherMatch || batchMatch
       })
     }
 

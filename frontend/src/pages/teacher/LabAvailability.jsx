@@ -285,6 +285,7 @@ const LabAvailability = () => {
       const searchLower = searchTerm.toLowerCase()
       filtered = filtered.filter(booking =>
         booking.studentName?.toLowerCase().includes(searchLower) ||
+        booking.studentId?.toLowerCase().includes(searchLower) ||
         booking.teacherName?.toLowerCase().includes(searchLower) ||
         booking.purpose?.toLowerCase().includes(searchLower) ||
         booking.batch?.name?.toLowerCase().includes(searchLower)

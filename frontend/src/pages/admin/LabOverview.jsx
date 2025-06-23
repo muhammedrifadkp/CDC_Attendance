@@ -150,8 +150,9 @@ const LabOverview = () => {
     if (studentSearch.trim()) {
       const filtered = studentsArray.filter(student => {
         const nameMatch = student.name?.toLowerCase().includes(studentSearch.toLowerCase())
+        const studentIdMatch = student.studentId?.toLowerCase().includes(studentSearch.toLowerCase())
         const rollMatch = student.rollNo?.toLowerCase().includes(studentSearch.toLowerCase())
-        return nameMatch || rollMatch
+        return nameMatch || studentIdMatch || rollMatch
       })
 
       setFilteredStudents(filtered)
