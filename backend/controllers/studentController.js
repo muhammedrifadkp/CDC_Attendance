@@ -51,14 +51,16 @@ const createStudent = asyncHandler(async (req, res) => {
   }
 
   // Student ID validation - only admins can set student ID
-  if (studentId) {
+  let finalStudentId = studentId;
+
+  if (finalStudentId) {
     if (req.user.role !== 'admin') {
       res.status(403);
       throw new Error('Only administrators can set student ID');
     }
 
     // Check if student ID already exists
-    const existingStudent = await Student.findOne({ studentId: studentId.toUpperCase() });
+    const existingStudent = await Student.findOne({ studentId: finalStudentId.toUpperCase() });
     if (existingStudent) {
       res.status(400);
       throw new Error('Student ID already exists');
@@ -68,7 +70,7 @@ const createStudent = asyncHandler(async (req, res) => {
     const lastStudent = await Student.findOne({}, {}, { sort: { 'createdAt': -1 } });
     const nextNumber = lastStudent ?
       (parseInt(lastStudent.studentId?.replace(/\D/g, '') || '0') + 1) : 1;
-    studentId = `STU${nextNumber.toString().padStart(4, '0')}`;
+    finalStudentId = `STU${nextNumber.toString().padStart(4, '0')}`;
   } else {
     res.status(400);
     throw new Error('Student ID is required');
@@ -108,7 +110,7 @@ const createStudent = asyncHandler(async (req, res) => {
 
   const student = await Student.create({
     name,
-    studentId: studentId.toUpperCase(),
+    studentId: finalStudentId.toUpperCase(),
     rollNo: finalRollNo, // Use the mapped roll number
     email,
     phone,
@@ -204,8 +206,22 @@ const getStudents = asyncHandler(async (req, res) => {
 
   // For teachers, only show students from their batches
   if (req.user.role === 'teacher') {
-    const teacherBatches = await Batch.find({ createdBy: req.user._id }).select('_id');
+    // Use aggregation for better performance with large datasets
+    const teacherBatches = await Batch.find({ createdBy: req.user._id }).select('_id').lean();
     const batchIds = teacherBatches.map(batch => batch._id);
+
+    if (batchIds.length === 0) {
+      // Teacher has no batches, return empty result
+      return res.json({
+        students: [],
+        pagination: {
+          page: parseInt(page),
+          limit: parseInt(limit),
+          total: 0,
+          pages: 0
+        }
+      });
+    }
 
     if (query.batch) {
       // If batch filter is provided, ensure it's one of teacher's batches

@@ -207,6 +207,8 @@ const StudentForm = () => {
       newErrors.studentId = 'Student ID is required'
     } else if (!/^[A-Z0-9]+$/.test(formData.studentId.toUpperCase())) {
       newErrors.studentId = 'Student ID should contain only letters and numbers'
+    } else if (formData.studentId.length < 3 || formData.studentId.length > 20) {
+      newErrors.studentId = 'Student ID should be between 3 and 20 characters'
     }
 
     // Email is optional - only validate if provided

@@ -69,6 +69,15 @@ const removeToken = () => {
 // Request interceptor (simplified without CSRF)
 api.interceptors.request.use(
   (config) => {
+    // Add auth token if available
+    const token = getToken()
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+
+    // Add request timestamp for debugging
+    config.metadata = { startTime: new Date() }
+
     return config
   },
   (error) => {

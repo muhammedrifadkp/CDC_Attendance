@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const asyncHandler = require('express-async-handler');
 const Batch = require('../models/batchModel');
 const Student = require('../models/studentModel');
 const Attendance = require('../models/attendanceModel');
@@ -275,29 +276,46 @@ const updateBatch = async (req, res) => {
 // @route   DELETE /api/batches/:id
 // @access  Private/Teacher
 const deleteBatch = async (req, res) => {
-  const batch = await Batch.findById(req.params.id);
+  try {
+    const batch = await Batch.findById(req.params.id);
 
-  if (!batch) {
-    res.status(404);
-    throw new Error('Batch not found');
+    if (!batch) {
+      return res.status(404).json({ message: 'Batch not found' });
+    }
+
+    // Check if user has access to delete this batch
+    if (req.user.role !== 'admin' && batch.createdBy.toString() !== req.user._id.toString()) {
+      return res.status(403).json({ message: 'Not authorized to delete this batch' });
+    }
+
+    // Check if batch has students - warn before deletion
+    const studentCount = await Student.countDocuments({ batch: batch._id });
+    if (studentCount > 0) {
+      console.log(`Warning: Deleting batch ${batch.name} with ${studentCount} students`);
+    }
+
+    // Use transaction for data consistency
+    const session = await mongoose.startSession();
+    await session.withTransaction(async () => {
+      // Delete all students in this batch
+      await Student.deleteMany({ batch: batch._id }, { session });
+
+      // Delete all attendance records for this batch
+      await Attendance.deleteMany({ batch: batch._id }, { session });
+
+      // Delete the batch
+      await batch.deleteOne({ session });
+    });
+    await session.endSession();
+
+    res.json({
+      message: 'Batch removed successfully',
+      deletedStudents: studentCount
+    });
+  } catch (error) {
+    console.error('Error deleting batch:', error);
+    res.status(500).json({ message: error.message || 'Server error deleting batch' });
   }
-
-  // Check if user has access to delete this batch
-  if (req.user.role !== 'admin' && batch.createdBy.toString() !== req.user._id.toString()) {
-    res.status(403);
-    throw new Error('Not authorized to delete this batch');
-  }
-
-  // Delete all students in this batch
-  await Student.deleteMany({ batch: batch._id });
-
-  // Delete all attendance records for this batch
-  await Attendance.deleteMany({ batch: batch._id });
-
-  // Delete the batch
-  await batch.deleteOne();
-
-  res.json({ message: 'Batch removed' });
 };
 
 // @desc    Get students in a batch

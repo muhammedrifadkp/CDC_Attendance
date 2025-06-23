@@ -212,6 +212,8 @@ export const AuthProvider = ({ children }) => {
       mounted = false
       clearTimeout(retryTimeout)
       clearInterval(profileCheckInterval)
+      // Clear any pending token refresh timers
+      stopTokenRefreshTimer()
     }
   }, []) // Dependencies array is empty to prevent loops
 

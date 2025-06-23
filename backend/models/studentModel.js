@@ -105,6 +105,27 @@ const studentSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    // Legacy contactInfo field for backward compatibility
+    contactInfo: {
+      email: {
+        type: String,
+        trim: true,
+        lowercase: true,
+      },
+      phone: {
+        type: String,
+        trim: true,
+      },
+      address: {
+        type: String,
+        trim: true,
+      }
+    },
+    // Legacy rollNumber field for backward compatibility
+    rollNumber: {
+      type: String,
+      trim: true,
+    },
   },
   {
     timestamps: true,
