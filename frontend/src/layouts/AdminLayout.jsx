@@ -15,6 +15,7 @@ import {
   AcademicCapIcon,
   UsersIcon,
   SpeakerWaveIcon,
+  DocumentTextIcon,
 } from '@heroicons/react/24/outline'
 
 const AdminLayout = () => {
@@ -83,6 +84,12 @@ const AdminLayout = () => {
       href: '/admin/attendance',
       icon: ClipboardDocumentListIcon,
       current: location.pathname.startsWith('/admin/attendance'),
+    },
+    {
+      name: 'Projects',
+      href: '/admin/projects',
+      icon: DocumentTextIcon,
+      current: location.pathname.startsWith('/admin/projects'),
     },
     {
       name: 'Lab Management',

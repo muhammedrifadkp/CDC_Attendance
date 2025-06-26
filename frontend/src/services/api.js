@@ -354,6 +354,38 @@ export {
   forceLogout
 }
 
+// Projects API
+export const projectAPI = {
+  getProjects: (params) => api.get('/projects', { params }),
+  getFinishedBatches: () => api.get('/projects/finished-batches'),
+  getProject: (id) => api.get(`/projects/${id}`),
+  createProject: (project) => api.post('/projects', project),
+  updateProject: (id, project) => api.put(`/projects/${id}`, project),
+  deleteProject: (id) => api.delete(`/projects/${id}`),
+  getStudentProjects: (studentId) => api.get(`/projects/student/${studentId}`),
+  getMyProjects: () => api.get('/projects/my-projects'),
+  submitProject: (projectId, formData) => {
+    return api.post(`/projects/${projectId}/submit`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+  },
+  getProjectSubmissions: (projectId, params) => api.get(`/projects/${projectId}/submissions`, { params }),
+  gradeSubmission: (submissionId, data) => api.put(`/projects/submissions/${submissionId}/grade`, data),
+  downloadSubmissionFile: (submissionId, fileName) => api.get(`/projects/submissions/${submissionId}/download/${fileName}`, { responseType: 'blob' }),
+  completeProject: (projectId, data) => api.put(`/projects/${projectId}/complete`, data),
+  getProjectCompletionStatus: (projectId) => api.get(`/projects/${projectId}/completion-status`),
+  getAllSubmissions: (params) => api.get('/projects/submissions/all', { params }),
+  updateSubmissionStatus: (submissionId, data) => api.put(`/projects/submissions/${submissionId}/status`, data),
+  getSubmissionDetails: (submissionId) => api.get(`/projects/submissions/${submissionId}`),
+  removeSubmission: (submissionId) => api.delete(`/projects/submissions/${submissionId}`),
+  getProjectAnalytics: (projectId) => api.get(`/projects/${projectId}/analytics`),
+  getBatchProjectComparison: (batchIds) => api.get('/projects/analytics/batch-comparison', { params: { batchIds } }),
+  getStudentProjectPerformance: (studentId) => api.get(`/projects/analytics/student-performance/${studentId}`),
+  getProjectDashboard: () => api.get('/projects/dashboard'),
+}
+
 // Auth API
 export const authAPI = {
   login: (credentials) => api.post('/users/login', credentials),

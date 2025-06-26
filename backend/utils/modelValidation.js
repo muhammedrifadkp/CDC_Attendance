@@ -158,17 +158,13 @@ async function validateUserBatchAccess(user, batchId) {
       return { valid: true };
     }
 
-    // Teachers can only access batches they created
+    // Teachers can access any batch (not restricted to only batches they created)
     if (user.role === 'teacher') {
       const Batch = mongoose.model('Batch');
-      const batch = await Batch.findById(batchId).select('createdBy').lean();
-      
+      const batch = await Batch.findById(batchId).select('_id').lean();
+
       if (!batch) {
         return { valid: false, error: 'Batch not found' };
-      }
-
-      if (batch.createdBy.toString() !== user._id.toString()) {
-        return { valid: false, error: 'Access denied: You can only access batches you created' };
       }
 
       return { valid: true };
@@ -240,8 +236,8 @@ async function validateUniqueConstraints(modelName, data, excludeId = null) {
         ...(data.studentId ? [{ field: 'studentId', value: data.studentId.toUpperCase() }] : []),
         // Only check email uniqueness if email is provided (since it's now optional)
         ...(data.email && data.email.trim() !== '' ? [{ field: 'email', value: data.email }] : []),
-        // Roll number should be unique within each batch, not globally
-        { field: 'rollNo', value: data.rollNo, additionalFilter: { batch: data.batch } }
+        // Roll number should be unique within each batch, not globally (only check if provided)
+        ...(data.rollNo && data.rollNo.trim() !== '' ? [{ field: 'rollNo', value: data.rollNo, additionalFilter: { batch: data.batch } }] : [])
       ],
       Course: [
         { field: 'code', value: data.code, additionalFilter: { department: data.department } }

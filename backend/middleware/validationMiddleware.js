@@ -42,15 +42,22 @@ const validateEmail = (email) => {
   if (!email || typeof email !== 'string') {
     return { isValid: false, message: 'Email is required' };
   }
-  
-  if (!validator.isEmail(email)) {
+
+  // Trim the email to remove leading/trailing spaces
+  const trimmedEmail = email.trim();
+
+  if (trimmedEmail === '') {
+    return { isValid: false, message: 'Email cannot be empty' };
+  }
+
+  if (!validator.isEmail(trimmedEmail)) {
     return { isValid: false, message: 'Invalid email format' };
   }
-  
-  if (email.length > 254) {
+
+  if (trimmedEmail.length > 254) {
     return { isValid: false, message: 'Email too long' };
   }
-  
+
   return { isValid: true };
 };
 
@@ -351,14 +358,20 @@ const validateAdminRegistration = (req, res, next) => {
  * Student registration validation
  */
 const validateStudentRegistration = (req, res, next) => {
-  console.log('🔍 VALIDATION DEBUG: Student validation started');
-  console.log('🔍 VALIDATION DEBUG: Request body:', JSON.stringify(req.body, null, 2));
-
   const { name, email, studentId, rollNo, rollNumber, phone, department, course, batch } = req.body;
   const errors = [];
 
-  console.log('🔍 VALIDATION DEBUG: Extracted fields:', {
-    name, email, studentId, rollNo, rollNumber, phone, department, course, batch
+  // Debug logging
+  console.log('🔍 Student Registration Validation:', {
+    name,
+    email: { value: email, type: typeof email, length: email?.length, trimmed: email?.trim?.() },
+    studentId,
+    rollNo,
+    rollNumber,
+    phone,
+    department,
+    course,
+    batch
   });
 
   // Validate name
@@ -368,9 +381,11 @@ const validateStudentRegistration = (req, res, next) => {
   }
 
   // Validate email (optional - only validate if provided)
-  if (email && email.trim() !== '') {
-    const emailValidation = validateEmail(email);
+  if (email && typeof email === 'string' && email.trim() !== '') {
+    const trimmedEmail = email.trim();
+    const emailValidation = validateEmail(trimmedEmail);
     if (!emailValidation.isValid) {
+      console.log('❌ Email validation failed for:', { email, trimmedEmail, validation: emailValidation });
       errors.push(emailValidation.message);
     }
   }
@@ -392,47 +407,34 @@ const validateStudentRegistration = (req, res, next) => {
   
   // Validate ObjectIds
   if (department) {
-    console.log('🔍 VALIDATION DEBUG: Validating department ObjectId:', department);
     const deptValidation = validateObjectId(department, 'Department');
     if (!deptValidation.isValid) {
-      console.log('❌ VALIDATION DEBUG: Department validation failed:', deptValidation.message);
       errors.push(deptValidation.message);
-    } else {
-      console.log('✅ VALIDATION DEBUG: Department ObjectId is valid');
     }
   }
 
   if (course) {
-    console.log('🔍 VALIDATION DEBUG: Validating course ObjectId:', course);
     const courseValidation = validateObjectId(course, 'Course');
     if (!courseValidation.isValid) {
-      console.log('❌ VALIDATION DEBUG: Course validation failed:', courseValidation.message);
       errors.push(courseValidation.message);
-    } else {
-      console.log('✅ VALIDATION DEBUG: Course ObjectId is valid');
     }
   }
 
   if (batch) {
-    console.log('🔍 VALIDATION DEBUG: Validating batch ObjectId:', batch);
     const batchValidation = validateObjectId(batch, 'Batch');
     if (!batchValidation.isValid) {
-      console.log('❌ VALIDATION DEBUG: Batch validation failed:', batchValidation.message);
       errors.push(batchValidation.message);
-    } else {
-      console.log('✅ VALIDATION DEBUG: Batch ObjectId is valid');
     }
   }
 
   if (errors.length > 0) {
-    console.log('❌ VALIDATION DEBUG: Validation failed with errors:', errors);
+    console.log('❌ Student Registration Validation Errors:', errors);
     return res.status(400).json({
       message: 'Validation failed',
       errors
     });
   }
-
-  console.log('✅ VALIDATION DEBUG: Validation passed, proceeding to controller');
+  console.log('✅ Student Registration Validation Passed');
   next();
 };
 

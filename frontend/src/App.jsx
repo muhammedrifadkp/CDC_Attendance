@@ -79,6 +79,22 @@ import AttendanceReport from './pages/teacher/attendance/AttendanceReport'
 import TeacherBatchAttendanceDetails from './pages/teacher/attendance/TeacherBatchAttendanceDetails'
 import AdminAttendanceReport from './pages/admin/attendance/AdminAttendanceReport'
 
+// Project Pages
+import ProjectsList from './pages/admin/projects/ProjectsList'
+import ProjectForm from './pages/admin/projects/ProjectForm'
+import ProjectAnalytics from './pages/admin/projects/ProjectAnalytics'
+import ProjectSubmission from './pages/student/ProjectSubmission'
+import StudentProjects from './pages/student/StudentProjects'
+import ProjectDashboard from './pages/admin/projects/ProjectDashboard'
+import ProjectSubmissionDetail from './pages/admin/projects/ProjectSubmissionDetail'
+import SimpleProjectDashboard from './pages/teacher/projects/SimpleProjectDashboard'
+import SimpleProjectAssign from './pages/teacher/projects/SimpleProjectAssign'
+import SimpleProjectManage from './pages/teacher/projects/SimpleProjectManage'
+import SimpleProjectEdit from './pages/teacher/projects/SimpleProjectEdit'
+import SimpleAdminProjects from './pages/admin/projects/SimpleAdminProjects'
+import SimpleAdminProjectEdit from './pages/admin/projects/SimpleAdminProjectEdit'
+import RoleBasedProjectRoutes from './components/routing/RoleBasedProjectRoutes'
+
 function App() {
   const { user, loading } = useAuth()
   const [showSplash, setShowSplash] = useState(() => {
@@ -187,6 +203,12 @@ function App() {
           <Route path="lab/pcs/new" element={<AdminPCForm />} />
           <Route path="lab/pcs/:id/edit" element={<AdminPCForm />} />
 
+          {/* Projects Routes */}
+          <Route path="projects" element={<SimpleAdminProjects />} />
+          <Route path="projects/edit/:projectId" element={<SimpleAdminProjectEdit />} />
+          <Route path="projects/:id/details" element={<ProjectSubmissionDetail />} />
+          <Route path="projects/:id/analytics" element={<ProjectAnalytics />} />
+
           {/* Notifications Routes */}
           <Route path="notifications" element={<NotificationsList />} />
           <Route path="notifications/new" element={<NotificationForm />} />
@@ -194,7 +216,7 @@ function App() {
 
 
 
-        {/* Teacher Routes */}
+        {/* Teacher/Student Routes */}
         <Route
           path="/"
           element={
@@ -218,6 +240,9 @@ function App() {
           <Route path="batches/:id/attendance" element={<AttendanceForm />} />
           <Route path="batches/:id/attendance/details" element={<TeacherBatchAttendanceDetails />} />
           <Route path="batches/:id/attendance/report" element={<AttendanceReport />} />
+
+          {/* Role-Based Project Routes */}
+          <Route path="projects/*" element={<RoleBasedProjectRoutes />} />
         </Route>
 
         {/* Catch all - redirect to appropriate dashboard */}

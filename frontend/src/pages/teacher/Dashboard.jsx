@@ -11,7 +11,9 @@ import {
   ClockIcon,
   CheckCircleIcon,
   BellIcon,
-  UserIcon
+  UserIcon,
+  DocumentTextIcon,
+  InboxIcon
 } from '@heroicons/react/24/outline'
 import { useAuth } from '../../context/AuthContext'
 import { formatDateSimple } from '../../utils/dateUtils'
@@ -407,23 +409,44 @@ const TeacherDashboard = () => {
             </Link>
 
             <Link
-              to="/batches"
+              to="projects"
+              className="group relative bg-gradient-to-br from-red-50 to-pink-50 rounded-xl p-6 hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-red-100"
+            >
+              <div className="flex items-center mb-4">
+                <div className="p-3 rounded-xl bg-gradient-to-br from-red-500 to-pink-600 shadow-lg">
+                  <DocumentTextIcon className="h-6 w-6 text-white" />
+                </div>
+                <div className="ml-4">
+                  <h3 className="text-lg font-semibold text-gray-900 group-hover:text-red-700 transition-colors">
+                    Project Management
+                  </h3>
+                  <p className="text-sm text-gray-600">Assign projects to finished batches</p>
+                </div>
+              </div>
+              <div className="flex items-center text-sm text-red-600 font-medium">
+                <span>Manage Projects</span>
+                <ChartBarIcon className="h-4 w-4 ml-2" />
+              </div>
+            </Link>
+
+            <Link
+              to="submissions"
               className="group relative bg-gradient-to-br from-orange-50 to-amber-50 rounded-xl p-6 hover:shadow-lg transition-all duration-300 transform hover:scale-105 border border-orange-100"
             >
               <div className="flex items-center mb-4">
                 <div className="p-3 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 shadow-lg">
-                  <UserIcon className="h-6 w-6 text-white" />
+                  <InboxIcon className="h-6 w-6 text-white" />
                 </div>
                 <div className="ml-4">
                   <h3 className="text-lg font-semibold text-gray-900 group-hover:text-orange-700 transition-colors">
-                    Download Attendance
+                    Submission Inbox
                   </h3>
-                  <p className="text-sm text-gray-600">Export your attendance sheets to Excel</p>
+                  <p className="text-sm text-gray-600">Review and grade student submissions</p>
                 </div>
               </div>
               <div className="flex items-center text-sm text-orange-600 font-medium">
-                <span>Go to Batches</span>
-                <UserIcon className="h-4 w-4 ml-2" />
+                <span>View Submissions</span>
+                <InboxIcon className="h-4 w-4 ml-2" />
               </div>
             </Link>
           </div>

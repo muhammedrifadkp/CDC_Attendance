@@ -18,6 +18,7 @@ const labRoutes = require('./routes/labRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const keepAliveRoutes = require('./routes/keepAliveRoutes');
+const projectRoutes = require('./routes/projectRoutes');
 
 // Import keep-alive service
 const keepAliveService = require('./services/keepAliveService');
@@ -154,6 +155,7 @@ app.use('/api/lab', labRoutes);
 app.use('/api/analytics', analyticsRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/keep-alive', keepAliveRoutes);
+app.use('/api/projects', projectRoutes);
 
 // Health check endpoint
 app.get('/api/test', (req, res) => {

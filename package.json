@@ -40,10 +40,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/your-username/cadd-attendance.git"
+    "url": "git+https://github.com/muhammedrifadkp/CDC_Attendance.git"
   },
   "bugs": {
-    "url": "https://github.com/your-username/cadd-attendance/issues"
+    "url": "https://github.com/muhammedrifadkp/CDC_Attendance/issues"
   },
-  "homepage": "https://github.com/your-username/cadd-attendance#readme"
+  "homepage": "https://github.com/muhammedrifadkp/CDC_Attendance#readme"
 }

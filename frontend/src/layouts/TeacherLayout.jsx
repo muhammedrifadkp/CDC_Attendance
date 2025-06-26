@@ -12,6 +12,7 @@ import {
   ComputerDesktopIcon,
   UserIcon,
   AcademicCapIcon,
+  DocumentTextIcon,
 } from '@heroicons/react/24/outline'
 
 const TeacherLayout = () => {
@@ -20,44 +21,78 @@ const TeacherLayout = () => {
   const location = useLocation()
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
-  const navigation = [
-    {
-      name: 'Dashboard',
-      href: '/',
-      icon: ChartBarIcon,
-      current: location.pathname === '/',
-    },
-    {
-      name: 'Profile',
-      href: '/profile',
-      icon: UserIcon,
-      current: location.pathname === '/profile',
-    },
-    {
-      name: 'Batches',
-      href: '/batches',
-      icon: UserGroupIcon,
-      current: location.pathname.startsWith('/batches'),
-    },
-    {
-      name: 'Students',
-      href: '/students',
-      icon: AcademicCapIcon,
-      current: location.pathname === '/students',
-    },
-    {
-      name: 'Attendance',
-      href: '/attendance',
-      icon: ClipboardDocumentListIcon,
-      current: location.pathname.startsWith('/attendance'),
-    },
-    {
-      name: 'Lab Availability',
-      href: '/lab-availability',
-      icon: ComputerDesktopIcon,
-      current: location.pathname.startsWith('/lab-availability'),
-    },
-  ]
+  // Role-based navigation
+  const getNavigation = () => {
+    const baseNavigation = [
+      {
+        name: 'Dashboard',
+        href: '/',
+        icon: ChartBarIcon,
+        current: location.pathname === '/',
+      },
+      {
+        name: 'Profile',
+        href: '/profile',
+        icon: UserIcon,
+        current: location.pathname === '/profile',
+      },
+    ]
+
+    if (user?.role === 'teacher' || user?.role === 'admin') {
+      return [
+        ...baseNavigation,
+        {
+          name: 'Batches',
+          href: '/batches',
+          icon: UserGroupIcon,
+          current: location.pathname.startsWith('/batches'),
+        },
+        {
+          name: 'Students',
+          href: '/students',
+          icon: AcademicCapIcon,
+          current: location.pathname === '/students',
+        },
+        {
+          name: 'Attendance',
+          href: '/attendance',
+          icon: ClipboardDocumentListIcon,
+          current: location.pathname.startsWith('/attendance'),
+        },
+        {
+          name: 'Projects',
+          href: '/projects',
+          icon: DocumentTextIcon,
+          current: location.pathname.startsWith('/projects'),
+        },
+        {
+          name: 'Lab Availability',
+          href: '/lab-availability',
+          icon: ComputerDesktopIcon,
+          current: location.pathname.startsWith('/lab-availability'),
+        },
+      ]
+    }
+
+    // Student navigation
+    return [
+      ...baseNavigation,
+      {
+        name: 'My Attendance',
+        href: '/attendance',
+        icon: ClipboardDocumentListIcon,
+        current: location.pathname.startsWith('/attendance'),
+      },
+      {
+        name: 'My Projects',
+        href: '/projects',
+        icon: DocumentTextIcon,
+        current: location.pathname.startsWith('/projects'),
+      },
+    ]
+  }
+
+  const navigation = getNavigation()
 
   const handleLogout = async () => {
     await logout()

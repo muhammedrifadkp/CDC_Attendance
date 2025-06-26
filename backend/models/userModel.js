@@ -202,9 +202,6 @@ userSchema.methods.generatePasswordChangeOTP = function () {
   // Generate 6-digit OTP
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-  console.log('🔍 OTP Generation Debug:');
-  console.log('Generated OTP:', otp);
-
   // Hash OTP and store
   this.passwordChangeOTP = crypto
     .createHash('sha256')
@@ -214,28 +211,17 @@ userSchema.methods.generatePasswordChangeOTP = function () {
   // Set expiry (10 minutes)
   this.passwordChangeOTPExpires = Date.now() + 10 * 60 * 1000;
 
-  console.log('Hashed OTP:', this.passwordChangeOTP);
-  console.log('OTP expires at:', new Date(this.passwordChangeOTPExpires));
-
   return otp;
 };
 
 // Verify OTP for password change
 userSchema.methods.verifyPasswordChangeOTP = function (otp) {
-  console.log('🔍 OTP Verification Debug:');
-  console.log('Provided OTP:', otp);
-  console.log('Stored OTP hash:', this.passwordChangeOTP);
-  console.log('OTP expires:', this.passwordChangeOTPExpires);
-  console.log('Current time:', Date.now());
-
   if (!otp || !this.passwordChangeOTP || !this.passwordChangeOTPExpires) {
-    console.log('❌ Missing OTP data');
     return false;
   }
 
   // Check if OTP is expired
   if (this.passwordChangeOTPExpires < Date.now()) {
-    console.log('❌ OTP expired');
     return false;
   }
 
@@ -244,10 +230,6 @@ userSchema.methods.verifyPasswordChangeOTP = function (otp) {
     .createHash('sha256')
     .update(otp)
     .digest('hex');
-
-  console.log('Provided OTP hash:', hashedOTP);
-  console.log('Stored OTP hash:', this.passwordChangeOTP);
-  console.log('Hashes match:', this.passwordChangeOTP === hashedOTP);
 
   return this.passwordChangeOTP === hashedOTP;
 };

@@ -9,7 +9,7 @@ const studentSchema = mongoose.Schema(
     },
     studentId: {
       type: String,
-      required: [true, 'Please add a student ID'],
+      required: false, // Teachers can create students without ID, admin assigns later
       trim: true,
       uppercase: true,
       // Global unique constraint - only admins can set this
@@ -25,10 +25,16 @@ const studentSchema = mongoose.Schema(
       required: false, // Email is now optional
       trim: true,
       lowercase: true,
-      match: [
-        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        'Please add a valid email',
-      ],
+      // Removed restrictive regex - validation is handled in middleware
+      validate: {
+        validator: function(email) {
+          // Only validate if email is provided (since it's optional)
+          if (!email || email.trim() === '') return true;
+          // Use a more comprehensive email validation
+          return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        },
+        message: 'Please add a valid email address'
+      }
     },
     phone: {
       type: String,
@@ -143,8 +149,8 @@ studentSchema.virtual('attendance', {
 });
 
 // Indexes for performance optimization
-// Student ID should be globally unique across all students
-studentSchema.index({ studentId: 1 }, { unique: true });
+// Student ID should be globally unique when provided, but allow null values (sparse index)
+studentSchema.index({ studentId: 1 }, { unique: true, sparse: true });
 // Email should be unique when provided, but allow null values (sparse index)
 studentSchema.index({ email: 1 }, { unique: true, sparse: true });
 // Roll number should be unique within each batch, not globally

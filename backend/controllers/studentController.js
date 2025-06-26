@@ -12,8 +12,16 @@ const { validateModelOperation, validateStudentHierarchy } = require('../utils/m
 // @route   POST /api/students
 // @access  Private/Admin
 const createStudent = asyncHandler(async (req, res) => {
-  console.log('🔍 CONTROLLER DEBUG: createStudent function called');
-  console.log('🔍 CONTROLLER DEBUG: Request body:', JSON.stringify(req.body, null, 2));
+  // Debug logging to see what data is being received
+  console.log('📝 Creating student with data:', {
+    name: req.body.name,
+    rollNo: req.body.rollNo,
+    rollNumber: req.body.rollNumber,
+    department: req.body.department,
+    course: req.body.course,
+    batch: req.body.batch,
+    userRole: req.user?.role
+  });
 
   const {
     name,
@@ -39,10 +47,6 @@ const createStudent = asyncHandler(async (req, res) => {
     isActive = true,
     profilePhoto
   } = req.body;
-
-  console.log('🔍 CONTROLLER DEBUG: Extracted fields:', {
-    name, studentId, rollNumber, rollNo, email, phone, department, course, batch
-  });
 
   // Validate required fields (email and phone are now optional)
   if (!name || !department || !course || !batch) {
@@ -72,8 +76,9 @@ const createStudent = asyncHandler(async (req, res) => {
       (parseInt(lastStudent.studentId?.replace(/\D/g, '') || '0') + 1) : 1;
     finalStudentId = `STU${nextNumber.toString().padStart(4, '0')}`;
   } else {
-    res.status(400);
-    throw new Error('Student ID is required');
+    // For teachers, set a temporary placeholder that admin can update later
+    // Use a shorter format to avoid potential length issues
+    finalStudentId = `TEMP${Date.now().toString().slice(-8)}`;
   }
 
   // Validate fees
@@ -87,10 +92,26 @@ const createStudent = asyncHandler(async (req, res) => {
     throw new Error('Fees paid cannot exceed total fees');
   }
 
+  // Map rollNumber from frontend to rollNo for the model BEFORE validation
+  // Ensure we always have a valid rollNo
+  const finalRollNo = (rollNo && rollNo.trim() !== '') ? rollNo.trim() :
+                      (rollNumber && rollNumber.trim() !== '') ? rollNumber.trim() :
+                      `STU${Date.now()}`;
+
   // Use comprehensive validation helper
+  console.log('🔍 Validating student data:', {
+    name,
+    rollNo: finalRollNo,
+    email,
+    department,
+    course,
+    batch,
+    userRole: req.user?.role
+  });
+
   const validation = await validateModelOperation('Student', {
     name,
-    rollNo: rollNo || rollNumber, // Use the correct field name for validation
+    rollNo: finalRollNo, // Use the final roll number for validation
     email,
     department,
     course,
@@ -101,17 +122,15 @@ const createStudent = asyncHandler(async (req, res) => {
   });
 
   if (!validation.valid) {
+    console.log('❌ Validation failed:', validation);
     res.status(400);
     throw new Error(validation.errors ? validation.errors.join(', ') : validation.error);
   }
 
-  // Map rollNumber from frontend to rollNo for the model
-  const finalRollNo = rollNo || rollNumber || `STU${Date.now()}`;
-
   const student = await Student.create({
     name,
     studentId: finalStudentId.toUpperCase(),
-    rollNo: finalRollNo, // Use the mapped roll number
+    rollNo: finalRollNo, // Use the final roll number
     email,
     phone,
     address,

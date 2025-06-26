@@ -46,7 +46,7 @@ const generateRefreshToken = (id, userAgent = '', ip = '') => {
       type: 'refresh',
       iat: Math.floor(Date.now() / 1000)
     },
-    process.env.JWT_REFRESH_SECRET,
+    process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
     {
       expiresIn: '7d',
       issuer: 'cadd-attendance',
@@ -77,16 +77,12 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error('User already exists');
   }
 
-  // Hash password
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-
-  // Create user
+  // Create user (password will be hashed by the pre-save hook)
   const user = await User.create({
     name,
     email,
-    password: hashedPassword,
-    role: role || 'student'
+    password,
+    role: role || 'teacher' // Default role should be teacher, not student
   });
 
   if (user) {
